@@ -3,6 +3,7 @@
   "license": "BSD-3-Clause",
   "version": "0.8.0",
   "description": "This is a collection of material elements.",
+  "homepage": "http://www.expandjs.com/elements",
   "authors": [
     "Giuliano Rullo <g.rullo@expandjs.com>",
     "Maurizio Stefàno <m.stefano@expandjs.com>",
