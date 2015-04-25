@@ -1,0 +1,60 @@
+{
+  "name": "mat-elements",
+  "license": "BSD-3-Clause",
+  "version": "0.8.0",
+  "description": "This is a collection of material elements.",
+  "authors": [
+    "Giuliano Rullo <g.rullo@expandjs.com>",
+    "Maurizio Stefàno <m.stefano@expandjs.com>",
+    "Robert Manolea <r.manolea@expandjs.com>"
+  ],
+  "main": [
+    "mat-elements.html"
+  ],
+  "ignore": [
+    "**/.*",
+    "bin",
+    "index.js",
+    "lib",
+    "node_modules",
+    "package.json"
+  ],
+  "dependencies": {
+    "mat-avatar": "ExpandJS/mat-avatar",
+    "mat-button": "ExpandJS/mat-button",
+    "mat-checkbox": "ExpandJS/mat-checkbox",
+    "mat-content": "ExpandJS/mat-content",
+    "mat-demo": "ExpandJS/mat-demo",
+    "mat-dialog": "ExpandJS/mat-dialog",
+    "mat-divider": "ExpandJS/mat-divider",
+    "mat-drawer-panel": "ExpandJS/mat-drawer-panel",
+    "mat-dropdown": "ExpandJS/mat-dropdown",
+    "mat-editor": "ExpandJS/mat-editor",
+    "mat-fab": "ExpandJS/mat-fab",
+    "mat-header-panel": "ExpandJS/mat-header-panel",
+    "mat-icon": "ExpandJS/mat-icon",
+    "mat-icon-button": "ExpandJS/mat-icon-button",
+    "mat-icons": "ExpandJS/mat-icons",
+    "mat-input-decorator": "ExpandJS/mat-input-decorator",
+    "mat-item": "ExpandJS/mat-item",
+    "mat-label": "ExpandJS/mat-label",
+    "mat-list": "ExpandJS/mat-list",
+    "mat-menu": "ExpandJS/mat-menu",
+    "mat-menu-button": "ExpandJS/mat-menu-button",
+    "mat-option": "ExpandJS/mat-option",
+    "mat-overlay": "ExpandJS/mat-overlay",
+    "mat-pages": "ExpandJS/mat-pages",
+    "mat-palette": "ExpandJS/mat-palette",
+    "mat-panel": "ExpandJS/mat-panel",
+    "mat-paper": "ExpandJS/mat-paper",
+    "mat-raised-button": "ExpandJS/mat-raised-button",
+    "mat-ripple": "ExpandJS/mat-ripple",
+    "mat-shell": "ExpandJS/mat-shell",
+    "mat-subheader": "ExpandJS/mat-subheader",
+    "mat-tabs": "ExpandJS/mat-tabs",
+    "mat-text-area": "ExpandJS/mat-text-area",
+    "mat-text-field": "ExpandJS/mat-text-field",
+    "mat-toolbar": "ExpandJS/mat-toolbar",
+    "mat-tooltip": "ExpandJS/mat-tooltip"
+  }
+}
