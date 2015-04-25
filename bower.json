@@ -11,6 +11,14 @@
   "main": [
     "mat-components.html"
   ],
+  "ignore": [
+    "**/.*",
+    "bin",
+    "index.js",
+    "lib",
+    "node_modules",
+    "package.json"
+  ],
   "dependencies": {
     "mat-avatar": "ExpandJS/mat-avatar",
     "mat-button": "ExpandJS/mat-button",
