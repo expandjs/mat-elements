@@ -1,8 +1,8 @@
 {
   "name": "mat-elements",
   "license": "BSD-3-Clause",
-  "version": "0.8.4",
-  "description": "This is a collection of material elements.",
+  "version": "0.8.5",
+  "description": "A collection of Material Design elements",
   "homepage": "http://www.expandjs.com/elements",
   "authors": [
     "Giuliano Rullo <g.rullo@expandjs.com>",
