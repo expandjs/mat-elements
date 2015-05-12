@@ -1,7 +1,7 @@
 {
   "name": "mat-elements",
   "license": "BSD-3-Clause",
-  "version": "0.8.8",
+  "version": "0.8.9",
   "description": "A collection of Material Design elements",
   "homepage": "http://www.expandjs.com/elements",
   "authors": [
@@ -28,7 +28,7 @@
     "mat-demo": "ExpandJS/mat-demo",
     "mat-dialog": "ExpandJS/mat-dialog",
     "mat-divider": "ExpandJS/mat-divider",
-    "mat-drawer-panel": "ExpandJS/mat-drawer-panel",
+    "mat-drawer": "ExpandJS/mat-drawer",
     "mat-dropdown": "ExpandJS/mat-dropdown",
     "mat-editor": "ExpandJS/mat-editor",
     "mat-fab": "ExpandJS/mat-fab",
