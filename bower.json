@@ -9,6 +9,15 @@
     "Maurizio Stefàno <m.stefano@expandjs.com>",
     "Robert Manolea <r.manolea@expandjs.com>"
   ],
+  "keywords": [
+    "material design",
+    "material elements",
+    "web app",
+    "html5",
+    "expandjs",
+    "custom elements",
+    "web components"
+  ],
   "main": [
     "mat-elements.html"
   ],
