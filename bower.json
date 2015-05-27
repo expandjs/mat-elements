@@ -22,12 +22,7 @@
     "mat-elements.html"
   ],
   "ignore": [
-    "**/.*",
-    "bin",
-    "index.js",
-    "lib",
-    "node_modules",
-    "package.json"
+    "**/.*"
   ],
   "dependencies": {
     "mat-avatar": "ExpandJS/mat-avatar",
