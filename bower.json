@@ -1,0 +1,66 @@
+{
+  "name": "mat-elements",
+  "license": "BSD-3-Clause",
+  "version": "0.9.0",
+  "description": "A collection of Material Design elements",
+  "homepage": "http://expandjs.com/elements",
+  "authors": [
+    "Giuliano Rullo <g.rullo@expandjs.com>",
+    "Maurizio Stefàno <m.stefano@expandjs.com>",
+    "Robert Manolea <r.manolea@expandjs.com>"
+  ],
+  "keywords": [
+    "material design",
+    "material elements",
+    "web app",
+    "html5",
+    "expandjs",
+    "custom elements",
+    "web components"
+  ],
+  "main": [
+    "mat-elements.html"
+  ],
+  "ignore": [
+    "**/.*"
+  ],
+  "dependencies": {
+    "mat-avatar": "ExpandJS/mat-avatar",
+    "mat-button": "ExpandJS/mat-button",
+    "mat-checkbox": "ExpandJS/mat-checkbox",
+    "mat-content": "ExpandJS/mat-content",
+    "mat-demo": "ExpandJS/mat-demo",
+    "mat-dialog": "ExpandJS/mat-dialog",
+    "mat-divider": "ExpandJS/mat-divider",
+    "mat-drawer": "ExpandJS/mat-drawer",
+    "mat-dropdown": "ExpandJS/mat-dropdown",
+    "mat-editor": "ExpandJS/mat-editor",
+    "mat-fab": "ExpandJS/mat-fab",
+    "mat-header-panel": "ExpandJS/mat-header-panel",
+    "mat-icon": "ExpandJS/mat-icon",
+    "mat-icon-button": "ExpandJS/mat-icon-button",
+    "mat-ink": "ExpandJS/mat-ink",
+    "mat-input-decorator": "ExpandJS/mat-input-decorator",
+    "mat-item": "ExpandJS/mat-item",
+    "mat-label": "ExpandJS/mat-label",
+    "mat-list": "ExpandJS/mat-list",
+    "mat-menu": "ExpandJS/mat-menu",
+    "mat-menu-button": "ExpandJS/mat-menu-button",
+    "mat-option": "ExpandJS/mat-option",
+    "mat-overlay": "ExpandJS/mat-overlay",
+    "mat-pages": "ExpandJS/mat-pages",
+    "mat-panel": "ExpandJS/mat-panel",
+    "mat-paper": "ExpandJS/mat-paper",
+    "mat-raised-button": "ExpandJS/mat-raised-button",
+    "mat-ripple": "ExpandJS/mat-ripple",
+    "mat-shadow": "ExpandJS/mat-shadow",
+    "mat-shell": "ExpandJS/mat-shell",
+    "mat-subheader": "ExpandJS/mat-subheader",
+    "mat-tabs": "ExpandJS/mat-tabs",
+    "mat-text-area": "ExpandJS/mat-text-area",
+    "mat-text-field": "ExpandJS/mat-text-field",
+    "mat-toolbar": "ExpandJS/mat-toolbar",
+    "mat-tooltip": "ExpandJS/mat-tooltip",
+    "mat-typography": "ExpandJS/mat-typography"
+  }
+}
