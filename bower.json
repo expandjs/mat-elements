@@ -39,6 +39,7 @@
     "mat-header-panel": "ExpandJS/mat-header-panel#alpha",
     "mat-icon": "ExpandJS/mat-icon#alpha",
     "mat-icon-button": "ExpandJS/mat-icon-button#alpha",
+    "mat-icons": "ExpandJS/mat-icons#alpha",
     "mat-input-decorator": "ExpandJS/mat-input-decorator#alpha",
     "mat-item": "ExpandJS/mat-item#alpha",
     "mat-label": "ExpandJS/mat-label#alpha",
