@@ -53,6 +53,7 @@
     "mat-palette": "ExpandJS/mat-palette#0.9.4",
     "mat-panel": "ExpandJS/mat-panel#0.9.4",
     "mat-paper": "ExpandJS/mat-paper#0.9.4",
+    "mat-progress": "ExpandJS/mat-progress#0.9.4",
     "mat-raised-button": "ExpandJS/mat-raised-button#0.9.4",
     "mat-ripple": "ExpandJS/mat-ripple#0.9.4",
     "mat-settings": "ExpandJS/mat-settings#0.9.4",
