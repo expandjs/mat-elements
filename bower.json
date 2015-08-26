@@ -57,11 +57,13 @@
     "mat-settings": "ExpandJS/mat-settings#0.9.8",
     "mat-shadow": "ExpandJS/mat-shadow#0.9.8",
     "mat-shell": "ExpandJS/mat-shell#0.9.8",
+    "mat-snackbar": "ExpandJS/mat-snackbar#0.9.8",
     "mat-spinner": "ExpandJS/mat-spinner#0.9.8",
     "mat-subheader": "ExpandJS/mat-subheader#0.9.8",
     "mat-tabs": "ExpandJS/mat-tabs#0.9.8",
     "mat-text-area": "ExpandJS/mat-text-area#0.9.8",
     "mat-text-field": "ExpandJS/mat-text-field#0.9.8",
+    "mat-toast": "ExpandJS/mat-toast#0.9.8",
     "mat-toolbar": "ExpandJS/mat-toolbar#0.9.8",
     "mat-tooltip": "ExpandJS/mat-tooltip#0.9.8",
     "mat-typography": "ExpandJS/mat-typography#0.9.8"
