@@ -59,6 +59,7 @@
     "mat-snackbar": "ExpandJS/mat-snackbar#0.9.11",
     "mat-spinner": "ExpandJS/mat-spinner#0.9.11",
     "mat-subheader": "ExpandJS/mat-subheader#0.9.11",
+    "mat-table": "ExpandJS/mat-table#0.9.11",
     "mat-tabs": "ExpandJS/mat-tabs#0.9.11",
     "mat-text-area": "ExpandJS/mat-text-area#0.9.11",
     "mat-text-field": "ExpandJS/mat-text-field#0.9.11",
