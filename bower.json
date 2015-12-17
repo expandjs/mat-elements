@@ -3,7 +3,7 @@
   "license": "BSD-3-Clause",
   "version": "0.10.0",
   "main": "mat-elements.html",
-  "description": "The Material Design collection from ExpandJS.",
+  "description": "The Material Design collection from ExpandJS",
   "homepage": "http://expandjs.com/elements",
   "authors": [
     "Giuliano Rullo <g.rullo@expandjs.com>",
