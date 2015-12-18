@@ -56,7 +56,7 @@
     "mat-raised-button": "ExpandJS/mat-raised-button#0.10.0",
     "mat-ripple": "ExpandJS/mat-ripple#0.10.0",
     "mat-shadow": "ExpandJS/mat-shadow#0.10.0",
-    "mat-shell-behavior": "ExpandJS/mat-shell-behavior#0.10.0",
+    "mat-shell": "ExpandJS/mat-shell#0.10.0",
     "mat-snackbar": "ExpandJS/mat-snackbar#0.10.0",
     "mat-spacing": "ExpandJS/mat-spacing#0.10.0",
     "mat-spinner": "ExpandJS/mat-spinner#0.10.0",
