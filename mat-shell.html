@@ -1,0 +1,53 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A web component used to wrap a [Material Design application](https://www.google.com/design/spec/layout/structure.html#structure-ui-regions).
+
+@element mat-shell
+@since 1.0.0
+@category containers
+@description A web component wrap a Material Design application
+@keywords material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-shell
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-shell.html
+
+@behavior mat-shell-behavior /bower_components/mat-elements/mat-shell-behavior.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="mat-shell-behavior.html">
+<link rel="import" href="mat-shell-styles.html">
+
+<dom-module id="mat-shell">
+
+    <template strip-whitespace>
+
+        <style include="mat-shell-styles"></style>
+
+        <slot></slot>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-shell',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.MATShellBehavior
+            ]
+        });
+    </script>
+
+</dom-module>

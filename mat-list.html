@@ -1,0 +1,123 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A web component used to display a [Material Design list](http://www.google.com/design/spec/components/lists.html).
+
+@element mat-list
+@since 1.0.0
+@category navigation
+@description A web component used to display a Material Design list
+@keywords material list, material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-list
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-list.html
+@demo https://expandjs.com/components/mat-list/demo
+
+@behavior mat-ink-behavior /bower_components/mat-elements/mat-ink-behavior.html
+@behavior xp-list-behavior /bower_components/xp-elements/xp-list-behavior.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../xp-elements/xp-list-behavior.html">
+<link rel="import" href="../xp-elements/xp-list-styles.html">
+<link rel="import" href="mat-ink-behavior.html">
+<link rel="import" href="mat-ink-styles.html">
+<link rel="import" href="mat-typography.html">
+
+<dom-module id="mat-list">
+
+    <template strip-whitespace>
+
+        <style include="mat-ink-styles xp-list-styles">
+            :host {
+                box-sizing: border-box;
+                padding: 8px 0;
+            }
+
+            /* SLOTTED */
+
+            :host ::slotted(.item:not(mat-item)) {
+                @apply --layout-horizontal;
+                @apply --layout-center;
+                @apply --mat-font-subhead;
+                color: inherit;
+                line-height: 48px;
+                min-height: 48px;
+                padding: 0 24px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            :host ::slotted(.subheader),
+            :host ::slotted(.sublist[label]:not([label=""]):not([collapsible])) {
+                margin-top: -8px;
+            }
+
+            /* DARK FOREGROUND */
+
+            :host([foreground="dark"]) ::slotted(.item:not(mat-item)[active]) { background: var(--mat-divider-color); }
+            :host([foreground="dark"]) ::slotted(.item:not(mat-item):not(:last-of-type)) { box-shadow: 0 -1px var(--mat-divider-color) inset; }
+
+            /* LIGHT FOREGROUND */
+
+            :host([foreground="light"]) ::slotted(.item:not(mat-item)[active]) { background: var(--mat-divider-color-light); }
+            :host([foreground="light"]) ::slotted(.item:not(mat-item):not(:last-of-type)) { box-shadow: 0 -1px var(--mat-divider-color-light) inset; }
+
+            /* TABLET */
+
+            @media (max-width: 960px) {
+
+                /* SLOTTED */
+
+                :host ::slotted(.item:not(mat-item)) {
+                    padding: 0 16px;
+                }
+            }
+        </style>
+
+        <slot></slot>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-list',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.MATInkBehavior,
+                Polymer.XPListBehavior
+            ],
+
+            /*********************************************************************/
+
+            // PROPERTIES
+            properties: {
+
+                /**
+                 * If set to true, when a sublist expands the siblings will collapse.
+                 *
+                 * @attribute auto-collapse
+                 * @type boolean
+                 * @default true
+                 */
+                autoCollapse: {
+                    type: Boolean,
+                    value: true
+                }
+            }
+        });
+    </script>
+
+</dom-module>

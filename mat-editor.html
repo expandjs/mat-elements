@@ -1,0 +1,722 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTfHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A web component used to display a Material Design code editor.
+
+@element mat-editor
+@since 1.0.0
+@category inputs
+@description A web component used to display a Material Design code editor
+@keywords material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-editor
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-editor.html
+
+@behavior mat-input-value-behavior /bower_components/mat-elements/mat-input-value-behavior.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="mat-icon-button.html">
+<link rel="import" href="mat-icons.html">
+<link rel="import" href="mat-input-value-behavior.html">
+<link rel="import" href="mat-input-styles.html">
+<link rel="import" href="mat-typography.html">
+<link rel="import" href="mat-editor-styles.html">
+
+<script src="../codemirror/lib/codemirror.js"></script>
+<script src="../codemirror/mode/css/css.js"></script>
+<script src="../codemirror/mode/javascript/javascript.js"></script>
+<script src="../codemirror/mode/xml/xml.js"></script>
+<script src="../codemirror/mode/htmlmixed/htmlmixed.js"></script>
+<script src="../codemirror/addon/edit/closebrackets.js"></script>
+<script src="../codemirror/addon/edit/closetag.js"></script>
+<script src="../codemirror/addon/edit/matchbrackets.js"></script>
+<script src="../codemirror/addon/edit/matchtags.js"></script>
+<script src="../codemirror/addon/search/search.js"></script>
+<script src="../codemirror/addon/search/searchcursor.js"></script>
+<script src="../codemirror/addon/search/jump-to-line.js"></script>
+<script src="../codemirror/addon/dialog/dialog.js"></script>
+<script src="../codemirror/addon/fold/xml-fold.js"></script>
+<script src="../codemirror/keymap/sublime.js"></script>
+
+<dom-module id="mat-editor">
+
+    <template strip-whitespace>
+
+        <style include="mat-input-styles mat-editor-styles">
+            :host {
+                @apply --mat-font-body;
+                box-sizing: border-box;
+                color: #E9EDED;
+                display: block;
+                font-family: monospace;
+                height: 384px;
+                line-height: 1.40em;
+                position: relative;
+                text-align: left;
+            }
+
+            :host([full-screen]) {
+                @apply --layout-fit;
+                height: auto !important;
+                margin: 0 !important;
+                width: auto !important;
+                z-index: 1;
+            }
+
+            :host .editor {
+                background: #263238;
+                box-sizing: border-box;
+                height: 100%;
+                overflow: auto;
+                padding: 0;
+                position: relative;
+                z-index: 0;
+            }
+
+            :host .bindings {
+                @apply --layout-fit;
+                background: #263238;
+                box-sizing: border-box;
+                overflow: auto;
+                padding: 16px 24px;
+                transition: opacity 0.2s cubic-bezier(0.55, 0, 0.55, 0.2), visibility 0.2s cubic-bezier(0.55, 0, 0.55, 0.2);
+            }
+
+            :host(:not([help])) .bindings {
+                opacity: 0;
+                pointer-events: none !important;
+                visibility: hidden;
+            }
+
+            :host .bindings .container {
+                max-width: 928px;
+                overflow: auto;
+            }
+
+            :host .bindings .header {
+                color: #C792EA;
+                margin-bottom: 8px;
+            }
+
+            :host .bindings .row {
+                @apply --layout-horizontal;
+                @apply --layout-center;
+                float: left;
+            }
+
+            :host .bindings .row .keystroke {
+                min-width: 224px;
+                opacity: 0.7;
+            }
+
+            :host .bindings .row .command {
+                min-width: 212px;
+            }
+
+            :host .button {
+                position: absolute;
+                right: 16px;
+                top: 4px;
+                transition: opacity 0.4s cubic-bezier(0.55, 0, 0.01, 1), visibility 0.4s cubic-bezier(0.55, 0, 0.01, 1);
+                z-index: 2;
+            }
+
+            :host .button:not(.help),
+            :host .button:not([active]) {
+                opacity: 0.10;
+            }
+
+            :host .button:not(.help):hover,
+            :host .button:not([active]):hover {
+                opacity: 0.30;
+            }
+
+            :host([disabled]) .button,
+            :host(:not([expandable])) .button {
+                opacity: 0;
+                pointer-events: none;
+                visibility: hidden;
+            }
+
+            :host([expandable]) .help {
+                right: 64px;
+            }
+
+            /* SLOTTED */
+
+            :host .editor ::slotted(textarea) {
+                display: none !important;
+            }
+
+            /* TABLET */
+
+            @media (max-width: 960px) {
+
+                :host .bindings {
+                    padding: 8px 16px;
+                }
+
+                :host .button {
+                    right: 8px;
+                }
+
+                :host([expandable]) .help {
+                    right: 56px;
+                }
+            }
+
+            /* SMARTPHONE */
+
+            @media (max-width: 480px) {
+
+                :host .button {
+                    display: none !important;
+                }
+            }
+        </style>
+
+        <div class="editor">
+            <textarea id="textarea"></textarea>
+            <slot></slot>
+        </div>
+
+        <div class="bindings">
+            <div class="container">
+                <div class="header">Key bindings</div>
+                <template is="dom-repeat" items="[[bindings]]" as="binding">
+                    <div class="row binding">
+                        <div class="command">[[binding.description]]</div>
+                        <div class="keystroke">[[binding.keystroke]]</div>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+        <mat-icon-button class="help" active="{{help}}" color="white" icon="mat:keyboard" on-click="_handleStop" toggleable></mat-icon-button>
+        <mat-icon-button class="full-screen" active="{{fullScreen}}" active-icon="mat:fullscreen-exit" color="white" icon="mat:fullscreen" on-click="_handleStop" toggleable></mat-icon-button>
+
+    </template>
+
+    <script>
+        (function () {
+
+            // Let
+            let bindings = [
+                {description: 'Delete line', keystroke: 'Shift-Ctrl-K'},
+                {description: 'Duplicate line', keystroke: 'Shift-Ctrl-D'},
+                {description: 'Find', keystroke: 'Ctrl-F'},
+                {description: 'Go subword left', keystroke: 'Alt-Left'},
+                {description: 'Go subword right', keystroke: 'Alt-Right'},
+                {description: 'Go to bracket', keystroke: 'Ctrl-M'},
+                {description: 'Indent less', keystroke: 'Shift-Tab'},
+                {description: 'Insert line after', keystroke: 'Ctrl-Enter'},
+                {description: 'Insert line before', keystroke: 'Shift-Ctrl-Enter'},
+                {description: 'Join lines', keystroke: 'Ctrl-J'},
+                {description: 'Jump to line', keystroke: 'Alt-G'},
+                {description: 'Replace', keystroke: 'Ctrl-H'},
+                {description: 'Replace all', keystroke: 'Shift-Ctrl-R'},
+                {description: 'Scroll line down', keystroke: 'Ctrl-Down'},
+                {description: 'Scroll line up', keystroke: 'Ctrl-Up'},
+                {description: 'Select between brackets', keystroke: 'Shift-Ctrl-M'},
+                {description: 'Select line', keystroke: 'Ctrl-L'},
+                {description: 'Select lines downward', keystroke: 'Shift-Alt-Down'},
+                {description: 'Select lines upward', keystroke: 'Shift-Alt-Up'},
+                {description: 'Select scope', keystroke: 'Shift-Ctrl-Space'},
+                {description: 'Smart backspace', keystroke: 'Backspace'},
+                {description: 'Sort lines', keystroke: 'F9'},
+                {description: 'Sort lines insensitive', keystroke: 'Ctrl-F9'},
+                {description: 'Split selection by line', keystroke: 'Shift-Ctrl-L'},
+                {description: 'Swap line down', keystroke: 'Shift-Ctrl-Down'},
+                {description: 'Swap line up', keystroke: 'Shift-Ctrl-Up'}
+            ];
+
+            // Let
+            let extraKeys = {
+                'Ctrl-F': editor => { editor.adapter.clear(); CodeMirror.commands.find(editor); },
+                'Esc':    editor => { editor.adapter.clear(); },
+                'Tab':    editor => { if (editor.somethingSelected()) { return CodeMirror.Pass; } editor.replaceSelection(XP.repeat(' ', 4)); }
+            };
+
+            // Prototype
+            Polymer({
+
+                // ELEMENT
+                is: 'mat-editor',
+
+                // BEHAVIORS
+                behaviors: [
+                    Polymer.MATInputValueBehavior
+                ],
+
+                // CLASSES
+                classes: ['editor'],
+
+                /*********************************************************************/
+
+                /**
+                 * Blurs the input.
+                 *
+                 * @method focus
+                 */
+                blur() {
+
+                    // Let
+                    let field = this.input.getInputField();
+
+                    // Blurring
+                    if (field && this.focused) { field.blur(); }
+                },
+
+                /**
+                 * Clears the last find.
+                 *
+                 * @method clear
+                 */
+                clear() {
+
+                    // Clearing
+                    this.input.removeOverlay(this.searchOverlay);
+                },
+
+                /**
+                 * Finds a string.
+                 *
+                 * @method find
+                 * @param {string} [value]
+                 */
+                find(value) {
+
+                    // Asserting
+                    XP.assertArgument(XP.isVoid(value) || XP.isString(value) || XP.isRegExp(value), 1, 'string or RegExp');
+
+                    // Clearing
+                    this.clear();
+
+                    // Finding
+                    if (value) { this.input.addOverlay(this.searchOverlay = this._searchOverlay(value)); }
+                },
+
+                /*********************************************************************/
+
+                /**
+                 * Reflects the native input's `value` onto the element.
+                 *
+                 * @method _commitFrom
+                 * @private
+                 */
+                _commitFrom() {
+
+                    // Committing
+                    this.value = this.textarea.value = this.input.getTextArea().value = this.input.getValue();
+                },
+
+                /**
+                 * Reflects the element's `value` onto the native input.
+                 *
+                 * @method _commitTo
+                 * @private
+                 */
+                _commitTo() {
+
+                    // Committing
+                    if (this.value !== this.input.getValue()) { this.input.setValue(this.value || ''); }
+                },
+
+                /**
+                 * Injects the native input.
+                 *
+                 * @method _inject
+                 * @private
+                 */
+                _inject() {
+
+                    // Let
+                    let input   = Object.assign(this.$.textarea, {textContent: this.value}),
+                        options = Object.assign({}, this.options, {tabindex: this.tabIndex});
+
+                    // Appending
+                    this.ensure('textarea', Polymer.dom(this).appendChild(input.cloneNode()));
+
+                    // Flushing
+                    Polymer.dom.flush();
+
+                    // Ensuring
+                    this.ensure('input', CodeMirror.fromTextArea(input, options));
+                    this.ensure('lines', this.input.getOption('firstLineNumber') + this.input.lineCount());
+
+                    // Listening
+                    this.input.on('blur', this.__handleBlur.bind(this));
+                    this.input.on('change', this._handleScroll.bind(this));
+                    this.input.on('change', this._prefixChanged.bind(this));
+                    this.input.on('change', XP.debounce(this.__handleChange.bind(this), 300));
+                    this.input.on('focus', this.__handleFocus.bind(this));
+                    this.input.display.scrollbars.horiz.addEventListener('scroll', this._handleScroll.bind(this));
+                },
+
+                /**
+                 * Returns a search overlay.
+                 *
+                 * @method _searchOverlay
+                 * @param {string | RegExp} query
+                 * @returns {Object}
+                 * @private
+                 */
+                _searchOverlay(query) {
+
+                    // Casting
+                    if (XP.isRegExp(query)) { query = query.flags.includes('g') ? query : new RegExp(query, `g${query.flags}`); }
+                    if (XP.isString(query)) { query = new RegExp(XP.escapeRegExp(query), 'g'); }
+
+                    // Wrapping
+                    return {token: stream => {
+
+                        // Settings
+                        query.lastIndex = stream.pos;
+
+                        // Matching
+                        let match = query.exec(stream.string);
+
+                        // Highlighting
+                        if (match && match.index === stream.pos) {
+                            stream.pos += match[0].length || 1;
+                            return 'searching';
+                        }
+
+                        // Proceeding
+                        if (match) { stream.pos = match.index; } else { stream.skipToEnd(); }
+                    }};
+                },
+
+                /**
+                 * Updates the native input's attributes.
+                 *
+                 * @method _update
+                 * @private
+                 */
+                _update() {
+
+                    // Setting (editor)
+                    this.input.setOption('mode', this.mode !== 'text/plain' ? this.mode : null);
+                    this.input.setOption('readOnly', this.readonly);
+
+                    // Setting (textarea)
+                    XP.setAttribute(this.input.getTextArea(), 'name', this.name);
+                    XP.setAttribute(this.textarea, 'name', this.name);
+                },
+
+                /**
+                 * Validates the native input's `value`.
+                 *
+                 * @method _validate
+                 * @param {string} [invalidMessage]
+                 * @private
+                 */
+                _validate(invalidMessage) {
+
+                    // Asserting
+                    XP.assertArgument(XP.isVoid(invalidMessage) || XP.isString(invalidMessage), 1, 'string');
+
+                    // Ensuring
+                    this.ensure('invalidMessage', XP.isDefined(invalidMessage) ? invalidMessage || null : this.invalidMessage);
+                    this.ensure('invalid', !!this.invalidMessage);
+                },
+
+                /*********************************************************************/
+
+                // OBSERVERS
+                observers: [
+                    'update(input, mode, readonly)',
+                    '_inputChanged(fullScreen, input)',
+                    '_linesChanged(input, inputPrefix, inputSuffix, lines, mode)',
+                    '_prefixChanged(input, inputPrefix, inputSuffix)'
+                ],
+
+                // OPTIONS
+                options: {
+                    autoCloseBrackets: true,
+                    autoCloseTags: true,
+                    matchBrackets : true,
+                    matchTags: {bothTags: true},
+                    keyMap: "sublime",
+                    indentUnit: 4,
+                    lineNumbers: true,
+                    showCursorWhenSelecting: true,
+                    tabSize: 4,
+                    theme: 'material',
+                    extraKeys: extraKeys
+                },
+
+                // PROPERTIES
+                properties: {
+
+                    /**
+                     * The editor's key bindings.
+                     *
+                     * @attribute bindings
+                     * @type Array
+                     * @readonly
+                     */
+                    bindings: {
+                        readOnly: true,
+                        type: Array,
+                        value: bindings
+                    },
+
+                    /**
+                     * If set to true, the input's full screen toggle is visible.
+                     *
+                     * @attribute expandable
+                     * @type boolean
+                     * @default false
+                     */
+                    expandable: {
+                        reflectToAttribute: true,
+                        type: Boolean,
+                        value: false
+                    },
+
+                    /**
+                     * If set to true, the editor will cover the whole viewport.
+                     *
+                     * @attribute full-screen
+                     * @type boolean
+                     * @default false
+                     * @notifies
+                     */
+                    fullScreen: {
+                        notify: true,
+                        reflectToAttribute: true,
+                        type: Boolean,
+                        value: false
+                    },
+
+                    /**
+                     * If set to true, the editor's bindings are showed.
+                     *
+                     * @attribute help
+                     * @type boolean
+                     * @default false
+                     */
+                    help: {
+                        reflectToAttribute: true,
+                        type: Boolean,
+                        value: false
+                    },
+
+                    /**
+                     * The input's prefix.
+                     *
+                     * @attribute input-prefix
+                     * @type string
+                     */
+                    inputPrefix: {
+                        reflectToAttribute: true,
+                        type: String,
+                        value: null
+                    },
+
+                    /**
+                     * The input's suffix.
+                     *
+                     * @attribute input-suffix
+                     * @type string
+                     */
+                    inputSuffix: {
+                        reflectToAttribute: true,
+                        type: String,
+                        value: null
+                    },
+
+                    /**
+                     * The number of code lines.
+                     *
+                     * @attribute lines
+                     * @type number
+                     * @readonly
+                     */
+                    lines: {
+                        readOnly: true,
+                        type: Number
+                    },
+
+                    /**
+                     * The current [editing mode](https://codemirror.net/doc/manual.html#overview).
+                     *
+                     * @attribute mode
+                     * @type string
+                     * @default "text/plain"
+                     * @notifies
+                     */
+                    mode: {
+                        notify: true,
+                        type: String,
+                        value: 'text/plain'
+                    },
+
+                    /**
+                     * If set to true, the input is readonly.
+                     *
+                     * @attribute readonly
+                     * @type boolean
+                     * @default false
+                     */
+                    readonly: {
+                        reflectToAttribute: true,
+                        type: Boolean,
+                        value: false
+                    },
+
+                    /**
+                     * The light DOM textarea.
+                     *
+                     * @attribute textarea
+                     * @type Element
+                     * @readonly
+                     */
+                    textarea: {
+                        readOnly: true
+                    }
+                },
+
+                /**
+                 * The list of possible editing modes.
+                 *
+                 * @property modes
+                 * @type Array
+                 * @default ["application/json", "application/xml", "text/css", "text/html", "text/javascript", "text/plain", "text/typescript"]
+                 * @readonly
+                 */
+                modes: ['application/json', 'application/xml', 'text/css', 'text/html', 'text/javascript', 'text/plain', 'text/typescript'],
+
+                /**
+                 * A phantom editor used to setup prefix and suffix.
+                 *
+                 * @property phantom
+                 * @type Object
+                 * @readonly
+                 */
+                phantom: null,
+
+                /**
+                 * An element used to hold the prefix.
+                 *
+                 * @property prefixHolder
+                 * @type Element
+                 * @readonly
+                 */
+                prefixHolder: null,
+
+                /**
+                 * The last search overlay.
+                 *
+                 * @property searchOverlay
+                 * @type Object
+                 * @readonly
+                 */
+                searchOverlay: null,
+
+                /**
+                 * An element used to hold the suffix.
+                 *
+                 * @property suffixHolder
+                 * @type Element
+                 * @readonly
+                 */
+                suffixHolder: null,
+
+                /*********************************************************************/
+
+                // OBSERVER
+                _inputChanged() {
+
+                    // Checking
+                    if (!this.input) { return; }
+
+                    // Updating
+                    this.input.setSize('100%', '100%');
+
+                    // Refreshing
+                    this.input.refresh();
+                },
+
+                // OBSERVER
+                _linesChanged() {
+
+                    // Async
+                    this.async(() => {
+
+                        // Checking
+                        if (!this.input) { return; }
+
+                        // Preparing
+                        this.phantom      = this.phantom || new CodeMirror(null, {mode: this.mode});
+                        this.prefixHolder = this.prefixHolder || XP.prependChild(this.input.display.sizer.firstElementChild, document.createElement('div'));
+                        this.suffixHolder = this.suffixHolder || XP.appendChild(this.input.display.sizer.firstElementChild, document.createElement('div'));
+
+                        // Setting
+                        this.phantom.setOption('mode', this.mode !== 'text/plain' ? this.mode : null);
+
+                        // Let
+                        let gutterWrapper = `<div class="CodeMirror-gutter-wrapper" style="left: ${-this.input.display.lineNumWidth}px;">`,
+                            gutterElt     = `<div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0; width: ${this.input.display.lineNumInnerWidth}px;">`,
+                            gutterClosure = `</div></div>`;
+
+                        // Prefix
+                        this.phantom.setValue(!XP.isVoid(this.inputPrefix) ? XP.toString(this.inputPrefix) : '');
+                        this.prefixHolder.innerHTML = this.phantom.getValue() ? `${gutterWrapper}${gutterElt}1${gutterClosure}${this.phantom.display.externalMeasured.text.outerHTML}` : ``;
+
+                        // Suffix
+                        this.phantom.setValue(!XP.isVoid(this.inputPrefix) ? XP.toString(this.inputSuffix) : '');
+                        this.suffixHolder.innerHTML = this.phantom.getValue() ? `${gutterWrapper}${gutterElt}${this.lines}${gutterClosure}${this.phantom.display.externalMeasured.text.outerHTML}` : ``;
+                    });
+
+                },
+
+                // OBSERVER
+                _prefixChanged() {
+
+                    // Checking
+                    if (!this.input) { return; }
+
+                    // Setting
+                    this.input.setOption('firstLineNumber', this.inputPrefix ? 2 : 1);
+
+                    // Ensuring
+                    this.ensure('lines', this.input.getOption('firstLineNumber') + this.input.lineCount());
+                },
+
+                /*********************************************************************/
+
+                // HANDLER
+                _handleScroll() {
+
+                    // Let
+                    let prefixChild = this.get('prefixHolder.children.0'),
+                        suffixChild = this.get('suffixHolder.children.0');
+
+                    // Styling
+                    if (prefixChild) { prefixChild.style.transform = `translateX(${this.input.doc.scrollLeft}px)`; }
+                    if (suffixChild) { suffixChild.style.transform = `translateX(${this.input.doc.scrollLeft}px)`; }
+                },
+
+                // HANDLER
+                _handleStop(event) {
+
+                    // Stopping
+                    event.stopPropagation();
+                }
+            });
+        }());
+    </script>
+
+</dom-module>

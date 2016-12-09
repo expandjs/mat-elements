@@ -1,0 +1,319 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A web component used to display a [Material Design menu option](https://www.google.com/design/spec/components/menus.html).
+
+@element mat-option
+@since 1.0.0
+@category contents
+@description A web component used to display a Material Design menu option
+@keywords material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-option
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-option.html
+
+@behavior xp-anchor-behavior /bower_components/xp-elements/xp-anchor-behavior.html
+@behavior xp-overlay-injector /bower_components/xp-elements/xp-overlay-injector.html
+@behavior mat-pressed-ink-behavior /bower_components/mat-elements/mat-pressed-ink-behavior.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../xp-elements/xp-anchor-behavior.html">
+<link rel="import" href="../xp-elements/xp-anchor-styles.html">
+<link rel="import" href="../xp-elements/xp-overlay-injector.html">
+<link rel="import" href="mat-icon.html">
+<link rel="import" href="mat-icons.html">
+<link rel="import" href="mat-ink.html">
+<link rel="import" href="mat-pressed-ink-behavior.html">
+<link rel="import" href="mat-pressed-ink-styles.html">
+<link rel="import" href="mat-typography.html">
+
+<dom-module id="mat-option">
+
+    <template strip-whitespace>
+
+        <style include="xp-anchor-styles mat-pressed-ink-styles">
+            :host {
+                @apply --mat-font-subhead;
+                display: block;
+                height: 48px;
+                overflow: hidden;
+                text-align: left;
+            }
+
+            :host-context([cascade]) {
+                height: 32px;
+            }
+
+            :host .anchor[href]:hover {
+                text-decoration: none;
+            }
+
+            :host .anchor[href]:hover .label {
+                text-decoration: underline;
+            }
+
+            :host .main {
+                @apply --layout-horizontal;
+                @apply --layout-center;
+                box-sizing: border-box;
+                height: 100%;
+                overflow: hidden;
+                padding: 0 16px;
+                pointer-events: none !important;
+            }
+
+            :host-context([cascade]) .main {
+                padding: 0 24px;
+            }
+
+            :host .primary {
+                margin-right: 24px;
+            }
+
+            :host([toggleable]:not([active])) .primary {
+                visibility: hidden !important;
+            }
+
+            :host-context(.dropdown) .primary {
+                display: none !important;
+            }
+
+            :host-context([cascade]) .primary {
+                margin-right: 16px;
+            }
+
+            :host .label,
+            :host .keystroke {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            :host([bold]) .label {
+                font-weight: bold;
+            }
+
+            :host .spacer {
+                @apply --layout-flex;
+                min-width: 16px;
+            }
+
+            :host([keystroke=""]:not([arrow="down"]):not([arrow="right"])) .spacer,
+            :host(:not([keystroke]):not([arrow="down"]):not([arrow="right"])) .spacer {
+                display: none !important;
+            }
+
+            :host([arrow]) .keystroke,
+            :host([keystroke=""]) .keystroke,
+            :host(:not([keystroke])) .keystroke,
+            :host-context(.dropdown) .keystroke {
+                display: none !important;
+            }
+
+            :host([arrow="right"]) .arrow {
+                transform: rotate(-90deg);
+            }
+
+            :host(:not([arrow="down"]):not([arrow="right"])) .arrow {
+                display: none !important;
+            }
+        </style>
+
+        <a class="anchor" tabindex="-1" on-click="__handleAnchor">
+            <div class="main">
+                <mat-icon class="primary icon" color="[[color]]" disabled="[[disabled]]" name="[[icon]]" src="[[iconSrc]]"></mat-icon>
+                <mat-ink class="label" color="[[color]]" disabled="[[disabled]]" opacity="[[_computeOpacity(hint)]]"><span>[[_computeLabel(label, value)]]</span></mat-ink>
+                <div class="spacer"></div>
+                <mat-ink class="keystroke" disabled="[[disabled]]"><span>[[keystroke]]</span></mat-ink>
+                <mat-icon class="arrow icon" disabled="[[disabled]]" name="mat:arrow-drop-down" opacity="hint"></mat-icon>
+            </div>
+        </a>
+
+        <div class="ripple-ground" active$="[[_computeActive(toggleable, active)]]"></div>
+        <div class="ripple-waves"></div>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-option',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.XPAnchorBehavior,
+                Polymer.XPOverlayInjector,
+                Polymer.MATPressedInkBehavior
+            ],
+
+            // CLASSES
+            classes: ['option'],
+
+            /*********************************************************************/
+
+            // OBSERVERS
+            observers: [
+                '_toggleableChanged(toggleable)'
+            ],
+
+            // PROPERTIES
+            properties: {
+
+                /**
+                 * The option's arrow's direction.
+                 *
+                 * @attribute arrow
+                 * @type "down" | "right"
+                 */
+                arrow: {
+                    reflectToAttribute: true,
+                    type: String
+                },
+
+                /**
+                 * If set to true, the label is displayed with bold weight.
+                 *
+                 * @attribute bold
+                 * @type boolean
+                 * @default false
+                 */
+                bold: {
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
+                 * If set to true, the label is displayed with hint opacity.
+                 *
+                 * @attribute hint
+                 * @type boolean
+                 * @default false
+                 */
+                hint: {
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
+                 * The option's icon.
+                 *
+                 * @attribute icon
+                 * @type string
+                 */
+                icon: {
+                    reflectToAttribute: true,
+                    type: String
+                },
+
+                /**
+                 * The option's icon's src.
+                 *
+                 * @attribute icon-src
+                 * @type string
+                 */
+                iconSrc: {
+                    reflectToAttribute: true,
+                    type: String
+                },
+
+                /**
+                 * If set to true, the element is indented.
+                 *
+                 * @attribute inset
+                 * @type boolean
+                 * @default false
+                 * @readonly
+                 */
+                inset: {
+                    computed: '_computeInset(toggleable, icon, iconSrc)',
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
+                 * The option's keystroke.
+                 *
+                 * @attribute keystroke
+                 * @type string
+                 */
+                keystroke: {
+                    reflectToAttribute: true,
+                    type: String
+                },
+
+                /**
+                 * The option's label.
+                 *
+                 * @attribute label
+                 * @type string
+                 * @default ""
+                 */
+                label: {
+                    reflectToAttribute: true,
+                    type: String,
+                    value: ''
+                },
+
+                /**
+                 * The option's value.
+                 *
+                 * @attribute value
+                 * @type string
+                 * @default ""
+                 */
+                value: {
+                    reflectToAttribute: true,
+                    type: String,
+                    value: ''
+                }
+            },
+
+            /*********************************************************************/
+
+            // COMPUTER
+            _computeActive(toggleable, active) {
+                return !toggleable && !!active;
+            },
+
+            // COMPUTER
+            _computeInset(toggleable, icon, iconSrc) {
+                return !!toggleable || !!icon || !!iconSrc;
+            },
+
+            // COMPUTER
+            _computeLabel(label, value) {
+                return label || value || '';
+            },
+
+            // COMPUTER
+            _computeOpacity(hint) {
+                return hint ? 'hint' : null;
+            },
+
+            /*********************************************************************/
+
+            // OBSERVER
+            _toggleableChanged() {
+
+                // Setting
+                if (this.toggleable) { this.icon    = 'mat:check'; }
+                if (this.toggleable) { this.iconSrc = ''; }
+            }
+        });
+    </script>
+
+</dom-module>

@@ -1,0 +1,71 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<link rel="import" href="../mat-demo.html">
+<link rel="import" href="../mat-icon.html">
+<link rel="import" href="../mat-icons.html">
+
+<dom-module id="mat-icon-demo">
+
+    <template>
+
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+
+        <mat-demo>
+            <script type="text/markdown">
+                Iconset
+            </script>
+            <script type="text/html">
+                <mat-icon name="mat:folder"></mat-icon>
+                <mat-icon name="mat:star" color="amber"></mat-icon>
+                <mat-icon name="mat:home" color="green"></mat-icon>
+            </script>
+        </mat-demo>
+
+        <mat-demo>
+            <script type="text/markdown">
+                Src (svg)
+            </script>
+            <script type="text/html">
+                <mat-icon src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICAgIDxwYXRoIGQ9Ik00IDhoNHYtNGgtNHY0em02IDEyaDR2LTRoLTR2NHptLTYgMGg0di00aC00djR6bTAtNmg0di00aC00djR6bTYgMGg0di00aC00djR6bTYtMTB2NGg0di00aC00em0tNiA0aDR2LTRoLTR2NHptNiA2aDR2LTRoLTR2NHptMCA2aDR2LTRoLTR2NHoiLz4KICAgIDxwYXRoIGQ9Ik0wIDBoMjR2MjRoLTI0eiIgZmlsbD0ibm9uZSIvPgo8L3N2Zz4K"></mat-icon>
+                <mat-icon src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICAgIDxwYXRoIGQ9Ik0xNi41IDZ2MTEuNWMwIDIuMjEtMS43OSA0LTQgNHMtNC0xLjc5LTQtNHYtMTIuNWMwLTEuMzggMS4xMi0yLjUgMi41LTIuNXMyLjUgMS4xMiAyLjUgMi41djEwLjVjMCAuNTUtLjQ1IDEtMSAxcy0xLS40NS0xLTF2LTkuNWgtMS41djkuNWMwIDEuMzggMS4xMiAyLjUgMi41IDIuNXMyLjUtMS4xMiAyLjUtMi41di0xMC41YzAtMi4yMS0xLjc5LTQtNC00cy00IDEuNzktNCA0djEyLjVjMCAzLjA0IDIuNDYgNS41IDUuNSA1LjVzNS41LTIuNDYgNS41LTUuNXYtMTEuNWgtMS41eiIvPgogICAgPHBhdGggZD0iTTAgMGgyNHYyNGgtMjR6IiBmaWxsPSJub25lIi8+Cjwvc3ZnPgo="></mat-icon>
+                <mat-icon src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMSAyMWgyMkwxMiAyIDEgMjF6bTEyLTNoLTJ2LTJoMnYyem0wLTRoLTJ2LTRoMnY0eiIvPjwvc3ZnPg=="></mat-icon>
+            </script>
+        </mat-demo>
+
+        <mat-demo>
+            <script type="text/markdown">
+                Src (png)
+            </script>
+            <script type="text/html">
+                <mat-icon src="https://github.com/google/material-design-icons/blob/master/notification/2x_web/ic_disc_full_black_24dp.png?raw=true"></mat-icon>
+                <mat-icon src="https://github.com/google/material-design-icons/blob/master/image/2x_web/ic_add_to_photos_black_24dp.png?raw=true"></mat-icon>
+                <mat-icon src="https://github.com/google/material-design-icons/blob/master/maps/2x_web/ic_beenhere_black_24dp.png?raw=true"></mat-icon>
+            </script>
+        </mat-demo>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-icon-demo',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.XPBaseBehavior
+            ]
+        });
+    </script>
+
+</dom-module>

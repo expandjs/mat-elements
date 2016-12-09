@@ -1,0 +1,91 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A web component used to group separate [Material Design panels](https://www.google.com/design/spec/layout/structure.html#structure-toolbars).
+
+@element mat-panel-group
+@since 1.0.0
+@category containers
+@description A web component used to group separate Material Design panels
+@keywords material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-panel-group
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-panel-group.html
+
+@behavior xp-master-slave-behavior /bower_components/xp-elements/xp-master-slave-behavior.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../xp-elements/xp-master-slave-behavior.html">
+<link rel="import" href="mat-panel.html">
+
+<dom-module id="mat-panel-group">
+
+    <template strip-whitespace>
+
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+
+        <slot></slot>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-panel-group',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.XPMasterSlaveBehavior
+            ],
+
+            // CLASSES
+            classes: ['panel-group'],
+
+            /*********************************************************************/
+
+            // PROPERTIES
+            properties: {
+
+                /**
+                 * If set to true, when a panel expands the siblings will collapse.
+                 *
+                 * @attribute auto-collapse
+                 * @type boolean
+                 * @default false
+                 */
+                autoCollapse: {
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
+                 * The slave panels.
+                 *
+                 * @attribute panels
+                 * @type Array
+                 * @readonly
+                 */
+                panels: {
+                    readOnly: true,
+                    slaves: '.panel',
+                    value() { return []; }
+                }
+            }
+        });
+    </script>
+
+</dom-module>

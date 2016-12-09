@@ -1,0 +1,256 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A web component used to display a [Material Design icon button](http://www.google.com/design/spec/components/buttons.html#buttons-other-buttons).
+
+@element mat-icon-button
+@since 1.0.0
+@category contents
+@description A web component used to display a Material Design icon button
+@keywords material button, material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-icon-button
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-icon-button.html
+@demo https://expandjs.com/components/mat-icon-button/demo
+
+@behavior xp-anchor-behavior /bower_components/xp-elements/xp-anchor-behavior.html
+@behavior xp-overlay-injector /bower_components/xp-elements/xp-overlay-injector.html
+@behavior mat-pressed-ink-behavior /bower_components/mat-elements/mat-pressed-ink-behavior.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../xp-elements/xp-anchor-behavior.html">
+<link rel="import" href="../xp-elements/xp-anchor-styles.html">
+<link rel="import" href="../xp-elements/xp-overlay-injector.html">
+<link rel="import" href="mat-icon.html">
+<link rel="import" href="mat-pressed-ink-behavior.html">
+<link rel="import" href="mat-pressed-ink-styles.html">
+
+<dom-module id="mat-icon-button">
+
+    <template strip-whitespace>
+
+        <style include="xp-anchor-styles mat-pressed-ink-styles">
+            :host {
+                border-radius: 50%;
+                height: 40px;
+                margin: 4px;
+                width: 40px;
+            }
+
+            :host .anchor:after {
+                min-height: 48px;
+                min-width: 48px;
+            }
+
+            :host .main {
+                @apply --layout-horizontal;
+                @apply --layout-center-center;
+                box-sizing: border-box;
+                height: 100%;
+            }
+
+            :host .icons,
+            :host .icon {
+                box-sizing: border-box;
+                display: block;
+                height: 100%;
+                max-height: 24px;
+                max-width: 24px;
+                position: relative;
+                width: 100%;
+            }
+
+            /* ANIMATION */
+
+            :host .icon {
+                transition: opacity 0.4s cubic-bezier(0.55, 0, 0.01, 1), transform 0.4s cubic-bezier(0.55, 0, 0.01, 1), visibility 0.4s cubic-bezier(0.55, 0, 0.01, 1);
+            }
+
+            :host .icon[foreground][opacity] {
+                color: inherit;
+            }
+
+            :host([animated]) .icon.one {
+                position: absolute;
+            }
+
+            :host .icon.one,
+            :host([active]) .icon.two {
+                opacity: 1;
+                transform: scale(1);
+                visibility: inherit;
+            }
+
+            :host([active][animated]) .icon.one,
+            :host(:not([active])) .icon.two {
+                opacity: 0;
+                transform: scale(0);
+                visibility: hidden;
+            }
+
+            /* MIXIN */
+
+            :host .icon.one { @apply --mat-icon-button-icon-one; }
+            :host .icon.two { @apply --mat-icon-button-icon-two; }
+            :host([active][animated]) .icon.one { @apply --mat-icon-button-active-icon-one; }
+            :host([active][animated]) .icon.two { @apply --mat-icon-button-active-icon-two; }
+
+        </style>
+
+        <a class="anchor" tabindex="-1" on-click="__handleAnchor">
+            <div class="main">
+                <div class="icons">
+                    <mat-icon class="icon one" color="[[currentColor]]" disabled="[[disabled]]" name="[[icon]]" opacity="[[opacity]]" src="[[iconSrc]]"></mat-icon>
+                    <mat-icon class="icon two" color="[[currentColor]]" disabled="[[disabled]]" name="[[activeIcon]]" opacity="[[opacity]]" src="[[activeIconSrc]]"></mat-icon>
+                </div>
+            </div>
+        </a>
+
+        <div class="ripple-waves"></div>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-icon-button',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.XPAnchorBehavior,
+                Polymer.XPOverlayInjector,
+                Polymer.MATPressedInkBehavior
+            ],
+
+            // CLASSES
+            classes: ['button'],
+
+            /*********************************************************************/
+
+            // OBSERVERS
+            observers: [
+                '_activeChanged(active)'
+            ],
+
+            // PROPERTIES
+            properties: {
+
+                /**
+                 * The button's active icon.
+                 *
+                 * @attribute active-icon
+                 * @type string
+                 */
+                activeIcon: {
+                    observer: '_activeIconChanged',
+                    reflectToAttribute: true,
+                    type: String
+                },
+
+                /**
+                 * The button's active icon's src.
+                 *
+                 * @attribute active-icon-src
+                 * @type string
+                 */
+                activeIconSrc: {
+                    observer: '_activeIconChanged',
+                    reflectToAttribute: true,
+                    type: String
+                },
+
+                /**
+                 * If set to true, both icon and active icon are set.
+                 *
+                 * @attribute animated
+                 * @type boolean
+                 * @default false
+                 * @readonly
+                 */
+                animated: {
+                    readOnly: true,
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
+                 * If set to true, the icon is dimmed when not active.
+                 *
+                 * @attribute dimmed
+                 * @type boolean
+                 * @default false
+                 */
+                dimmed: {
+                    observer: '_activeChanged',
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
+                 * The button's icon.
+                 *
+                 * @attribute icon
+                 * @type string
+                 */
+                icon: {
+                    reflectToAttribute: true,
+                    type: String
+                },
+
+                /**
+                 * The button's icon's src.
+                 *
+                 * @attribute icon-src
+                 * @type string
+                 */
+                iconSrc: {
+                    reflectToAttribute: true,
+                    type: String
+                },
+
+                /**
+                 * The icon's opacity.
+                 *
+                 * @attribute opacity
+                 * @type string
+                 * @default "icon"
+                 */
+                opacity: {
+                    reflectToAttribute: true,
+                    type: String,
+                    value: 'icon'
+                }
+            },
+
+            /*********************************************************************/
+
+            // OBSERVER
+            _activeChanged() {
+
+                // Setting
+                this.opacity = this.dimmed && !this.active ? 'hint' : 'icon';
+            },
+
+            // OBSERVER
+            _activeIconChanged() {
+
+                // Ensuring
+                this.ensure('animated', !!this.activeIcon || !!this.activeIconSrc);
+            }
+        });
+    </script>
+
+</dom-module>

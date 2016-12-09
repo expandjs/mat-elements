@@ -1,0 +1,105 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A stylesheet used to stylize a [Material Design table](http://www.google.com/design/spec/components/data-tables.html).
+
+@stylesheet mat-table-styles
+@since 1.0.0
+@category stylesheets
+@description A stylesheet used to stylize a [Material Design table](http://www.google.com/design/spec/components/data-tables.html)
+@keywords material table, material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-table-styles
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-table-styles.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="mat-ink-styles.html">
+<link rel="import" href="mat-typography.html">
+
+<dom-module id="mat-table-styles">
+
+    <template strip-whitespace>
+
+        <style>
+            :host .table table {
+                border-spacing: 0;
+                width: 100%;
+            }
+
+            :host .table th {
+                @apply --mat-font-caption;
+                font-weight: 500;
+                height: 56px;
+                line-height: 16px;
+                padding: 0 28px;
+                text-align: left;
+                vertical-align: middle;
+            }
+
+            :host .table th:nth-of-type(1) {
+                padding-left: 24px;
+                padding-right: 0;
+                width: 100%;
+            }
+
+            :host .table th:nth-of-type(2) {
+                padding-left: 24px;
+            }
+
+            :host .table th:last-of-type {
+                padding-right: 24px;
+            }
+
+            :host .table td {
+                height: 48px;
+                padding: 0 28px;
+                text-align: left;
+                vertical-align: middle;
+                white-space: nowrap;
+            }
+
+            :host .table td:nth-of-type(1) {
+                padding-left: 24px;
+                padding-right: 0;
+                width: 100%;
+            }
+
+            :host .table td:nth-of-type(2) {
+                padding-left: 24px;
+            }
+
+            :host .table td:last-of-type {
+                padding-right: 24px;
+            }
+
+            :host .table td.numeric {
+                text-align: right;
+            }
+
+            /* DARK FOREGROUND */
+
+            :host .table[foreground="dark"] th { color: var(--mat-secondary-color); }
+            :host .table[foreground="dark"] td { border-top: 1px solid var(--mat-divider-color); }
+            :host .table[foreground="dark"] tr:hover { background: hsla(0, 0%, 0%, 0.05); }
+            :host .table[foreground="dark"] thead tr:hover { background: none; }
+
+            /* LIGHT FOREGROUND */
+
+            :host .table[foreground="light"] th { color: var(--mat-secondary-color-light); }
+            :host .table[foreground="light"] td { border-top: 1px solid var(--mat-divider-color-light); }
+            :host .table[foreground="light"] tr:hover { background: hsla(0, 0%, 100%, 0.05); }
+            :host .table[foreground="light"] thead tr:hover { background: none; }
+
+        </style>
+
+    </template>
+
+</dom-module>

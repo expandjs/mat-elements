@@ -1,0 +1,201 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A web component used to display a [Material Design side drawer](http://www.google.com/design/spec/layout/structure.html#structure-side-nav).
+
+@element mat-drawer
+@since 1.0.0
+@category containers
+@description A web component used to display a Material Design side drawer
+@keywords material drawer, material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-drawer
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-drawer.html
+
+@behavior xp-base-behavior /bower_components/xp-elements/xp-base-behavior.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../xp-elements/xp-base-behavior.html">
+<link rel="import" href="../xp-elements/xp-media-query.html">
+<link rel="import" href="mat-paper.html">
+<link rel="import" href="mat-spacing.html">
+
+<dom-module id="mat-drawer">
+
+    <template strip-whitespace>
+
+        <style>
+            :host {
+                box-sizing: border-box;
+                display: block;
+                height: 100%;
+                max-width: 100%;
+                pointer-events: auto;
+            }
+
+            :host([empty]) {
+                opacity: 0 !important;
+                pointer-events: none !important;
+                visibility: hidden !important;
+            }
+
+            :host .wrapper {
+                box-sizing: border-box;
+                height: 100%;
+            }
+
+            :host(:not([transparent])) .wrapper[foreground="dark"] {
+                box-shadow: 1px 0 var(--mat-divider-color);
+            }
+
+            :host(:not([transparent])) .wrapper[foreground="light"] {
+                box-shadow: 1px 0 var(--mat-divider-color-light);
+            }
+
+            :host .scroller {
+                box-sizing: border-box;
+                height: 100%;
+                overflow-x: hidden;
+                overflow-y: auto;
+            }
+
+            :host([padding]) .scroller {
+                padding: 16px;
+            }
+        </style>
+
+        <mat-paper class="wrapper" background="[[background]]" brightness="[[_computeBrightness(narrow, transparent)]]" z="[[_computeZ(narrow)]]">
+            <div class="scroller">
+                <slot></slot>
+            </div>
+        </mat-paper>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-drawer',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.XPBaseBehavior
+            ],
+
+            // CLASSES
+            classes: ['drawer'],
+
+            /*********************************************************************/
+
+            // PROPERTIES
+            properties: {
+
+                /**
+                 * The drawer's background color.
+                 *
+                 * @attribute background
+                 * @type string
+                 */
+                background: {
+                    reflectToAttribute: true,
+                    type: String
+                },
+
+                /**
+                 * If set to true, the drawer is hidden.
+                 *
+                 * @attribute empty
+                 * @type boolean
+                 * @default true
+                 * @notifies
+                 * @readonly
+                 */
+                empty: {
+                    notify: true,
+                    readOnly: true,
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: true
+                },
+
+                /**
+                 * If set to true, the material spacing rules are applied.
+                 *
+                 * @attribute padding
+                 * @type boolean
+                 * @default false
+                 */
+                padding: {
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
+                 * If set to true, the drawer is transparent on its resting state.
+                 *
+                 * @attribute transparent
+                 * @type boolean
+                 * @default false
+                 */
+                transparent: {
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
+                 * The drawer's wrapper.
+                 *
+                 * @attribute wrapper
+                 * @type Element
+                 * @readonly
+                 */
+                wrapper: {
+                    readOnly: true,
+                    selector: '.wrapper'
+                }
+            },
+
+            /*********************************************************************/
+
+            // COMPUTER
+            _computeBrightness(narrow, transparent) {
+                return !narrow && transparent ? 'transparent' : null;
+            },
+
+            // COMPUTER
+            _computeZ(narrow) {
+                return narrow ? 16 : null;
+            },
+
+            /*********************************************************************/
+
+            // LISTENER
+            mutated() {
+
+                // Ensuring
+                this.ensure('empty', !XP.hasChildren(Polymer.dom(this)));
+            },
+
+            // LISTENER
+            ready() {
+
+                // Observing
+                Polymer.dom(this).observeNodes(this.mutated.bind(this));
+            }
+        });
+    </script>
+
+</dom-module>

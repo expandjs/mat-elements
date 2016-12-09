@@ -1,0 +1,382 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A web component used to display a [Material Design FAB](http://www.google.com/design/spec/components/buttons-floating-action-button.html).
+
+@element mat-fab
+@since 1.0.0
+@category contents
+@description A web component used to display a Material Design FAB
+@keywords material fab, material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-fab
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-fab.html
+@demo https://expandjs.com/components/mat-fab/demo
+
+@behavior xp-anchor-behavior /bower_components/xp-elements/xp-anchor-behavior.html
+@behavior xp-overlay-injector /bower_components/xp-elements/xp-overlay-injector.html
+@behavior mat-pressed-paper-behavior /bower_components/mat-elements/mat-pressed-paper-behavior.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../xp-elements/xp-anchor-behavior.html">
+<link rel="import" href="../xp-elements/xp-anchor-styles.html">
+<link rel="import" href="../xp-elements/xp-overlay-injector.html">
+<link rel="import" href="mat-icon.html">
+<link rel="import" href="mat-pressed-paper-behavior.html">
+<link rel="import" href="mat-pressed-paper-styles.html">
+
+<dom-module id="mat-fab">
+
+    <template strip-whitespace>
+
+        <style include="xp-anchor-styles mat-pressed-paper-styles">
+            :host {
+                border-radius: 50%;
+                height: 56px;
+                position: absolute;
+                width: 56px;
+                transition: border        var(--mat-default-duration) var(--mat-ease),
+                            border-radius var(--mat-default-duration) var(--mat-ease),
+                            box-shadow    var(--mat-default-duration) var(--mat-ease),
+                            height        var(--mat-default-duration) var(--mat-ease),
+                            opacity       var(--mat-default-duration) var(--mat-ease),
+                            transform     var(--mat-entry-duration)   var(--mat-ease-sharp) var(--mat-exit-duration),
+                            visibility    var(--mat-default-duration) var(--mat-ease),
+                            width         var(--mat-default-duration) var(--mat-ease);
+            }
+
+            :host([hidden]) {
+                display: block !important;
+                transform: translateY(0) scale(0) rotate(-45deg);
+                transition: border        var(--mat-default-duration) var(--mat-ease),
+                            border-radius var(--mat-default-duration) var(--mat-ease),
+                            box-shadow    var(--mat-default-duration) var(--mat-ease),
+                            height        var(--mat-default-duration) var(--mat-ease),
+                            opacity       var(--mat-default-duration) var(--mat-ease),
+                            transform     var(--mat-exit-duration)    var(--mat-ease-sharp),
+                            visibility    var(--mat-default-duration) var(--mat-ease),
+                            width         var(--mat-default-duration) var(--mat-ease);
+            }
+
+            :host([mini]) {
+                height: 40px;
+                width: 40px;
+            }
+
+            :host([left]) {
+                left: 24px;
+            }
+
+            :host(:not([left])) {
+                right: 24px;
+            }
+
+            :host([top][across]) {
+                top: 0;
+                transform: translateY(-50%) scale(1) rotate(0deg);
+            }
+
+            :host([top][across][hidden]) {
+                transform: translateY(-50%) scale(0) rotate(-45deg);
+            }
+
+            :host([top]:not([across])) {
+                top: 24px;
+            }
+
+            :host(:not([top])[across]) {
+                bottom: 0;
+                transform: translateY(50%) scale(1) rotate(0deg);
+            }
+
+            :host(:not([top])[across][hidden]) {
+                transform: translateY(50%) scale(0) rotate(-45deg);
+            }
+
+            :host(:not([top]):not([across])) {
+                bottom: 24px;
+            }
+
+            :host .anchor:after {
+                min-height: 48px;
+                min-width: 48px;
+            }
+
+            :host .main {
+                @apply --layout-horizontal;
+                @apply --layout-center-center;
+                border-radius: inherit;
+                box-shadow: 0 1px 0 0 hsla(0, 100%, 100%, 0.1) inset, 0 -1px 0 0 hsla(0, 0%, 0%, 0.2) inset;
+                box-sizing: border-box;
+                height: 100%;
+            }
+
+            :host .icons,
+            :host .icon {
+                box-sizing: border-box;
+                display: block;
+                height: 100%;
+                max-height: 24px;
+                max-width: 24px;
+                position: relative;
+                width: 100%;
+            }
+
+            /* ANIMATION */
+
+            :host .icon {
+                transition: opacity 0.330s cubic-bezier(0.55, 0, 0.01, 1),
+                            transform 0.233s cubic-bezier(0.55, 0, 0.01, 1),
+                            visibility 0.330s cubic-bezier(0.55, 0, 0.01, 1);
+            }
+
+            :host([animated]) .icon.one {
+                position: absolute;
+            }
+
+            :host .icon.one,
+            :host([active]) .icon.two {
+                opacity: 1;
+                transform: rotate(0deg);
+                visibility: inherit;
+            }
+
+            :host([active][animated]) .icon.one,
+            :host(:not([active])) .icon.two {
+                opacity: 0;
+                visibility: hidden;
+            }
+
+            :host([active][animated]) .icon.one {
+                transform: rotate(45deg);
+            }
+
+            :host(:not([active])) .icon.two {
+                transform: rotate(-45deg);
+            }
+
+            /* MIXIN */
+
+            :host .icon.one { @apply --mat-fab-icon-one; }
+            :host .icon.two { @apply --mat-fab-icon-two; }
+            :host([active]) .icon.one { @apply --mat-fab-active-icon-one; }
+            :host([active]) .icon.two { @apply --mat-fab-active-icon-two; }
+
+            /* TABLET */
+
+            @media (max-width: 960px) {
+
+                :host([left]) {
+                    left: 16px;
+                }
+
+                :host(:not([left])) {
+                    right: 16px;
+                }
+
+                :host([top]:not([across])) {
+                    top: 16px;
+                }
+
+                :host(:not([top]):not([across])) {
+                    bottom: 16px;
+                }
+            }
+        </style>
+
+        <a class="anchor" tabindex="-1" on-click="__handleAnchor">
+            <div class="main">
+                <div class="icons">
+                    <mat-icon class="icon one" disabled="[[disabled]]" name="[[icon]]" src="[[iconSrc]]"></mat-icon>
+                    <mat-icon class="icon two" disabled="[[disabled]]" name="[[activeIcon]]" src="[[activeIconSrc]]"></mat-icon>
+                </div>
+            </div>
+        </a>
+
+        <div class="ripple-waves"></div>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-fab',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.XPAnchorBehavior,
+                Polymer.XPOverlayInjector,
+                Polymer.MATPressedPaperBehavior
+            ],
+
+            // CLASSES
+            classes: ['fab'],
+
+            /*********************************************************************/
+
+            // PROPERTIES
+            properties: {
+
+                /**
+                 * If set to true, the element is aligned across two elements.
+                 *
+                 * @attribute across
+                 * @type boolean
+                 * @default false
+                 */
+                across: {
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
+                 * The button's active icon.
+                 *
+                 * @attribute active-icon
+                 * @type string
+                 */
+                activeIcon: {
+                    observer: '_activeIconChanged',
+                    reflectToAttribute: true,
+                    type: String
+                },
+
+                /**
+                 * The button's active icon's src.
+                 *
+                 * @attribute active-icon-src
+                 * @type string
+                 */
+                activeIconSrc: {
+                    observer: '_activeIconChanged',
+                    reflectToAttribute: true,
+                    type: String
+                },
+
+                /**
+                 * If set to true, both icon and active icon are set.
+                 *
+                 * @attribute animated
+                 * @type boolean
+                 * @default false
+                 * @readonly
+                 */
+                animated: {
+                    readOnly: true,
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
+                 * The paper's background.
+                 *
+                 * @attribute background
+                 * @type string
+                 * @default "deep-orange-600"
+                 */
+                background: {
+                    reflectToAttribute: true,
+                    type: String,
+                    value: 'deep-orange-600'
+                },
+
+                /**
+                 * The button's icon.
+                 *
+                 * @attribute icon
+                 * @type string
+                 */
+                icon: {
+                    reflectToAttribute: true,
+                    type: String
+                },
+
+                /**
+                 * The button's icon's src.
+                 *
+                 * @attribute icon-src
+                 * @type string
+                 */
+                iconSrc: {
+                    reflectToAttribute: true,
+                    type: String
+                },
+
+                /**
+                 * If set to true, the element is aligned to the left.
+                 *
+                 * @attribute left
+                 * @type boolean
+                 * @default false
+                 */
+                left: {
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
+                 * If set to true, the element has 40px diameter instead of 56px.
+                 *
+                 * @attribute mini
+                 * @type boolean
+                 * @default false
+                 */
+                mini: {
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
+                 * If set to true, the element is aligned to the top.
+                 *
+                 * @attribute top
+                 * @type boolean
+                 * @default false
+                 */
+                top: {
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
+                 * The fab's z-axis position.
+                 *
+                 * @attribute z
+                 * @type number
+                 * @default 6
+                 */
+                z: {
+                    reflectToAttribute: true,
+                    type: Number,
+                    value: 6
+                }
+            },
+
+            /*********************************************************************/
+
+            // OBSERVER
+            _activeIconChanged() {
+
+                // Ensuring
+                this.ensure('animated', !!this.activeIcon || !!this.activeIconSrc);
+            }
+        });
+    </script>
+
+</dom-module>

@@ -1,0 +1,159 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A stylesheet used to stylize a [Material Design paper](http://www.google.com/design/spec/what-is-material/material-properties.html).
+
+@stylesheet mat-paper-styles
+@since 1.0.0
+@category stylesheets
+@description A stylesheet used to stylize a Material Design paper
+@keywords material paper, material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-paper-styles
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-paper-styles.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="mat-ink-styles.html">
+<link rel="import" href="mat-shadow.html">
+<link rel="import" href="mat-motion.html">
+<link rel="import" href="mat-typography.html">
+
+<custom-style>
+    <style is="custom-style">
+
+        /* DARK FOREGROUND */
+
+        html {
+            --mat-backdrop-background: hsla(0, 0%, 98%, 1);
+            --mat-default-background: hsla(0, 0%, 100%, 1);
+            --mat-disabled-background: hsla(0, 0%, 0%, 0.12);
+            --mat-placeholder-background: hsla(0, 0%, 88%, 1);
+            --mat-toast-background: hsla(0, 0%, 100%, 1);
+            --mat-toolbar-background: hsla(0, 0%, 96%, 1);
+            --mat-tooltip-background: hsla(0, 0%, 38%, 1);
+            --mat-transparent-background: hsla(0, 0%, 0%, 0);
+        }
+
+        /* LIGHT FOREGROUND */
+
+        html {
+            --mat-backdrop-background-dark: hsla(0, 0%, 19%, 1);
+            --mat-default-background-dark: hsla(0, 0%, 26%, 1);
+            --mat-disabled-background-dark: hsla(0, 0%, 100%, 0.12);
+            --mat-placeholder-background-dark: hsla(0, 0%, 46%, 1);
+            --mat-toast-background-dark: hsla(0, 0%, 20%, 1);
+            --mat-toolbar-background-dark: hsla(0, 0%, 13%, 1);
+        }
+    </style>
+</custom-style>
+
+<dom-module id="mat-paper-styles">
+
+    <template strip-whitespace>
+
+        <style>
+
+            /* HOST */
+
+            :host {
+                border: 0 solid transparent;
+                box-shadow: none;
+                display: block;
+                position: relative;
+                text-align: left;
+                transition: border        var(--mat-default-duration) var(--mat-ease),
+                            border-radius var(--mat-default-duration) var(--mat-ease),
+                            box-shadow    var(--mat-default-duration) var(--mat-ease),
+                            height        var(--mat-default-duration) var(--mat-ease),
+                            opacity       var(--mat-default-duration) var(--mat-ease),
+                            transform     var(--mat-default-duration) var(--mat-ease),
+                            visibility    var(--mat-default-duration) var(--mat-ease),
+                            width         var(--mat-default-duration) var(--mat-ease);
+            }
+
+            /* ANCHORS */
+
+            :host a {
+                color: inherit;
+                text-decoration: none;
+            }
+
+            :host a[href]:hover {
+                text-decoration: underline;
+            }
+
+            /* SHADOW */
+
+            :host([z="1"]) { box-shadow: var(--mat-shadow-z1); }
+            :host([z="2"]) { box-shadow: var(--mat-shadow-z2); }
+            :host([z="3"]) { box-shadow: var(--mat-shadow-z3); }
+            :host([z="4"]) { box-shadow: var(--mat-shadow-z4); }
+            :host([z="5"]) { box-shadow: var(--mat-shadow-z5); }
+            :host([z="6"]) { box-shadow: var(--mat-shadow-z6); }
+            :host([z="7"]) { box-shadow: var(--mat-shadow-z7); }
+            :host([z="8"]) { box-shadow: var(--mat-shadow-z8); }
+            :host([z="9"]) { box-shadow: var(--mat-shadow-z9); }
+            :host([z="10"]) { box-shadow: var(--mat-shadow-z10); }
+            :host([z="11"]) { box-shadow: var(--mat-shadow-z11); }
+            :host([z="12"]) { box-shadow: var(--mat-shadow-z12); }
+            :host([z="13"]) { box-shadow: var(--mat-shadow-z13); }
+            :host([z="14"]) { box-shadow: var(--mat-shadow-z14); }
+            :host([z="15"]) { box-shadow: var(--mat-shadow-z15); }
+            :host([z="16"]) { box-shadow: var(--mat-shadow-z16); }
+            :host([z="17"]) { box-shadow: var(--mat-shadow-z17); }
+            :host([z="18"]) { box-shadow: var(--mat-shadow-z18); }
+            :host([z="19"]) { box-shadow: var(--mat-shadow-z19); }
+            :host([z="20"]) { box-shadow: var(--mat-shadow-z20); }
+            :host([z="21"]) { box-shadow: var(--mat-shadow-z21); }
+            :host([z="22"]) { box-shadow: var(--mat-shadow-z22); }
+            :host([z="23"]) { box-shadow: var(--mat-shadow-z23); }
+            :host([z="24"]) { box-shadow: var(--mat-shadow-z24); }
+
+            /* DARK FOREGROUND */
+
+            :host([foreground="dark"]) { background: var(--mat-default-background); border-color: var(--mat-divider-color); color: var(--mat-default-color); }
+            :host([foreground="dark"][brightness="backdrop"]) { background: var(--mat-backdrop-background); }
+            :host([foreground="dark"][brightness="placeholder"]) { background: var(--mat-placeholder-background); }
+            :host([foreground="dark"][brightness="toast"]) { background: var(--mat-toast-background); }
+            :host([foreground="dark"][brightness="toolbar"]) { background: var(--mat-toolbar-background); }
+            :host([foreground="dark"][brightness="transparent"]) { background: var(--mat-transparent-background); }
+            :host([foreground="dark"][disabled]) { background: var(--mat-disabled-background) !important; color: var(--mat-disabled-color) !important; }
+
+            /* LIGHT FOREGROUND */
+
+            :host([foreground="light"]) { background: var(--mat-default-background-dark); border-color: var(--mat-divider-color-light); color: var(--mat-default-color-light); }
+            :host([foreground="light"][brightness="backdrop"]) { background: var(--mat-backdrop-background-dark); }
+            :host([foreground="light"][brightness="placeholder"]) { background: var(--mat-placeholder-background-dark); }
+            :host([foreground="light"][brightness="toast"]) { background: var(--mat-toast-background-dark); }
+            :host([foreground="light"][brightness="toolbar"]) { background: var(--mat-toolbar-background-dark); }
+            :host([foreground="light"][brightness="transparent"]) { background: var(--mat-transparent-background); }
+            :host([foreground="light"][disabled]) { background: var(--mat-disabled-background-dark) !important; color: var(--mat-disabled-color-light) !important; }
+
+            /* DISABLED */
+
+            :host([disabled]) {
+                box-shadow: none !important;
+                -webkit-filter: grayscale(100%);
+                filter: grayscale(100%);
+                pointer-events: none !important;
+            }
+
+            /* HIDDEN */
+
+            :host([hidden]) {
+                display: none !important;
+            }
+
+        </style>
+
+    </template>
+
+</dom-module>

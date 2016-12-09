@@ -1,0 +1,141 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A web component used to display a [Material Design divider](http://www.google.com/design/spec/components/dividers.html#dividers-usage).
+
+@element mat-divider
+@since 1.0.0
+@category contents
+@description A web component used to display a Material Design divider
+@keywords material divider, material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-divider
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-divider.html
+
+@behavior mat-ink-behavior /bower_components/mat-elements/mat-ink-behavior.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="mat-ink-behavior.html">
+<link rel="import" href="mat-ink-styles.html">
+
+<dom-module id="mat-divider">
+
+    <template strip-whitespace>
+
+        <style include="mat-ink-styles">
+            :host {
+                display: block;
+                overflow: hidden;
+                padding: 7px 0 8px 0;
+            }
+
+            :host([baseline]) {
+                bottom: 0;
+                left: 0;
+                padding: 0;
+                position: absolute;
+                right: 0;
+            }
+
+            :host([cap]) {
+                left: 0;
+                padding: 0;
+                position: absolute;
+                right: 0;
+                top: 0;
+            }
+
+            :host .line {
+                border-top: 1px solid currentColor;
+            }
+        </style>
+
+        <div class="line"></div>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-divider',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.MATInkBehavior
+            ],
+
+            // CLASSES
+            classes: ['divider'],
+
+            /*********************************************************************/
+
+            // PROPERTIES
+            properties: {
+
+                /**
+                 * If set to true, the divider is aligned baseline.
+                 *
+                 * @attribute baseline
+                 * @type boolean
+                 * @default false
+                 */
+                baseline: {
+                    observer: '_baselineChanged',
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
+                 * If set to true, the divider is aligned cap.
+                 *
+                 * @attribute cap
+                 * @type boolean
+                 * @default false
+                 */
+                cap: {
+                    observer: '_capChanged',
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
+                 * The divider's opacity.
+                 *
+                 * @attribute opacity
+                 * @type string
+                 * @default "divider"
+                 */
+                opacity: {
+                    reflectToAttribute: true,
+                    type: String,
+                    value: 'divider'
+                }
+            },
+
+            /*********************************************************************/
+
+            // OBSERVER
+            _baselineChanged(post) {
+                this.cap = this.cap && !post;
+            },
+
+            // OBSERVER
+            _capChanged(post) {
+                this.baseline = this.baseline && !post;
+            }
+        });
+    </script>
+
+</dom-module>

@@ -1,0 +1,91 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<link rel="import" href="../mat-demo.html">
+<link rel="import" href="../mat-icons.html">
+<link rel="import" href="../mat-item.html">
+<link rel="import" href="../mat-list.html">
+<link rel="import" href="../mat-sublist.html">
+
+<dom-module id="mat-list-demo">
+
+    <template>
+
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+
+        <mat-demo no-padding>
+            <script type="text/markdown">
+                Default
+            </script>
+            <script type="text/html">
+                <mat-list label="Subheader" selectable>
+                    <mat-item label="Item 1"></mat-item>
+                    <mat-item label="Item 2"></mat-item>
+                    <mat-item label="Item 3"></mat-item>
+                </mat-list>
+            </script>
+        </mat-demo>
+
+        <mat-demo no-padding>
+            <script type="text/markdown">
+                Collapsible
+            </script>
+            <script type="text/html">
+                <mat-list style="height: 272px" selectable>
+                    <mat-sublist label="Favorites" icon="mat:stars" collapsible>
+                        <mat-item label="Alvin Kelley"></mat-item>
+                        <mat-item label="Lois Roy"></mat-item>
+                        <mat-item label="Oscar Vaughn"></mat-item>
+                    </mat-sublist>
+                    <mat-sublist label="Contacts" icon="mat:people" collapsible collapsed>
+                        <mat-item label="Stanley Stokes"></mat-item>
+                        <mat-item label="Alvin Kelley"></mat-item>
+                        <mat-item label="Harold Gardner"></mat-item>
+                    </mat-sublist>
+                </mat-list>
+            </script>
+        </mat-demo>
+
+        <mat-demo no-padding>
+            <script type="text/markdown">
+                Sublists
+            </script>
+            <script type="text/html">
+                <mat-list selectable toggleable>
+                    <mat-sublist label="Items">
+                        <div class="item">Item 1</div>
+                        <div class="item">Item 2</div>
+                    </mat-sublist>
+                    <mat-sublist label="Links">
+                        <a class="item" href="https://expandjs.com/components/mat-list" target="_blank">expand.js</a>
+                        <a class="item" href="https://www.polymer-project.org" target="_blank">Polymer</a>
+                    </mat-sublist>
+                </mat-list>
+            </script>
+        </mat-demo>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-list-demo',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.XPBaseBehavior
+            ]
+        });
+    </script>
+
+</dom-module>

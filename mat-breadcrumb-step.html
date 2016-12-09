@@ -1,0 +1,119 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A web component used to display a [Material Design breadcrumb](https://material.google.com/layout/structure.html#structure-side-nav) step.
+
+It must be used in conjunction with [mat-breadcrumb](https://expandjs.com/components/mat-breadcrumb).
+
+@element mat-breadcrumb-step
+@since 1.0.0
+@category navigation
+@description A web component used to display a Material Design breadcrumb step
+@keywords material breadcrumb, material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-breadcrumb
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-breadcrumb.html
+
+@behavior xp-anchor-behavior /bower_components/xp-elements/xp-anchor-behavior.html
+@behavior xp-breadcrumb-step-behavior /bower_components/xp-elements/xp-breadcrumb-step-behavior.html
+-->
+
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../xp-elements/xp-anchor-behavior.html">
+<link rel="import" href="../xp-elements/xp-anchor-styles.html">
+<link rel="import" href="../xp-elements/xp-breadcrumb-step-behavior.html">
+<link rel="import" href="../xp-elements/xp-breadcrumb-step-styles.html">
+<link rel="import" href="mat-icon.html">
+<link rel="import" href="mat-icons.html">
+<link rel="import" href="mat-ink.html">
+
+<dom-module id="mat-breadcrumb-step">
+
+    <template strip-whitespace>
+
+        <style include="xp-anchor-styles xp-breadcrumb-step-styles">
+            :host .icon {
+                height: 0.706em;
+                margin: 0 0.4em;
+                min-height: 24px;
+                min-width: 24px;
+                width: 0.706em;
+            }
+
+            :host(:first-of-type) .icon,
+            :host-context(.breadcrumb[mobile]:not([shift])) .icon {
+                display: none !important;
+            }
+
+            :host .label {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+        </style>
+
+        <mat-icon class="icon" name="mat:chevron-right" opacity="[[_computeIconOpacity(mobile)]]"></mat-icon>
+
+        <a class="anchor" tabindex="-1" on-click="__handleAnchor">
+            <mat-ink class="label" opacity="[[_computeLabelOpacity(active, mobile)]]">
+                <span>[[label]]</span>
+            </mat-ink>
+        </a>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-breadcrumb-step',
+
+            //BEHAVIORS
+            behaviors: [
+                Polymer.XPAnchorBehavior,
+                Polymer.XPBreadcrumbStepBehavior
+            ],
+
+            /*********************************************************************/
+
+            // PROPERTIES
+            properties: {
+
+                /**
+                 * If set to true, the breadcrumb `mobile` style will be applied.
+                 *
+                 * @attribute mobile
+                 * @type boolean
+                 * @default false
+                 */
+                mobile: {
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                }
+            },
+
+            /*********************************************************************/
+
+            // COMPUTER
+            _computeIconOpacity(mobile) {
+                return mobile ? 'hint' : 'icon';
+            },
+
+            // COMPUTER
+            _computeLabelOpacity(active, mobile) {
+                return !active && mobile ? 'hint' : null;
+            }
+        });
+    </script>
+</dom-module>

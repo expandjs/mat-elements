@@ -1,0 +1,63 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<link rel="import" href="../mat-demo.html">
+<link rel="import" href="../mat-ripple.html">
+
+<dom-module id="mat-ripple-demo">
+
+    <template>
+
+        <style>
+            :host {
+                display: block;
+            }
+
+            :host .label {
+                height: 100px;
+                line-height: 100px;
+                text-align: center;
+            }
+        </style>
+
+        <mat-demo>
+            <script type="text/markdown">
+                Default
+            </script>
+            <script type="text/html">
+                <div class="label">Tap me!</div>
+                <mat-ripple></mat-ripple>
+            </script>
+        </mat-demo>
+
+        <mat-demo>
+            <script type="text/markdown">
+                Auto center
+            </script>
+            <script type="text/html">
+                <div class="label">Tap me!</div>
+                <mat-ripple auto-center></mat-ripple>
+            </script>
+        </mat-demo>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-ripple-demo',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.XPBaseBehavior
+            ]
+        });
+    </script>
+
+</dom-module>

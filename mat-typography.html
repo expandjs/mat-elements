@@ -1,0 +1,187 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A custom style used to provide css variables for [Material Design typography styles](http://www.google.com/design/spec/style/typography.html#typography-styles).
+
+@stylesheet mat-typography
+@since 1.0.0
+@category stylesheets
+@description A custom style used to provide css variables for Material Design typography
+@keywords material typography, material design, font roboto, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-typography
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-typography.html
+-->
+
+<link rel="import" href="../font-roboto/roboto.html">
+<link rel="import" href="../polymer/polymer.html">
+
+<custom-style>
+    <style is="custom-style">
+
+        /* FONTS */
+
+        html {
+            --mat-font-caption: {
+                font-family: 'Roboto', 'Noto', sans-serif;
+                font-size: 12px;
+                font-weight: 400;
+                letter-spacing: 0.02em;
+                line-height: 14px;
+                text-overflow: ellipsis;
+                text-rendering: optimizeLegibility;
+                white-space: nowrap;
+            };
+            --mat-font-body: {
+                font-family: 'Roboto', 'Noto', sans-serif;
+                font-size: 14px;
+                font-weight: 400;
+                letter-spacing: 0.01em;
+                line-height: 20px;
+                text-overflow: clip;
+                text-rendering: optimizeLegibility;
+                white-space: normal;
+            };
+            --mat-font-body2: {
+                font-family: 'Roboto', 'Noto', sans-serif;
+                font-size: 14px;
+                font-weight: 500;
+                letter-spacing: 0.01em;
+                line-height: 24px;
+                text-overflow: clip;
+                text-rendering: optimizeLegibility;
+                white-space: normal;
+            };
+            --mat-font-code: {
+                -webkit-font-smoothing: antialiased;
+                font-family: 'Roboto Mono', 'Consolas', 'Menlo', monospace;
+                font-size: 14px;
+                font-weight: 500;
+                letter-spacing: 0;
+                line-height: 20px;
+                text-overflow: clip;
+                text-rendering: optimizeLegibility;
+                white-space: pre;
+            };
+            --mat-font-code2: {
+                -webkit-font-smoothing: antialiased;
+                font-family: 'Roboto Mono', 'Consolas', 'Menlo', monospace;
+                font-size: 14px;
+                font-weight: 700;
+                letter-spacing: 0;
+                line-height: 20px;
+                text-overflow: clip;
+                text-rendering: optimizeLegibility;
+                white-space: pre;
+            };
+            --mat-font-menu: {
+                font-family: 'Roboto', 'Noto', sans-serif;
+                font-size: 14px;
+                font-weight: 500;
+                letter-spacing: 0.01em;
+                line-height: 20px;
+                text-overflow: ellipsis;
+                text-rendering: optimizeLegibility;
+                white-space: nowrap;
+            };
+            --mat-font-button: {
+                font-family: 'Roboto', 'Noto', sans-serif;
+                font-size: 14px;
+                font-weight: 500;
+                letter-spacing: 0.01em;
+                line-height: 20px;
+                text-overflow: ellipsis;
+                text-rendering: optimizeLegibility;
+                text-transform: uppercase;
+                white-space: nowrap;
+            };
+            --mat-font-subhead: {
+                font-family: 'Roboto', 'Noto', sans-serif;
+                font-size: 16px;
+                font-weight: 400;
+                letter-spacing: 0.01em;
+                line-height: 24px;
+                text-overflow: clip;
+                text-rendering: optimizeLegibility;
+                white-space: normal;
+            };
+            --mat-font-subhead2: {
+                font-family: 'Roboto', 'Noto', sans-serif;
+                font-size: 16px;
+                font-weight: 400;
+                letter-spacing: 0.01em;
+                line-height: 28px;
+                text-overflow: clip;
+                text-rendering: optimizeLegibility;
+                white-space: normal;
+            };
+            --mat-font-title: {
+                font-family: 'Roboto', 'Noto', sans-serif;
+                font-size: 20px;
+                font-weight: 500;
+                letter-spacing: 0.005em;
+                line-height: 24px;
+                text-overflow: ellipsis;
+                text-rendering: optimizeLegibility;
+                white-space: nowrap;
+            };
+            --mat-font-headline: {
+                font-family: 'Roboto', 'Noto', sans-serif;
+                font-size: 24px;
+                font-weight: 400;
+                letter-spacing: 0;
+                line-height: 32px;
+                text-overflow: ellipsis;
+                text-rendering: optimizeLegibility;
+                white-space: nowrap;
+            };
+            --mat-font-display: {
+                font-family: 'Roboto', 'Noto', sans-serif;
+                font-size: 34px;
+                font-weight: 400;
+                letter-spacing: 0;
+                line-height: 40px;
+                text-overflow: ellipsis;
+                text-rendering: optimizeLegibility;
+                white-space: nowrap;
+            };
+            --mat-font-display2: {
+                font-family: 'Roboto', 'Noto', sans-serif;
+                font-size: 45px;
+                font-weight: 400;
+                letter-spacing: 0;
+                line-height: 48px;
+                text-overflow: ellipsis;
+                text-rendering: optimizeLegibility;
+                white-space: nowrap;
+            };
+            --mat-font-display3: {
+                font-family: 'Roboto', 'Noto', sans-serif;
+                font-size: 56px;
+                font-weight: 400;
+                letter-spacing: -0.005em;
+                line-height: 68px;
+                text-overflow: ellipsis;
+                text-rendering: optimizeLegibility;
+                white-space: nowrap;
+            };
+            --mat-font-display4: {
+                font-family: 'Roboto', 'Noto', sans-serif;
+                font-size: 112px;
+                font-weight: 300;
+                letter-spacing: -0.01em;
+                line-height: 134px;
+                text-overflow: ellipsis;
+                text-rendering: optimizeLegibility;
+                white-space: nowrap;
+            };
+        }
+    </style>
+</custom-style>

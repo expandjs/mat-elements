@@ -1,0 +1,228 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A web component used to wrap a Material Design demo.
+
+@element mat-demo
+@since 1.0.0
+@category containers
+@description A web component used to wrap a Material Design demo
+@keywords material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-demo
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-demo.html
+
+@behavior xp-base-behavior /bower_components/xp-elements/xp-base-behavior.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../xp-elements/xp-base-behavior.html">
+<link rel="import" href="../xp-elements/xp-markdown.html">
+<link rel="import" href="../xp-elements/xp-markdown-styles.html">
+<link rel="import" href="mat-paper.html">
+
+<dom-module id="mat-demo">
+
+    <template strip-whitespace>
+
+        <style include="xp-markdown-styles">
+            :host {
+                display: block !important;
+                margin: 64px auto;
+                max-width: 720px;
+            }
+
+            :host .description {
+                @apply --mat-font-title;
+                font-weight: 400;
+                margin: -16px 0 32px 0;
+                white-space: normal;
+            }
+
+            :host .description p {
+                margin: 0;
+            }
+
+            :host .wrapper {
+                position: relative;
+            }
+
+            :host .wrapper > * {
+                @apply --layout-flex;
+                box-shadow: 0 0 0 1px var(--mat-divider-color);
+                box-sizing: border-box;
+                max-width: 560px;
+            }
+
+            :host(:not([no-padding])) .wrapper .main {
+                padding: 16px;
+            }
+
+            :host .wrapper .source {
+                overflow: hidden;
+            }
+
+            :host .wrapper .source pre {
+                box-sizing: border-box;
+                height: 100%;
+                margin: 0;
+            }
+
+            /* NOTEBOOK */
+
+            @media (min-width: 1366px) {
+
+                :host {
+                    max-width: none;
+                }
+
+                :host(:not(:first-of-type)) {
+                    box-shadow: 0 1px var(--mat-divider-color) inset;
+                    padding-top: 64px;
+                }
+
+                :host .wrapper {
+                    @apply --layout-horizontal;
+                    @apply --layout-start;
+                }
+
+                :host .wrapper .source {
+                    margin-left: 64px;
+                }
+            }
+
+        </style>
+
+        <xp-markdown class="description" source="[[description]]"></xp-markdown>
+
+        <div class="wrapper">
+            <mat-paper class="main" background="white"><slot></slot></mat-paper>
+            <xp-markdown class="source" source="[[_computeSource(code)]]"></xp-markdown>
+        </div>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-demo',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.XPBaseBehavior
+            ],
+
+            // CLASSES
+            classes: ['demo'],
+
+            /*********************************************************************/
+
+            // PROPERTIES
+            properties: {
+
+                /**
+                 * The demo's code.
+                 *
+                 * @attribute code
+                 * @type string
+                 */
+                code: {
+                    observer: '_codeChanged',
+                    type: String
+                },
+
+                /**
+                 * The demo's description.
+                 *
+                 * @attribute description
+                 * @type string
+                 */
+                description: {
+                    type: String
+                },
+
+                /**
+                 * If set to true, the `main` won't have padding.
+                 *
+                 * @attribute no-padding
+                 * @type boolean
+                 * @default false
+                 */
+                noPadding: {
+                    reflectToAtrtibute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
+                 * The demo's wrapper.
+                 *
+                 * @attribute wrapper
+                 * @type Element
+                 * @readonly
+                 */
+                wrapper: {
+                    readOnly: true,
+                    selector: '.wrapper'
+                }
+            },
+
+            /*********************************************************************/
+
+            // COMPUTER
+            _computeSource(code) {
+                return code && '```html\n' + code + '\n```';
+            },
+
+            /*********************************************************************/
+
+            // OBSERVER
+            _codeChanged(post) {
+
+                // Injecting
+                Polymer.dom(this).innerHTML = post || '';
+
+                // Scoping
+                requestAnimationFrame(() => this.scopeSubtree(this.wrapper) || this.domHost.scopeSubtree(this));
+            },
+
+            /*********************************************************************/
+
+            // LISTENER
+            ready() {
+
+                // Let
+                let scripts = {
+                    code: XP.findElement(Polymer.dom(this), 'script[type="text/html"]'),
+                    description: XP.findElement (Polymer.dom(this), 'script[type="text/markdown"]')
+                };
+
+                // Cycling scripts
+                Object.keys(scripts).forEach(key => {
+
+                    // Let
+                    let lines  = scripts[key] ? scripts[key].innerHTML.split('\n') : [],
+                        first  = lines.shift(),
+                        last   = lines.pop(),
+                        spaces = XP.match(lines[0] || '', /^[ ]+/)[0] || '';
+
+                    // Cleaning
+                    lines.forEach((line, i) => lines[i] = line.replace(spaces, ''));
+
+                    // Ensuring
+                    this.ensure(key, lines.join('\n'));
+                });
+            }
+        });
+    </script>
+
+</dom-module>

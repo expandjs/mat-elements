@@ -1,0 +1,55 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<link rel="import" href="../mat-demo.html">
+<link rel="import" href="../mat-spinner.html">
+
+<dom-module id="mat-spinner-demo">
+
+    <template>
+
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+
+        <mat-demo>
+            <script type="text/markdown">
+                Default
+            </script>
+            <script type="text/html">
+                <mat-spinner showed></mat-spinner>
+            </script>
+        </mat-demo>
+
+        <mat-demo>
+            <script type="text/markdown">
+                Colored
+            </script>
+            <script type="text/html">
+                <mat-spinner color="red" showed></mat-spinner>
+            </script>
+        </mat-demo>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-spinner-demo',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.XPBaseBehavior
+            ]
+        });
+    </script>
+
+</dom-module>

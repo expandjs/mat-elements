@@ -1,0 +1,74 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<link rel="import" href="../mat-demo.html">
+<link rel="import" href="../mat-icon-button.html">
+<link rel="import" href="../mat-icons.html">
+
+<dom-module id="mat-icon-button-demo">
+
+    <template>
+
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+
+        <mat-demo>
+            <script type="text/markdown">
+                Default
+            </script>
+            <script type="text/html">
+                <mat-icon-button icon="mat:favorite"></mat-icon-button>
+                <mat-icon-button icon="mat:favorite" color="red"></mat-icon-button>
+                <mat-icon-button icon="mat:favorite-border"></mat-icon-button>
+                <mat-icon-button icon="mat:favorite-border" color="red"></mat-icon-button>
+            </script>
+        </mat-demo>
+
+        <mat-demo>
+            <script type="text/markdown">
+                Disabled
+            </script>
+            <script type="text/html">
+                <mat-icon-button icon="mat:favorite" disabled></mat-icon-button>
+                <mat-icon-button icon="mat:favorite" color="red" disabled></mat-icon-button>
+                <mat-icon-button icon="mat:favorite-border" disabled></mat-icon-button>
+                <mat-icon-button icon="mat:favorite-border" color="red" disabled></mat-icon-button>
+            </script>
+        </mat-demo>
+
+        <mat-demo>
+            <script type="text/markdown">
+                Toggleable
+            </script>
+            <script type="text/html">
+                <mat-icon-button icon="mat:favorite" dimmed toggleable></mat-icon-button>
+                <mat-icon-button icon="mat:favorite" active-color="red" toggleable></mat-icon-button>
+                <mat-icon-button icon="mat:favorite-border" active-icon="mat:favorite" toggleable></mat-icon-button>
+                <mat-icon-button icon="mat:favorite-border" active-color="red" active-icon="mat:favorite" toggleable></mat-icon-button>
+            </script>
+        </mat-demo>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-icon-button-demo',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.XPBaseBehavior
+            ]
+        });
+    </script>
+
+</dom-module>

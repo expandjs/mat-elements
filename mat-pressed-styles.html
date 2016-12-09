@@ -1,0 +1,86 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A stylesheet used to stylize a [Material Design ripple effect](http://www.google.com/design/spec/animation/responsive-interaction.html#responsive-interaction-surface-reaction).
+
+@stylesheet mat-pressed-styles
+@since 1.0.0
+@category stylesheets
+@description A stylesheet used to stylize a Material Design ripple effect
+@keywords material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-pressed-styles
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-pressed-styles.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../xp-elements/xp-pressed-styles.html">
+
+<dom-module id="mat-pressed-styles">
+
+    <template strip-whitespace>
+
+        <style include="xp-pressed-styles">
+            :host .ripple-ground,
+            :host .ripple-waves {
+                bottom: 0;
+                left: 0;
+                position: absolute;
+                right: 0;
+                top: 0;
+            }
+
+            :host .ripple-ground {
+                background: currentColor;
+                border-radius: inherit;
+                opacity: 0;
+                pointer-events: none !important;
+                transition: opacity 0.8s;
+            }
+
+            :host .ripple-ground.rippling,
+            :host .ripple-ground[active] {
+                opacity: 0.10;
+            }
+
+            :host .ripple-waves {
+                border-radius: inherit;
+                overflow: hidden;
+                pointer-events: none !important;
+            }
+
+            :host .ripple-waves.rippling,
+            :host .ripple-waves[active] {
+                transform: translate3d(0, 0, 0);
+            }
+
+            :host .ripple-waves * {
+                background: currentColor;
+                border-radius: 50%;
+                opacity: 0.20;
+                position: absolute;
+                transform: translate(0, 0) scale(0);
+                transition: opacity 0.5s, transform 0.5s;
+            }
+
+            :host .ripple-ground ~ .ripple-waves * {
+                opacity: 0.10;
+            }
+
+            :host .ripple-waves .smoothing {
+                opacity: 0 !important;
+                transform: scale(1);
+                transition: opacity 0.5s, transform 0.5s;
+            }
+        </style>
+
+    </template>
+
+</dom-module>

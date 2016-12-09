@@ -1,0 +1,97 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A web component used to display a [Material Design ripple effect](http://www.google.com/design/spec/animation/responsive-interaction.html#responsive-interaction-surface-reaction) from the touch point.
+
+@element mat-ripple
+@since 1.0.0
+@category contents
+@description A web component used to display a ripple effect from the touch point
+@keywords material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-ripple
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-ripple.html
+@demo https://expandjs.com/components/mat-ripple/demo
+
+@behavior xp-anchor-behavior /bower_components/xp-elements/xp-anchor-behavior.html
+@behavior xp-overlay-injector /bower_components/xp-elements/xp-overlay-injector.html
+@behavior mat-pressed-ink-behavior /bower_components/mat-elements/mat-pressed-ink-behavior.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../xp-elements/xp-anchor-behavior.html">
+<link rel="import" href="../xp-elements/xp-anchor-styles.html">
+<link rel="import" href="../xp-elements/xp-overlay-injector.html">
+<link rel="import" href="mat-pressed-ink-behavior.html">
+<link rel="import" href="mat-pressed-ink-styles.html">
+
+<dom-module id="mat-ripple">
+
+    <template strip-whitespace>
+
+        <style include="xp-anchor-styles mat-pressed-ink-styles">
+            :host,
+            :host .anchor {
+                border-radius: inherit;
+                bottom: 0;
+                display: block;
+                left: 0;
+                position: absolute;
+                right: 0;
+                top: 0;
+            }
+        </style>
+
+        <a class="anchor" tabindex="-1" on-click="__handleAnchor"></a>
+
+        <div class="ripple-ground" hidden$="[[autoCenter]]" active$="[[active]]"></div>
+        <div class="ripple-waves"></div>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-ripple',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.XPAnchorBehavior,
+                Polymer.XPOverlayInjector,
+                Polymer.MATPressedInkBehavior
+            ],
+
+            // CLASSES
+            classes: ['ripple'],
+
+            /*********************************************************************/
+
+            // PROPERTIES
+            properties: {
+
+                /**
+                 * If set to true, the ripple effect will start from center.
+                 *
+                 * @attribute auto-center
+                 * @type boolean
+                 * @default false
+                 */
+                autoCenter: {
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                }
+            }
+        });
+    </script>
+
+</dom-module>

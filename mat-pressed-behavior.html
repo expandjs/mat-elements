@@ -1,0 +1,197 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A behavior used to simulate a [Material Design ripple effect](http://www.google.com/design/spec/animation/responsive-interaction.html#responsive-interaction-surface-reaction) from the touch point.
+
+@behavior mat-pressed-behavior
+@since 1.0.0
+@category behaviors
+@description A behavior used to simulate a ripple effect from the touch point
+@keywords material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-pressed-behavior
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-pressed-behavior.html
+
+@behavior xp-pressed-behavior /bower_components/xp-elements/xp-pressed-behavior.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../xp-elements/xp-pressed-behavior.html">
+
+<script>
+    Polymer.MATPressedBehaviorImp = {
+
+        /**
+         * Ripples a wave.
+         *
+         * @method _ripple
+         * @param {number} [startX]
+         * @param {number} [startY]
+         * @private
+         */
+        _ripple(startX, startY) {
+
+            // Checking
+            if (!this.rippleWaves) { return; }
+
+            // Let
+            let ground    = this.rippleGround && Polymer.dom(this.rippleGround),
+                waves     = this.rippleWaves && Polymer.dom(this.rippleWaves),
+                wave      = waves.appendChild(document.createElement('div')),
+                boundings = this.scopeSubtree(this.rippleWaves) || XP.getBoundings(this),
+                centerX   = XP.isVoid(startX) || !ground || this.rippleGround.hasAttribute('hidden'),
+                centerY   = XP.isVoid(startY) || !ground || this.rippleGround.hasAttribute('hidden'),
+                data      = {};
+
+
+            // Setting
+            this.rippleTs = Date.now();
+
+            // Calculating
+            data.radius = Math.floor(Math.max(boundings.width, boundings.height)) * 1.5;
+            data.left   = (centerX ? (boundings.width / 2) : Math.max(startX, boundings.left) - Math.min(startX, boundings.left)) - (data.radius / 2);
+            data.top    = (centerY ? (boundings.height / 2) : Math.max(startY, boundings.top) - Math.min(startY, boundings.top)) - (data.radius / 2);
+            data.dx     = (boundings.width / 2) - data.left - (data.radius / 2);
+            data.dy     = (boundings.height / 2) - data.top - (data.radius / 2);
+
+            // Styling
+            wave.style.height = `${data.radius}px`;
+            wave.style.top    = `${data.top}px`;
+            wave.style.left   = `${data.left}px`;
+            wave.style.width  = `${data.radius}px`;
+
+            // Classifying
+            if (ground) { ground.classList.add('rippling'); }
+            waves.classList.add('rippling');
+            wave.classList.add('rippling');
+
+            // Frame 1
+            requestAnimationFrame(() => {
+
+                // Styling
+                wave.style.transform = `translate(${data.dx}px, ${data.dy}px) scale(1)`;
+
+                // Smoothing
+                if (!this.pressed) { this._smooth(); }
+            });
+        },
+
+        /**
+         * Smooths a wave.
+         *
+         * @method _smooth
+         * @param {boolean} [force = false]
+         * @private
+         */
+        _smooth(force) {
+
+             // Checking
+             if (!this.rippleWaves) { return; }
+
+             // Let
+             let elapsed = Date.now() - this.rippleTs,
+                 ground  = this.rippleGround && Polymer.dom(this.rippleGround),
+                 waves   = this.rippleWaves && Polymer.dom(this.rippleWaves),
+                 wave    = waves.querySelector('.rippling'),
+                 last    = waves.querySelectorAll('.rippling').length < 2;
+
+             // Checking
+             if (!wave) { return; }
+
+             // Async
+             if (!force && elapsed < 250) { this.async(() => this._smooth(true), 250 - elapsed); return; }
+
+             // Classifying
+             if (ground && last) { ground.classList.remove('rippling'); }
+             wave.classList.remove('rippling');
+             wave.classList.add('smoothing');
+
+             // Async
+             this.async(() => waves.removeChild(wave) && (waves.children.length || waves.classList.remove('rippling')), 540);
+        },
+
+        /*********************************************************************/
+
+        // PROPERTIES
+        properties: {
+
+            /**
+             * The ripple's ground element.
+             *
+             * @attribute ripple-ground
+             * @type Element
+             * @readonly
+             */
+            rippleGround: {
+                readOnly: true,
+                selector: '.ripple-ground'
+            },
+
+            /**
+             * The ripple's waves container.
+             *
+             * @attribute ripple-waves
+             * @type Element
+             * @readonly
+             */
+            rippleWaves: {
+                readOnly: true,
+                selector: '.ripple-waves'
+            }
+        },
+
+        /**
+         * The last ripple timestamp.
+         *
+         * @property rippleTs
+         * @type number
+         * @default 0
+         * @readonly
+         */
+        rippleTs: 0,
+
+        /*********************************************************************/
+
+        // LISTENER
+        attached() {
+
+            // Styling
+            this.async(() => this.rippleGround ? this.rippleGround.style.display = '' : null);
+        },
+
+        // LISTENER
+        ready() {
+
+            // Styling
+            this.async(() => this.rippleGround ? this.rippleGround.style.display = 'none' : null);
+        },
+
+        /*********************************************************************/
+
+        // HANDLER
+        __handleTouch(event) {
+
+            // Super
+            Polymer.XPPressedBehaviorImp.__handleTouch.apply(this, arguments);
+
+            // Checking
+            if (event.pressed !== this) { return; }
+
+            // Rippling
+            if (this.pressed) { this._ripple(event.detail.x, event.detail.y); } else { this._smooth(); }
+        }
+    };
+
+    Polymer.MATPressedBehavior = [
+        Polymer.XPPressedBehavior,
+        Polymer.MATPressedBehaviorImp
+    ];
+</script>

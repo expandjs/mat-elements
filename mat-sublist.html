@@ -1,0 +1,312 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A web component used to display a [Material Design sublist](http://www.google.com/design/spec/components/lists-controls.html#lists-controls-types-of-list-controls).
+
+It must be used in conjunction with [mat-list](https://expandjs.com/components/mat-list).
+
+@element mat-sublist
+@since 1.0.0
+@category navigation
+@description A web component used to display a Material Design sublist
+@keywords material list, material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-sublist
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-sublist.html
+
+@behavior mat-ink-behavior /bower_components/mat-elements/mat-ink-behavior.html
+@behavior xp-sublist-behavior /bower_components/xp-elements/xp-sublist-behavior.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../xp-elements/xp-sublist-behavior.html">
+<link rel="import" href="../xp-elements/xp-sublist-styles.html">
+<link rel="import" href="mat-divider.html">
+<link rel="import" href="mat-icon.html">
+<link rel="import" href="mat-icon-button.html">
+<link rel="import" href="mat-icons.html">
+<link rel="import" href="mat-ink-behavior.html">
+<link rel="import" href="mat-ink-styles.html">
+<link rel="import" href="mat-item.html">
+<link rel="import" href="mat-list.html">
+<link rel="import" href="mat-subheader.html">
+
+<dom-module id="mat-sublist">
+
+    <template strip-whitespace>
+
+        <style include="mat-ink-styles xp-sublist-styles">
+
+            :host([collapsed][collapsing]) {
+                margin-bottom: -8px;
+            }
+
+            :host .divider {
+                transition: opacity 0.330s cubic-bezier(0.55, 0, 0.01, 1), transform 0.330s cubic-bezier(0.55, 0, 0.01, 1);
+            }
+
+            :host([collapsible][collapsed]) .divider {
+                opacity: 0;
+            }
+
+            :host(:not([collapsed]):not(:last-of-type)) .collapsible,
+            :host([collapsing][collapsed]:not(:last-of-type)) .collapsible {
+                padding-bottom: 16px;
+            }
+
+            :host .collapsible .divider.baseline {
+                position: absolute;
+                width: 100%;
+            }
+
+            :host([collapsible][collapsed]:not([collapsing])) .divider,
+            :host([collapsible]:not([collapsed]):first-of-type) > .divider.cap,
+            :host([collapsible]:not([collapsed]):last-of-type) > .translate > .wrapper > .collapsible > .divider.baseline,
+            :host(:not([collapsible])) .divider.cap,
+            :host(:not([collapsible]):last-of-type) > .translate > .wrapper > .collapsible > .divider.baseline {
+                height: 0;
+                opacity: 0;
+                padding: 0;
+                transform: translateY(0px);
+                transition: transform 0.330s cubic-bezier(0.55, 0, 0.01, 1);
+            }
+
+            :host .translate {
+                transform: translateY(0px);
+            }
+
+            :host([collapsed][collapsing]) .translate {
+                transform: translateY(-16px);
+            }
+
+            :host([collapsing]) .translate > :not(template) {
+                transition: transform 0.330s cubic-bezier(0.55, 0, 0.01, 1);
+            }
+
+            :host(:not([collapsed]):not(:first-of-type)) .translate {
+                transform: translateY(-16px);
+            }
+
+            :host(:not([collapsed]):not(:first-of-type)) .translate > :not(template) {
+                transform: translateY(16px);
+            }
+
+            :host .collapser {
+                box-shadow: none !important;
+            }
+
+            :host(:not([inset])) .collapser [slot="primary"] {
+                display: none !important;
+            }
+
+            :host .collapser [slot="secondary"] {
+                pointer-events: none !important;
+            }
+
+            :host([collapsed]) .collapser [slot="secondary"] {
+                transform: rotate(180deg);
+            }
+
+            /* SLOTTED */
+
+            :host .collapsible ::slotted(.item) {
+                box-shadow: none !important;
+            }
+
+            :host .collapsible ::slotted(.item:not(mat-item)) {
+                @apply --layout-horizontal;
+                @apply --layout-center;
+                @apply --mat-font-subhead;
+                color: inherit;
+                line-height: 48px;
+                min-height: 48px;
+                padding: 0 24px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            :host .collapsible ::slotted(.sublist[label]:not([label=""]):not([collapsible])) {
+                margin-top: -8px;
+            }
+
+            /* DARK FOREGROUND */
+
+            :host([foreground="dark"]) .collapsible ::slotted(.item:not(mat-item)[active]) { background: var(--mat-divider-color); }
+
+            /* LIGHT FOREGROUND */
+
+            :host([foreground="light"]) .collapsible ::slotted(.item:not(mat-item)[active]) { background: var(--mat-divider-color-light); }
+
+            /* TABLET */
+
+            @media (max-width: 960px) {
+
+                /* SLOTTED */
+
+                :host .collapsible ::slotted(.item:not(mat-item)) {
+                    padding: 0 16px;
+                }
+            }
+        </style>
+
+        <mat-divider class="cap divider"></mat-divider>
+
+        <div class="translate">
+
+            <template is="dom-if" if="[[_hasCollapser(collapsible, label)]]" restamp>
+                <mat-item class="collapser" label="[[label]]" on-xp-activate="toggle">
+                    <mat-icon-button slot="primary" icon="[[icon]]" icon-src="[[iconSrc]]"></mat-icon-button>
+                    <mat-icon-button slot="secondary" icon="mat:expand-less"></mat-icon-button>
+                </mat-item>
+            </template>
+
+            <template is="dom-if" if="[[_hasHeader(collapsible, label)]]" restamp>
+                <mat-subheader class="subheader" inset="[[inset]]" label="[[label]]"></mat-subheader>
+            </template>
+
+            <template is="dom-if" if="[[_hasIcon(icon, iconSrc, label)]]" restamp>
+                <mat-icon class="icon" name="[[icon]]" src="[[iconSrc]]"></mat-icon>
+            </template>
+
+            <div class="wrapper">
+                <div class="collapsible">
+                    <slot></slot>
+                    <mat-divider class="baseline divider"></mat-divider>
+                </div>
+            </div>
+
+        </div>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-sublist',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.MATInkBehavior,
+                Polymer.XPSublistBehavior
+            ],
+
+            /*********************************************************************/
+
+            // PROPERTIES
+            properties: {
+
+                /**
+                 * If set to true, the collapse animation will be a slide instead of a compress.
+                 *
+                 * @attribute backward
+                 * @type boolean
+                 * @default true
+                 */
+                backward: {
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: true
+                },
+
+                /**
+                 * The animation's easing.
+                 *
+                 * @attribute easing
+                 * @type string
+                 * @default "cubic-bezier(0.55, 0, 0.01, 1)"
+                 */
+                easing: {
+                    type: String,
+                    value: 'cubic-bezier(0.55, 0, 0.01, 1)'
+                },
+
+                /**
+                 * The sublist's icon.
+                 *
+                 * @attribute icon
+                 * @type string
+                 */
+                icon: {
+                    observer: '_iconChanged',
+                    reflectToAttribute: true,
+                    type: String
+                },
+
+                /**
+                 * The sublist's icon's src.
+                 *
+                 * @attribute icon-src
+                 * @type string
+                 */
+                iconSrc: {
+                    observer: '_iconChanged',
+                    reflectToAttribute: true,
+                    type: String
+                },
+
+                /**
+                 * If set to true, the element is indented.
+                 *
+                 * @attribute inset
+                 * @type boolean
+                 * @default false
+                 * @readonly
+                 */
+                inset: {
+                    readOnly: true,
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
+                 * The sublist's label.
+                 *
+                 * @attribute label
+                 * @type string
+                 */
+                label: {
+                    reflectToAttribute: true,
+                    type: String
+                }
+            },
+
+            /*********************************************************************/
+
+            // COMPUTER
+            _hasCollapser(collapsible, label) {
+                return !!collapsible && !!label;
+            },
+
+            // COMPUTER
+            _hasHeader(collapsible, label) {
+                return !collapsible && !!label;
+            },
+
+            // COMPUTER
+            _hasIcon(icon, iconSrc, label) {
+                return (!!icon || !!iconSrc) && !label;
+            },
+
+            /*********************************************************************/
+
+            // OBSERVER
+            _iconChanged() {
+
+                // Ensuring
+                this.ensure('inset', !!this.icon || !!this.iconSrc);
+            }
+        });
+    </script>
+
+</dom-module>

@@ -1,0 +1,185 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A web component used to manage separate [Material Design pages](http://www.google.com/design/spec/patterns/navigational-transitions.html#navigational-transitions-sibling-to-sibling).
+
+@element mat-pages
+@since 1.0.0
+@category navigation
+@description A web component used to manage separate Material Design pages
+@keywords material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-pages
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-pages.html
+@demo https://expandjs.com/components/mat-pages/demo
+
+@behavior xp-pages-behavior /bower_components/xp-elements/xp-pages-behavior.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../xp-elements/xp-pages-behavior.html">
+<link rel="import" href="../xp-elements/xp-pages-styles.html">
+<link rel="import" href="mat-page.html">
+
+<dom-module id="mat-pages">
+
+    <template strip-whitespace>
+
+        <style include="xp-pages-styles">
+            :host .slider {
+                @apply --layout-horizontal;
+                @apply --layout-fit;
+                right: auto;
+                transition: transform 0.330s;
+            }
+
+            /* SLOTTED */
+
+            :host .slider ::slotted(.page) {
+                @apply --layout-flex;
+                box-sizing: border-box;
+                height: 100%;
+            }
+
+            :host([sliding]) .slider ::slotted(.page) {
+                display: block !important;
+            }
+        </style>
+
+        <div class="slider">
+            <slot></slot>
+        </div>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-pages',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.XPPagesBehavior
+            ],
+
+            /*********************************************************************/
+
+            // PROPERTIES
+            properties: {
+
+                /**
+                 * The selector used to recognize items.
+                 *
+                 * @attribute item-selector
+                 * @type string
+                 * @default ".page"
+                 */
+                selectedItem: {
+                    notify: true,
+                    observer: '_selectedItemChanged',
+                    readOnly: true
+                },
+
+                /**
+                 * The tag used to append new items.
+                 *
+                 * @attribute item-tag
+                 * @type string
+                 * @default "mat-page"
+                 * @readonly
+                 */
+                itemTag: {
+                    readOnly: true,
+                    type: String,
+                    value: 'mat-page'
+                },
+
+                /**
+                 * The pages slider.
+                 *
+                 * @attribute slider
+                 * @type Element
+                 * @readonly
+                 */
+                slider: {
+                    readOnly: true,
+                    selector: '.slider'
+                },
+
+                /**
+                 * If set to true, the pages are sliding.
+                 *
+                 * @attribute sliding
+                 * @type boolean
+                 * @default false
+                 * @notifies
+                 * @readonly
+                 */
+                sliding: {
+                    notify: true,
+                    readOnly: true,
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                }
+            },
+
+            /*********************************************************************/
+
+            // OBSERVER
+            _selectedItemChanged(post, pre) {
+
+                // Checking
+                if (!this.slider || (!post && !pre)) { return; }
+
+                // Let
+                let items     = this.items || [],
+                    indexPost = Math.max(items.indexOf(post), 0),
+                    indexPre  = Math.max(items.indexOf(pre), 0);
+
+                // Ensuring
+                this.ensure('sliding', true);
+
+                // Styling
+                this.slider.style.width      = `${items.length * 100}%`;
+                this.slider.style.transition = `none`;
+                this.slider.style.transform  = `translateX(${indexPre && (-indexPre * 100 / items.length)}%)`;
+
+                // Stating animation
+                Polymer.RenderStatus.afterNextRender(this, () => {
+
+                    // Styling
+                    this.slider.style.transition = null;
+                    this.slider.style.transform  = `translateX(${indexPost && (-indexPost * 100 / items.length)}%)`;
+
+                    // Ending animation
+                    this.debounce('sliding', () => {
+
+                        // Styling
+                        this.slider.style.width      = null;
+                        this.slider.style.transition = 'none';
+                        this.slider.style.transform  = 'none';
+                        this.slider.style.width      = '100%';
+
+                        // Ensuring
+                        this.ensure('sliding', false);
+
+                    }, 330);
+                });
+
+
+            }
+        });
+    </script>
+
+</dom-module>

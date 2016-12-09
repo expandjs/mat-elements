@@ -1,0 +1,117 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A web component used to display a [Material Design page](http://www.google.com/design/spec/patterns/navigational-transitions.html#navigational-transitions-sibling-to-sibling).
+
+It must be used in conjunction with [mat-pages](https://expandjs.com/components/mat-pages).
+
+@element mat-page
+@since 1.0.0
+@category navigation
+@description A web component used to display a Material Design page
+@keywords material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-page
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-page.html
+
+@behavior mat-paper-behavior /bower_components/mat-elements/mat-paper-behavior.html
+@behavior xp-page-behavior /bower_components/xp-elements/xp-page-behavior.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../xp-elements/xp-page-behavior.html">
+<link rel="import" href="../xp-elements/xp-page-styles.html">
+<link rel="import" href="mat-paper-behavior.html">
+<link rel="import" href="mat-paper-styles.html">
+<link rel="import" href="mat-spacing.html">
+
+<dom-module id="mat-page">
+
+    <template strip-whitespace>
+
+        <style include="mat-paper-styles xp-page-styles">
+            :host {
+                overflow: hidden;
+                transform: none !important;
+            }
+
+            :host-context([sliding]) .wrapper {
+                display: block;
+            }
+
+            :host([padding]) .wrapper {
+                @apply --mat-padding;
+            }
+
+            /* TABLET */
+
+            @media (max-width: 960px) {
+
+                :host([padding]) .wrapper {
+                    @apply --mat-padding-mobile;
+                }
+            }
+        </style>
+
+        <div class="wrapper">
+            <slot></slot>
+        </div>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-page',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.MATPaperBehavior,
+                Polymer.XPPageBehavior
+            ],
+
+            /*********************************************************************/
+
+            // PROPERTIES
+            properties: {
+
+                /**
+                 * The page's brightness.
+                 *
+                 * @attribute brightness
+                 * @type string
+                 * @default "transparent"
+                 */
+                brightness: {
+                    reflectToAttribute: true,
+                    type: String,
+                    value: 'transparent'
+                },
+
+                /**
+                 * If set to true, the material spacing rules are applied.
+                 *
+                 * @attribute padding
+                 * @type boolean
+                 * @default false
+                 */
+                padding: {
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                }
+            }
+        });
+    </script>
+
+</dom-module>

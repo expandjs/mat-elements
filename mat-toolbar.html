@@ -1,0 +1,145 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A web component used to display a [Material Design toolbar](http://www.google.com/design/spec/layout/structure.html#structure-toolbars).
+
+@element mat-toolbar
+@since 1.0.0
+@category containers
+@description A web component used to display a Material Design toolbar
+@keywords material toolbar, material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-toolbar
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-toolbar.html
+
+@behavior mat-paper-behavior /bower_components/mat-elements/mat-paper-behavior.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="mat-paper-behavior.html">
+<link rel="import" href="mat-paper-styles.html">
+<link rel="import" href="mat-typography.html">
+
+<dom-module id="mat-toolbar">
+
+    <template strip-whitespace>
+
+        <style include="mat-paper-styles">
+            :host {
+                @apply --mat-font-subhead;
+                min-height: 48px;
+                padding: 0 16px 0 24px;
+            }
+
+            :host .wrapper {
+                @apply --layout-horizontal;
+                @apply --layout-center;
+                box-sizing: border-box;
+                height: 100%;
+                min-height: 48px;
+            }
+
+            /* SLOTTED */
+
+            :host .wrapper ::slotted(.nav) {
+                height: 24px;
+                margin: 4px 24px 4px -8px;
+                padding: 8px;
+                width: 24px;
+            }
+
+            :host .wrapper ::slotted(.label) {
+                @apply --layout-flex;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            :host .wrapper ::slotted(.more) {
+                height: 24px;
+                margin: 4px -6px 4px 4px;
+                padding: 8px;
+                width: 24px;
+            }
+
+            /* ALIGNMENT */
+
+            :host([justified="between"]) .wrapper { @apply --layout-justified; }
+            :host([justified="around"]) .wrapper  { @apply --layout-around-justified; }
+            :host([justified="center"]) .wrapper  { @apply --layout-center-justified; }
+            :host([justified="end"]) .wrapper     { @apply --layout-end-justified; }
+            :host([justified="start"]) .wrapper   { @apply --layout-start-justified; }
+
+            /* TABLET */
+
+            @media (max-width: 960px) {
+
+                :host {
+                    padding: 0 8px 0 16px;
+                }
+            }
+
+        </style>
+
+        <div class="wrapper">
+            <slot></slot>
+        </div>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-toolbar',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.MATPaperBehavior
+            ],
+
+            // CLASSES
+            classes: ['toolbar'],
+
+            /*********************************************************************/
+
+            // PROPERTIES
+            properties: {
+
+                /**
+                 * The toolbar's brightness.
+                 *
+                 * @attribute brightness
+                 * @type string
+                 * @default "toolbar"
+                 */
+                brightness: {
+                    reflectToAttribute: true,
+                    type: String,
+                    value: 'toolbar'
+                },
+
+                /**
+                 * The toolbar's alignment.
+                 *
+                 * @attribute justified
+                 * @type "around" | "between" | "center" | "end" | "start"
+                 */
+                justified: {
+                    reflectToAttribute: true,
+                    type: String
+                }
+            }
+        });
+    </script>
+
+</dom-module>

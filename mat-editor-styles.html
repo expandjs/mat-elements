@@ -1,0 +1,406 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A stylesheet used to stylize a Material Design code editor.
+
+@stylesheet mat-editor-styles
+@since 1.0.0
+@category stylesheets
+@description A stylesheet used to stylize a Material Design code editor
+@keywords material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-editor-styles
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-editor-styles.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="mat-typography.html">
+
+<dom-module id="mat-editor-styles">
+
+    <template strip-whitespace>
+
+        <style>
+
+            /* CODE MIRROR */
+
+            :host .CodeMirror {
+                overflow: hidden;
+                position: relative;
+            }
+
+            :host .CodeMirror pre {
+                background: transparent;
+                border-radius: 0;
+                border-width: 0;
+                color: inherit;
+                font-family: inherit;
+                font-size: inherit;
+                line-height: inherit;
+                margin: 0;
+                padding: 0 4px;
+                position: relative;
+                white-space: pre;
+                word-wrap: normal;
+                z-index: 2;
+            }
+
+            :host .CodeMirror-wrap pre {
+                word-wrap: break-word;
+                white-space: pre-wrap;
+                word-break: normal;
+            }
+
+            :host .CodeMirror-hscrollbar {
+                bottom: 0;
+                display: none;
+                left: 0;
+                overflow-x: scroll;
+                overflow-y: hidden;
+                position: absolute;
+                z-index: 6;
+            }
+
+            :host .CodeMirror-vscrollbar {
+                display: none;
+                overflow-x: hidden;
+                overflow-y: scroll;
+                position: absolute;
+                right: 0;
+                top: 0;
+                z-index: 6;
+            }
+
+            :host .CodeMirror-scrollbar-filler {
+                bottom: 0;
+                display: none;
+                position: absolute;
+                right: 0;
+                z-index: 6;
+            }
+
+            :host .CodeMirror-gutter-filler {
+                bottom: 0;
+                display: none;
+                left: 0;
+                position: absolute;
+                z-index: 6;
+            }
+
+            :host .CodeMirror-scroll {
+                box-sizing: content-box;
+                height: 100%;
+                margin-bottom: -30px;
+                margin-right: -30px;
+                outline: none;
+                overflow: scroll !important;
+                padding-bottom: 30px;
+                position: relative;
+            }
+
+            :host .CodeMirror-sizer {
+                border-right: 30px solid transparent;
+                box-sizing: content-box;
+                padding-bottom: 4px !important;
+                padding-top: 4px !important;
+                position: relative;
+            }
+
+            :host .CodeMirror-gutters {
+                background: #263238;
+                box-sizing: content-box;
+                color: #537F7E;
+                left: 0;
+                position: absolute;
+                top: 0;
+                white-space: nowrap;
+                z-index: 3;
+            }
+
+            :host .CodeMirror-lines {
+                cursor: text;
+                min-height: 1px;
+            }
+
+            :host .CodeMirror-measure {
+                height: 0;
+                overflow: hidden;
+                position: absolute;
+                visibility: hidden;
+                width: 100%;
+            }
+
+            :host .CodeMirror-measure pre {
+                position: static;
+            }
+
+            :host .CodeMirror-cursors {
+                position: relative;
+                visibility: hidden;
+                z-index: 3;
+            }
+
+            :host .cm-fat-cursor .CodeMirror-cursors {
+                z-index: 1;
+            }
+
+            :host .CodeMirror-focused .CodeMirror-cursors {
+                visibility: visible;
+            }
+
+            :host .CodeMirror-cursor {
+                border-left: 1px solid #F8F8F0;
+                border-right: none;
+                position: absolute;
+                width: 0;
+            }
+
+            :host .CodeMirror-secondarycursor {
+                border-left: 1px solid #C0C0C0;
+            }
+
+            :host .CodeMirror-dragcursors {
+                visibility: visible;
+            }
+
+            :host .CodeMirror-crosshair {
+                cursor: crosshair;
+            }
+
+            :host .cm-fat-cursor .CodeMirror-cursor {
+                background: #77EE77;
+                border: none;
+                width: auto;
+            }
+
+            :host .cm-animate-fat-cursor {
+                -webkit-animation: blink 1.06s steps(1) infinite;
+                animation: blink 1.06s steps(1) infinite;
+                background: #77EE77;
+                border: 0;
+                width: auto;
+            }
+
+            :host .CodeMirror-code {
+                outline: none;
+            }
+
+            :host .CodeMirror-line::-moz-selection,
+            :host .CodeMirror-line::selection,
+            :host .CodeMirror-line > span::-moz-selection,
+            :host .CodeMirror-line > span::selection,
+            :host .CodeMirror-line > span > span::-moz-selection,
+            :host .CodeMirror-line > span > span::selection {
+                background: hsla(0, 0%, 100%, 0.10);
+            }
+
+            :host .CodeMirror-linebackground {
+                bottom: 0;
+                left: 0;
+                position: absolute;
+                right: 0;
+                top: 0;
+                z-index: 0;
+            }
+
+            :host .CodeMirror-linewidget {
+                overflow: auto;
+                position: relative;
+                z-index: 2;
+            }
+
+            :host .CodeMirror-gutter-wrapper {
+                background: none !important;
+                border: none !important;
+                position: absolute;
+                -moz-user-select: none;
+                -webkit-user-select: none;
+                user-select: none;
+                z-index: 4;
+            }
+
+            :host .CodeMirror-linenumber {
+                box-sizing: content-box;
+                color: #537F7E;
+                min-width: 20px;
+                padding: 0 5px;
+                text-align: right;
+                white-space: nowrap;
+            }
+
+            :host .CodeMirror-guttermarker,
+            :host .CodeMirror-guttermarker-subtle {
+                color: #537F7E;
+            }
+
+            :host .CodeMirror-gutter-background {
+                bottom: 0;
+                position: absolute;
+                top: 0;
+                z-index: 4;
+            }
+
+            :host .CodeMirror-gutter-elt {
+                cursor: default;
+                position: absolute;
+                z-index: 4;
+            }
+
+            :host .CodeMirror-selected {
+                background: hsla(0, 0%, 100%, 0.15);
+            }
+
+            :host .CodeMirror-focused .CodeMirror-selected {
+                background: hsla(0, 0%, 100%, 0.10);
+            }
+
+            :host .CodeMirror-gutter {
+                box-sizing: content-box;
+                display: inline-block;
+                height: 100%;
+                margin-bottom: -30px;
+                white-space: normal;
+            }
+
+            :host .CodeMirror-ruler {
+                border-left: 1px solid #CCCCCC;
+                position: absolute;
+            }
+
+            :host .CodeMirror-composing {
+                border-bottom: 2px solid;
+            }
+
+            :host .CodeMirror-selectedtext {
+                background: none;
+            }
+
+            /* DIALOG */
+
+            :host .CodeMirror-dialog {
+                background: hsla(200, 19%, 15%, 1);
+                box-sizing: border-box;
+                color: inherit;
+                height: 56px;
+                left: 0;
+                line-height: 56px;
+                overflow: hidden;
+                padding: 0 24px;
+                position: absolute;
+                right: 0;
+                z-index: 5;
+            }
+
+            :host .CodeMirror-dialog-top {
+                top: 0;
+            }
+
+            :host .CodeMirror-dialog-bottom {
+                border-top: 1px solid hsla(0, 0%, 100%, 0.12);
+                bottom: 0;
+            }
+
+            :host .CodeMirror-dialog .CodeMirror-search-hint {
+                opacity: 0;
+            }
+
+            :host .CodeMirror-dialog input {
+                background: transparent;
+                border: none;
+                color: inherit;
+                display: 50%;
+                outline: none;
+            }
+
+            :host .CodeMirror-dialog button {
+                @apply --mat-font-button;
+                background: transparent;
+                border: none;
+                color: hsla(0, 0%, 100%, 0.70);
+                cursor: pointer;
+                outline: 0;
+            }
+
+            :host .CodeMirror-dialog button:hover {
+                color: hsla(0, 0%, 100%, 1);
+            }
+
+            /* THEME */
+
+            :host .CodeMirror .cm-tab { display: inline-block; text-decoration: inherit; }
+            :host .CodeMirror .cm-searching { outline: 1px solid #FFCB6B; }
+            :host .CodeMirror .cm-force-border { padding-right: 0.1px; }
+            :host .CodeMirror .cm-tab-wrap-hack:after { content: ""; }
+            :host .CodeMirror .cm-header { color: #0000FF; font-weight: bold; }
+            :host .CodeMirror .cm-quote { color: #009900; }
+            :host .CodeMirror .cm-negative { color: #DD4444; }
+            :host .CodeMirror .cm-positive { color: #229922; }
+            :host .CodeMirror .cm-strong { font-weight: bold; }
+            :host .CodeMirror .cm-em { font-style: italic; }
+            :host .CodeMirror .cm-link { text-decoration: underline; }
+            :host .CodeMirror .cm-strikethrough { text-decoration: line-through; }
+            :host .CodeMirror .cm-keyword { color: #C792EA; }
+            :host .CodeMirror .cm-atom { color: #F77669; }
+            :host .CodeMirror .cm-number { color: #F77669; }
+            :host .CodeMirror .cm-def { color: #E9EDED; }
+            :host .CodeMirror .cm-variable { color: #82B1FF; }
+            :host .CodeMirror .cm-property { color: #80CBAE; }
+            :host .CodeMirror .cm-operator { color: #E9EDED; }
+            :host .CodeMirror .cm-variable-2 { color: #80CBC4; }
+            :host .CodeMirror .cm-variable-3 { color: #DECB6B; }
+            :host .CodeMirror .cm-comment { color: #546E7A; }
+            :host .CodeMirror .cm-string { color: #C3E88D; }
+            :host .CodeMirror .cm-string-2 { color: #80CBC4; }
+            :host .CodeMirror .cm-meta { color: #80CBC4; }
+            :host .CodeMirror .cm-qualifier { color: #DECB6B; }
+            :host .CodeMirror .cm-builtin { color: #DECB6B; }
+            :host .CodeMirror .cm-bracket { color: #999977; }
+            :host .CodeMirror .cm-tag { color: #FF5370; }
+            :host .CodeMirror .cm-attribute { color: #FFCB6B; }
+            :host .CodeMirror .cm-hr { color: #999999; }
+            :host .CodeMirror .cm-link { color: #0000CC; }
+            :host .CodeMirror .cm-error { background: #EC5F67; color: #FFFFFF; }
+            :host .CodeMirror .cm-invalidchar { color: #FF0000; }
+
+            /* ADDONS */
+
+            :host .CodeMirror .CodeMirror-matchingbracket { color: #FFFFFF; text-decoration: underline; }
+            :host .CodeMirror .CodeMirror-nonmatchingbracket { color: #FF2222; }
+            :host .CodeMirror .CodeMirror-matchingtag { background: hsla(35, 100%, 50%, 0.3); }
+            :host .CodeMirror .CodeMirror-activeline-background { background: transparent; }
+
+            /* PRINT */
+
+            @media print {
+
+                :host .CodeMirror .CodeMirror-cursors {
+                    visibility: hidden !important;
+                }
+            }
+
+            /* ANIMATION */
+
+            @-webkit-keyframes blink {
+                0% {}
+                50% { background: transparent; }
+                100% {}
+            }
+
+            @keyframes blink {
+                0% {}
+                50% { background: transparent; }
+                100% {}
+            }
+
+        </style>
+
+    </template>
+
+</dom-module>

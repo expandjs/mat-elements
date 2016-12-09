@@ -1,0 +1,622 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A web component used to display a [Material Design item](http://www.google.com/design/spec/components/lists.html#lists-content).
+
+@element mat-item
+@since 1.0.0
+@category containers
+@description A web component used to display a Material Design item
+@keywords material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-item
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-item.html
+@demo https://expandjs.com/components/mat-item/demo
+
+@behavior xp-anchor-behavior /bower_components/xp-elements/xp-anchor-behavior.html
+@behavior xp-overlay-injector /bower_components/xp-elements/xp-overlay-injector.html
+@behavior mat-pressed-behavior /bower_components/mat-elements/mat-pressed-behavior.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../xp-elements/xp-anchor-behavior.html">
+<link rel="import" href="../xp-elements/xp-anchor-styles.html">
+<link rel="import" href="../xp-elements/xp-overlay-injector.html">
+<link rel="import" href="mat-ink.html">
+<link rel="import" href="mat-pressed-ink-behavior.html">
+<link rel="import" href="mat-pressed-styles.html">
+<link rel="import" href="mat-typography.html">
+
+<dom-module id="mat-item">
+
+    <template strip-whitespace>
+
+        <style include="xp-anchor-styles mat-pressed-styles">
+            :host {
+                display: block;
+                text-align: left;
+            }
+
+            :host .anchor:after {
+                display: none !important;
+            }
+
+            :host .anchor[href]:hover {
+                text-decoration: none;
+            }
+
+            :host .anchor[href]:hover .label {
+                text-decoration: underline;
+            }
+
+            :host .main {
+                @apply --layout-horizontal;
+                @apply --layout-center;
+                overflow: hidden;
+                box-sizing: border-box;
+                height: 100%;
+            }
+
+            :host .action {
+                pointer-events: none !important;
+            }
+
+            :host(:not([inset])) .action {
+                display: none !important;
+            }
+
+            :host .content {
+                @apply --layout-horizontal;
+                @apply --layout-center;
+                @apply --layout-flex;
+                min-height: 48px;
+                overflow: hidden;
+                position: relative;
+                width: 100%;
+            }
+
+            :host([inset]) .content {
+                margin-left: 24px;
+            }
+
+            :host([primary-type="avatar"]) .content,
+            :host([secondary-type="avatar"]) .content {
+                min-height: 56px;
+            }
+
+            :host .body {
+                @apply --layout-flex;
+                overflow: hidden;
+                padding: 11px 24px 13px 24px;
+            }
+
+            :host([inline]) .body {
+                @apply --layout-horizontal;
+                @apply --layout-center;
+            }
+
+            :host(:not([empty]):not([inline]):not([multi-line])) .body {
+                padding: 15px 24px 13px 24px;
+            }
+
+            :host([inset]) .body {
+                padding-left: 0 !important;
+            }
+
+            :host-context([inset]) .body:not([inset]) {
+                padding-left: 80px !important;
+            }
+
+            :host([secondary-type]) .body {
+                padding-right: 0 !important;
+            }
+
+            :host .label {
+                @apply --mat-font-subhead;
+                overflow: hidden;
+                text-overflow: ellipsis !important;
+                white-space: nowrap !important;
+            }
+
+            :host .text {
+                @apply --mat-font-body;
+                overflow: hidden;
+                text-overflow: ellipsis !important;
+            }
+
+            :host([inline]) .text {
+                @apply --layout-horizontal;
+                @apply --layout-center;
+                @apply --layout-flex;
+            }
+
+            :host(:not([multi-line])) .text {
+                white-space: nowrap !important;
+            }
+
+            :host([label=""]) .label,
+            :host(:not([label])) .label,
+            :host([empty]) .text {
+                display: none !important;
+            }
+
+            :host .aside {
+                pointer-events: none;
+                text-align: right;
+            }
+
+            :host([multi-line]:not([empty]):not([inline])) .action,
+            :host([multi-line]:not([empty]):not([inline])) .aside,
+            :host([secondary-text]:not([secondary-text=""]):not([inline])) .aside {
+                @apply --layout-self-start;
+            }
+
+            :host .secondary-text {
+                @apply --mat-font-caption;
+                display: block;
+                margin: 18px 24px 0 0;
+            }
+
+            :host([secondary-text=""]) .secondary-text,
+            :host(:not([secondary-text])) .secondary-text {
+                display: none !important;
+            }
+
+            :host([inline]) .secondary-text {
+                margin-top: -4px;
+            }
+
+            :host([multi-line]:not([empty]):not([inline])) .secondary-text {
+                margin-top: 14px;
+            }
+
+            :host(:last-of-type) {
+                box-shadow: none !important;
+            }
+
+            /* SLOTTED */
+
+            :host .action ::slotted(:not(template)) {
+                display: block;
+                margin: 4px 8px 4px 16px;
+            }
+
+            :host .action ::slotted(:not(template).avatar) {
+                margin: 8px 0 8px 24px;
+            }
+
+            :host .action ::slotted(:not(template).icon) {
+                margin: 12px 16px 12px 24px;
+            }
+
+            :host .aside ::slotted(:not(template):not(.secondary-text)) {
+                display: block;
+                margin: 4px 16px 4px 8px;
+            }
+
+            :host .aside ::slotted(:not(template).avatar) {
+                margin: 8px 16px 8px 0;
+            }
+
+            :host .aside ::slotted(:not(template).icon) {
+                margin: 12px 24px 12px 16px;
+            }
+
+            :host(:not([disabled])) .aside ::slotted(:not(template):not(.secondary-text)) {
+                pointer-events: auto;
+            }
+
+            :host([multi-line]:not([empty]):not([inline])) .action ::slotted(:not(template)),
+            :host([multi-line]:not([empty]):not([inline])) .aside ::slotted(:not(template):not(.secondary-text)) {
+                margin-top: 8px;
+            }
+
+            :host([multi-line]:not([empty]):not([inline])) .action ::slotted(:not(template).avatar),
+            :host([multi-line]:not([empty]):not([inline])) .action ::slotted(:not(template).icon),
+            :host([multi-line]:not([empty]):not([inline])) .aside ::slotted(:not(template).avatar),
+            :host([multi-line]:not([empty]):not([inline])) .aside ::slotted(:not(template).icon) {
+                margin-top: 16px;
+            }
+
+
+            :host([secondary-text]:not([secondary-text=""])) .aside ::slotted(:not(template):not(.secondary-text)) {
+                margin-top: 13px;
+            }
+
+            :host([secondary-text]:not([secondary-text=""]):not([multi-line])) .aside ::slotted(:not(template):not(.secondary-text)) {
+                margin-bottom: 0;
+                margin-top: 0;
+            }
+
+            :host([secondary-text]:not([secondary-text=""])) .aside ::slotted(:not(template).avatar) {
+                display: none !important;
+            }
+
+            /* DARK FOREGROUND */
+
+            :host-context(.list) :host([foreground="dark"]) { box-shadow: 0 -1px var(--mat-divider-color) inset; }
+
+            /* LIGHT FOREGROUND */
+
+            :host-context(.list) :host([foreground="light"]) { box-shadow: 0 -1px var(--mat-divider-color-light) inset; }
+
+            /* TABLET */
+
+            @media (max-width: 960px) {
+
+                :host([inset]) .content {
+                    margin-left: 16px;
+                }
+
+                :host .body {
+                    padding: 11px 16px 13px 16px;
+                }
+
+                :host(:not([empty]):not([inline]):not([multi-line])) .body {
+                    padding: 15px 16px 13px 16px;
+                }
+
+                :host-context([inset]) .body:not([inset]) {
+                    padding-left: 72px !important;
+                }
+
+                :host .secondary-text {
+                    margin: 18px 16px 0 0;
+                }
+
+                /* SLOTTED */
+
+                :host .action ::slotted(:not(template)) {
+                    margin: 4px 8px;
+                }
+
+                :host .action ::slotted(:not(template).avatar) {
+                    margin: 8px 0 8px 16px;
+                }
+
+                :host .action ::slotted(:not(template).icon) {
+                    margin: 12px 16px;
+                }
+
+                :host .aside ::slotted(:not(template):not(.secondary-text)) {
+                    margin: 4px 8px;
+                }
+
+                :host .aside ::slotted(:not(template).icon) {
+                    margin: 12px 16px;
+                }
+            }
+        </style>
+
+        <a class="anchor" tabindex="-1" on-click="_handleAnchor">
+            <div class="main">
+                <div class="action" on-xp-active="_handleStop">
+                    <slot name="primary"></slot>
+                </div>
+                <div class="content">
+                    <div class="body" inset$="[[inset]]">
+                        <mat-ink class="label" color="[[currentColor]]" disabled="[[disabled]]" opacity="[[opacity]]"><span>[[label]]</span></mat-ink>
+                        <mat-ink class="text" disabled="[[disabled]]" opacity="secondary"><slot></slot></mat-ink>
+                    </div>
+                    <div class="aside" on-click="_handlePrevent" on-xp-active="_handleRefire" on-xp-activate="_handleRefire">
+                        <mat-ink class="secondary-text" disabled="[[disabled]]" opacity="secondary"><span>[[secondaryText]]</span></mat-ink>
+                        <slot name="secondary"></slot>
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        <div class="ripple-ground" active$="[[_computeActive(active, primaryType)]]"></div>
+        <div class="ripple-waves"></div>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-item',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.XPAnchorBehavior,
+                Polymer.XPOverlayInjector,
+                Polymer.MATPressedInkBehavior
+            ],
+
+            // CLASSES
+            classes: ['item'],
+
+            /*********************************************************************/
+
+            /**
+             * Fired when the active state changes.
+             *
+             * @event xp-active
+             * @param {boolean} isActive
+             * @param {boolean} isSecondary
+             * @bubbles
+             */
+
+            /**
+             * Fired when the element is clicked.
+             *
+             * @event xp-activate
+             * @param {Element} target
+             * @param {*} data
+             * @param {boolean} isActive
+             * @param {boolean} isSecondary
+             * @bubbles
+             * @cancelable
+             */
+
+            /*********************************************************************/
+
+            // OBSERVERS
+            observers: [
+                '_disabledChanged(disabled)',
+                '_primaryChanged(active, disabled, primaryAction, primaryType, toggleable)',
+                '_secondaryChanged(data, secondaryAction)'
+            ],
+
+            // PROPERTIES
+            properties: {
+
+                /**
+                 * If set to true, the text is empty.
+                 *
+                 * @attribute empty
+                 * @type boolean
+                 * @default true
+                 * @readonly
+                 */
+                empty: {
+                    readOnly: true,
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: true
+                },
+
+                /**
+                 * If set to true, the element's content is positioned inline.
+                 *
+                 * @attribute inline
+                 * @type boolean
+                 * @default false
+                 */
+                inline: {
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
+                 * If set to true, the element is indented.
+                 *
+                 * @attribute inset
+                 * @type boolean
+                 * @default false
+                 * @readonly
+                 */
+                inset: {
+                    readOnly: true,
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
+                 * The item's label.
+                 *
+                 * @attribute label
+                 * @type string
+                 */
+                label: {
+                    reflectToAttribute: true,
+                    type: String
+                },
+
+                /**
+                 * If set to true, the item is multi line.
+                 *
+                 * @attribute multi-line
+                 * @type boolean
+                 * @default false
+                 */
+                multiLine: {
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
+                 * The item's primary action.
+                 *
+                 * @attribute primary-action
+                 * @type Element
+                 * @readonly
+                 */
+                primaryAction: {
+                    readOnly: true,
+                    value: null
+                },
+
+                /**
+                 * The item's primary action's type.
+                 *
+                 * @attribute primary-type
+                 * @type string
+                 * @readonly
+                 */
+                primaryType: {
+                    computed: '_computeType(primaryAction)',
+                    reflectToAttribute: true,
+                    type: String
+                },
+
+                /**
+                 * The item's secondary action.
+                 *
+                 * @attribute secondary-action
+                 * @type Element
+                 * @readonly
+                 */
+                secondaryAction: {
+                    readOnly: true,
+                    value: null
+                },
+
+                /**
+                 * The item's secondary text.
+                 *
+                 * @attribute secondary-text
+                 * @type string
+                 */
+                secondaryText: {
+                    reflectToAttribute: true,
+                    type: String
+                },
+
+                /**
+                 * The item's secondary action's type.
+                 *
+                 * @attribute secondary-type
+                 * @type string
+                 * @readonly
+                 */
+                secondaryType: {
+                    computed: '_computeType(secondaryAction)',
+                    reflectToAttribute: true,
+                    type: String
+                },
+
+                /**
+                 * The item's text.
+                 *
+                 * @attribute text
+                 * @type Element
+                 * @readonly
+                 */
+                text: {
+                    readOnly: true,
+                    selector: '.text'
+                }
+            },
+
+            /*********************************************************************/
+
+            // COMPUTER
+            _computeActive(active, type) {
+                return !!active && type !== 'checkbox';
+            },
+
+            // COMPUTER
+            _computeType(action) {
+                if (!action) { return null; }
+                if (action.type === 'checkbox') { return 'checkbox'; }
+                if (action.classList.contains('avatar')) { return 'avatar'; }
+                return 'button';
+            },
+
+            /*********************************************************************/
+
+            // OBSERVER
+            _disabledChanged() {
+
+                // Setting
+                if (this.secondaryAction) { this.secondaryAction.disabled = this.disabled; }
+            },
+
+            // OBSERVER
+            _primaryChanged() {
+
+                // Ensuring
+                this.ensure('inset', !!this.primaryAction);
+
+                // Checking
+                if (!this.primaryAction) { return; }
+
+                // Overriding
+                if (this.primaryType === 'checkbox') { this.toggleable = true; }
+
+                // Setting
+                this.primaryAction.toggleable = this.toggleable;
+                this.primaryAction.disabled   = this.disabled;
+                this.primaryAction.checked    = this.active;
+                this.primaryAction.active     = this.active;
+            },
+
+            // OBSERVER
+            _secondaryChanged() {
+
+                // Checking
+                if (!this.secondaryAction) { return; }
+
+                // Setting
+                this.secondaryAction.disabled = this.secondaryAction.disabled || this.disabled;
+                this.secondaryAction.data     = this.data;
+            },
+
+            /*********************************************************************/
+
+            // LISTENER
+            mutated() {
+
+                // Ensuring
+                this.ensure('empty', !XP.hasChildren(Polymer.dom(this.text)));
+                this.ensure('primaryAction', XP.findElement(this, '[slot="primary"]') || null);
+                this.ensure('secondaryAction', XP.findElement(this, '[slot="secondary"]') || null);
+            },
+
+            // LISTENER
+            ready() {
+
+                // Observing
+                Polymer.dom(this).observeNodes(this.mutated.bind(this));
+            },
+
+            /*********************************************************************/
+
+            // HANDLER
+            _handleAnchor(event) {
+
+                // Checking
+                if (this.secondaryAction && Polymer.dom(event).path.indexOf(this.secondaryAction) >= 0) { return; }
+
+                // Super
+                Polymer.XPAnchorBehaviorImp.__handleAnchor.apply(this, arguments);
+            },
+
+            // HANDLER
+            _handlePrevent(event) {
+
+                // Preventing
+                event.selectPrevented = true;
+            },
+
+            // HANDLER
+            _handleRefire(event) {
+
+                // Refiring
+                this.refire(event, event.type, {isSecondary: true});
+            },
+
+            // HANDLER
+            _handleStop(event) {
+
+                // Stopping
+                event.stopPropagation();
+            }
+        });
+    </script>
+
+</dom-module>

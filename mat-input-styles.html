@@ -1,0 +1,251 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A stylesheet used to stylize a [Material Design input](http://www.google.com/design/spec/components/text-fields.html#text-fields-single-line-text-field).
+
+@stylesheet mat-input-styles
+@since 1.0.0
+@category stylesheets
+@description A stylesheet used to stylize a Material Design input
+@keywords material input, material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-input-styles
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-input-styles.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../xp-elements/xp-input-styles.html">
+<link rel="import" href="mat-typography.html">
+
+<dom-module id="mat-input-styles">
+
+    <template strip-whitespace>
+
+        <style include="xp-input-styles">
+            :host {
+                @apply --mat-font-subhead;
+                min-width: 192px;
+            }
+
+            :host([full-width]) {
+                display: block;
+                margin: 0;
+                width: auto !important;
+            }
+
+            :host .wrapper {
+                box-sizing: border-box;
+                height: 100%;
+                padding: 8px 0 4px 0;
+            }
+
+            :host([full-width]) .wrapper {
+                padding: 16px 24px;
+            }
+
+            :host([full-width]:not([mirrored])) .wrapper {
+                @apply --layout-horizontal;
+            }
+
+            :host([label]:not([label=""]):not([float-disabled]):not([full-width]):not([pulldown])) .wrapper {
+                padding-top: 32px;
+            }
+
+            /* WRAPPER */
+
+            :host .wrapper .main {
+                box-sizing: border-box;
+                height: 100%;
+                position: relative;
+            }
+
+            :host([full-width]) .wrapper .main {
+                @apply --layout-flex;
+            }
+
+            :host(:not([disabled])) .wrapper .main {
+                cursor: text;
+            }
+
+            :host(:not([full-width])) .wrapper .main {
+                margin: 4px 0;
+            }
+
+            :host .wrapper .underline {
+                margin: -2px 0 4px 0;
+            }
+
+            :host([full-width]) .wrapper .underline {
+                display: none !important;
+            }
+
+            :host .wrapper .helper {
+                @apply --mat-font-caption;
+                min-height: 16px;
+                white-space: normal;
+            }
+
+            :host .wrapper .helper:after {
+                clear: both;
+                content: "";
+                display: block;
+                height: 0;
+            }
+
+            :host([full-width]) .wrapper .helper {
+                line-height: 24px;
+            }
+
+            :host([full-width][mirrored]) .wrapper .helper {
+                margin-bottom: -4px;
+            }
+
+            :host([no-help]) .wrapper .helper {
+                display: none !important;
+            }
+
+            :host([invalid]) .wrapper .helper {
+                color: var(--mat-invalid-color, #EF5350);
+            }
+
+            /* WRAPPER - MAIN */
+
+            :host .wrapper .main .label,
+            :host .wrapper .main .prefix,
+            :host .wrapper .main .suffix {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            :host .wrapper .main .label {
+                @apply --layout-fit;
+                pointer-events: none !important;
+                transition: font-size 0.4s cubic-bezier(0.55, 0, 0.01, 1),
+                            font-weight 0.4s cubic-bezier(0.55, 0, 0.01, 1),
+                            letter-spacing 0.4s cubic-bezier(0.55, 0, 0.01, 1),
+                            line-height 0.4s cubic-bezier(0.55, 0, 0.01, 1),
+                            transform 0.4s cubic-bezier(0.55, 0, 0.01, 1);
+            }
+
+            :host([label=""]) .wrapper .main .label,
+            :host(:not([label])) .wrapper .main .label,
+            :host([float-disabled][selected]) .wrapper .main .label,
+            :host([float-disabled]:not([empty])) .wrapper .main .label,
+            :host([full-width][selected]) .wrapper .main .label,
+            :host([full-width]:not([empty])) .wrapper .main .label,
+            :host([pulldown][selected]) .wrapper .main .label,
+            :host([pulldown]:not([empty])) .wrapper .main .label {
+                display: none !important;
+            }
+
+            :host([floated]) .wrapper .main .label {
+                @apply --mat-font-caption;
+                transform: translateY(-20px);
+                transform-origin: 0 0 0;
+            }
+
+            :host([floated][focused]) .wrapper .main .label {
+                color: var(--mat-focused-color, #0091EA);
+            }
+
+            :host .wrapper .main .prefix {
+                float: left;
+            }
+
+            :host .wrapper .main .suffix {
+                float: right;
+            }
+
+            :host([input-prefix=""]) .wrapper .main .prefix,
+            :host([input-suffix=""]) .wrapper .main .suffix,
+            :host(:not([input-prefix])) .wrapper .main .prefix,
+            :host(:not([input-suffix])) .wrapper .main .suffix {
+                display: none !important;
+            }
+
+            :host .wrapper .main .mirror {
+                box-sizing: border-box;
+                height: 100%;
+                min-height: 24px;
+                opacity: 0 !important;
+                visibility: hidden !important;
+                word-wrap: break-word !important;
+                white-space: pre-line !important;
+            }
+
+            :host .wrapper .main .holder {
+                color: inherit;
+                overflow: hidden;
+            }
+
+            :host .wrapper .main .mirror ~ .holder {
+                @apply --layout-fit;
+            }
+
+            /* UNDERLINE */
+
+            :host .wrapper .underline .default {
+                border-top: 1px solid currentColor;
+                transition: border 0.4s cubic-bezier(0.55, 0, 0.01, 1);
+            }
+
+            :host([disabled]) .wrapper .underline .default {
+                border-top-style: dashed;
+            }
+
+            :host .wrapper .underline .focused {
+                border-top: 2px solid currentColor;
+                color: var(--mat-focused-color, #0091EA);
+                margin-top: -1px;
+                transform: scale(0, 1);
+                transition: transform 0.4s cubic-bezier(0.55, 0, 0.01, 1);
+            }
+
+            :host([focused]) .wrapper .underline .focused,
+            :host([invalid]) .wrapper .underline .focused {
+                transform: scale(1, 1);
+            }
+
+            :host([invalid]) .wrapper .underline .focused {
+                color: var(--mat-invalid-color, #EF5350);
+            }
+
+            /* WRAPPER - HELPER */
+
+            :host .wrapper .helper .counter {
+                float: right;
+                margin-left: 16px;
+            }
+
+            :host([max-length=""]) .wrapper .helper .counter,
+            :host([max-length="0"]) .wrapper .helper .counter,
+            :host(:not([max-length])) .wrapper .helper .counter {
+                display: none !important;
+            }
+
+            :host([full-width]) .wrapper .helper .description {
+                display: none !important;
+            }
+
+            /* TABLET */
+
+            @media (max-width: 960px) {
+
+                :host([full-width]) .wrapper {
+                    padding: 16px;
+                }
+            }
+        </style>
+
+    </template>
+
+</dom-module>

@@ -1,0 +1,376 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A web component used to display a [Material Design radio button](https://www.google.com/design/spec/components/selection-controls.html#selection-controls-radio-button).
+
+@element mat-radio
+@since 1.0.0
+@category inputs
+@description A web component used to display a Material Design radio button
+@keywords material radio, material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-radio
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-radio.html
+@demo https://expandjs.com/components/mat-radio/demo
+
+@behavior mat-input-checked-behavior /bower_components/mat-elements/mat-input-checked-behavior.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="mat-icon-button.html">
+<link rel="import" href="mat-icons.html">
+<link rel="import" href="mat-ink.html">
+<link rel="import" href="mat-input-checked-behavior.html">
+<link rel="import" href="mat-input-styles.html">
+<link rel="import" href="mat-typography.html">
+
+<dom-module id="mat-radio">
+
+    <template strip-whitespace>
+
+        <style include="mat-input-styles">
+            :host {
+                @apply --mat-font-subhead;
+                cursor: pointer;
+                display: block;
+                height: 48px;
+                line-height: 48px;
+            }
+
+            :host([label=""]),
+            :host(:not([label])) {
+                height: 40px;
+                margin: 4px;
+                width: 40px;
+            }
+
+            :host([flip]) {
+                text-align: right;
+            }
+
+            :host(:not([flip])) {
+                text-align: left;
+            }
+
+            :host .wrapper {
+                padding: 0 !important;
+            }
+
+            :host([label=""]) .button,
+            :host(:not([label])) .button {
+                margin: 0;
+            }
+
+            :host([label][flip]:not([label=""])) .button {
+                right: -12px;
+                position: absolute;
+            }
+
+            :host([label]:not([flip]):not([label=""])) .button {
+                left: -12px;
+                position: absolute;
+            }
+
+            :host .label {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            :host([flip]) .label {
+                padding-right: 52px;
+            }
+
+            :host(:not([flip])) .label {
+                padding-left: 52px;
+            }
+
+            /* SLOTTED */
+
+            :host ::slotted(input) {
+                display: none !important;
+            }
+
+            /* ANIMATION */
+
+            :host {
+
+                --mat-icon-button-active-icon-one: {
+                    color: var(--mat-radio-color, #009688);
+                    opacity: 1 !important;
+                    transform: scale(1) !important;
+                    visibility: inherit !important;
+                };
+
+                --mat-icon-button-active-icon-two: {
+                    color: var(--mat-radio-color, #009688);
+                    transform: scale(0.5);
+                };
+            }
+        </style>
+
+        <slot></slot>
+
+        <div class="wrapper">
+            <mat-icon-button class="holder button" active="[[checked]]" active-icon="mat:brightness-1" disabled="[[disabled]]" focused="{{focused}}" icon="mat:radio-button-unchecked"></mat-icon-button>
+            <mat-ink class="label" disabled="[[disabled]]"><span>[[label]]</span></mat-ink>
+        </div>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-radio',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.MATInputCheckedBehavior
+            ],
+
+            // CLASSES
+            classes: ['radio'],
+
+            /*********************************************************************/
+
+            /**
+             * Blurs the input.
+             *
+             * @method blur
+             */
+            blur() {
+                this.holder.blur();
+            },
+
+            /**
+             * Focuses the input
+             *
+             * @method focus
+             */
+            focus() {
+                this.holder.focus();
+            },
+
+            /*********************************************************************/
+
+            /**
+             * Reflects the native input's `value` onto the element.
+             *
+             * @method _commitFrom
+             * @private
+             */
+            _commitFrom() {
+
+                // Setting
+                this.checked = this.input.checked;
+                this.value   = this.input.value;
+            },
+
+            /**
+             * Reflects the element's `tabIndex` onto the native input.
+             *
+             * @method _commitIndex
+             * @param {number} value
+             * @private
+             */
+            _commitIndex(value) {
+
+                // Setting
+                this.holder.tabIndex = value;
+            },
+
+            /**
+             * Reflects the element's `value` onto the native input.
+             *
+             * @method _commitTo
+             * @private
+             */
+            _commitTo() {
+
+                // Setting
+                if (this.checked !== this.input.checked) { this.input.checked = this.checked; }
+                if (this.value !== this.input.value ) { this.input.value = this.value; }
+            },
+
+            /**
+             * Injects the native input.
+             *
+             * @method _inject
+             * @private
+             */
+            _inject() {
+
+                // Let
+                let input = document.createElement('input');
+
+                // Setting
+                XP.setAttribute(input, 'checked', this.checked);
+                XP.setAttribute(input, 'type', this.type);
+                XP.setAttribute(input, 'value', this.value);
+
+                // Appending
+                this.ensure('input', Polymer.dom(this).appendChild(input));
+            },
+
+            /**
+             * Updates the native input's attributes.
+             *
+             * @method _update
+             * @private
+             */
+            _update() {
+
+                // Setting
+                XP.setAttribute(this.input, 'disabled', this.disabled);
+                XP.setAttribute(this.input, 'name', this.name);
+                XP.setAttribute(this.input, 'type', this.type);
+                XP.setAttribute(this.input, 'value', this.value);
+            },
+
+            /**
+             * Validates the native input's `value`.
+             *
+             * @method _validate
+             * @param {string} [invalidMessage]
+             * @private
+             */
+            _validate(invalidMessage) {
+
+                // Asserting
+                XP.assertArgument(XP.isVoid(invalidMessage) || XP.isString(invalidMessage), 1, 'string');
+
+                // Customizing
+                if (XP.isDefined(invalidMessage)) { this.input.setCustomValidity(invalidMessage || ''); }
+
+                // Ensuring
+                this.ensure('invalidMessage', this.input.validationMessage || null);
+                this.ensure('invalid', this.input.validity.valid === false);
+            },
+
+            /*********************************************************************/
+
+            // LISTENERS
+            listeners: {
+                'click': '_handleToggle',
+                'keydown': '_handleSpace',
+                'keyup': '_handleToggle'
+            },
+
+            // OBSERVERS
+            observers: [
+                '_checkedChanged(checked)'
+            ],
+
+            // PROPERTIES
+            properties: {
+
+                /**
+                 * If set to true, the input is empty.
+                 *
+                 * @attribute empty
+                 * @type boolean
+                 * @default false
+                 * @notifies
+                 * @readonly
+                 */
+                empty: {
+                    notify: true,
+                    readOnly: true,
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
+                 * If set to true, the check is right floated.
+                 *
+                 * @attribute flip
+                 * @type boolean
+                 * @default false
+                 */
+                flip: {
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
+                 * The input's type.
+                 *
+                 * @attribute type
+                 * @type string
+                 * @default "radio"
+                 */
+                type: {
+                    reflectToAttribute: true,
+                    type: String,
+                    value: 'radio'
+                }
+            },
+
+            /**
+             * The list of instances.
+             *
+             * @property instances
+             * @type Array
+             * @default []
+             * @readonly
+             */
+            instances: [],
+
+            /*********************************************************************/
+
+            // OBSERVERS
+            _checkedChanged() {
+
+                // Checking
+                if (!this.checked) { return; }
+
+                // Updating
+                this.instances.forEach(radio => radio !== this && radio.name === this.name && radio.domHost === this.domHost && radio.form === this.form && (radio.checked = false));
+            },
+
+            /*********************************************************************/
+
+            // LISTENER
+            attached() {
+
+                // Pushing
+                this.push('instances', this);
+            },
+
+            // LISTENER
+            detached() {
+
+                // Pulling
+                this.pull('instances', this);
+            },
+
+            /*********************************************************************/
+
+            // HANDLER
+            _handleSpace(event) {
+
+                // Preventing
+                if (event.keyCode === 32) { event.preventDefault(); }
+            },
+
+            // HANDLER
+            _handleToggle(event) {
+
+                // Toggling
+                if (!event.button && (!event.keyCode || event.keyCode === 32)) { this.checked = true; }
+            }
+        });
+    </script>
+
+</dom-module>

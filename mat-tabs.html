@@ -1,0 +1,229 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A web component used to display [Material Design tabs](http://www.google.com/design/spec/components/tabs.html).
+
+It must be used in conjunction with [mat-tab](https://expandjs.com/components/mat-tab).
+
+@element mat-tabs
+@since 1.0.0
+@category navigation
+@description A web component used to display Material Design tabs
+@keywords material tabs, material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-tabs
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-tabs.html
+@demo https://expandjs.com/components/mat-tabs/demo
+
+@behavior mat-paper-behavior /bower_components/mat-elements/mat-paper-behavior.html
+@behavior xp-tabs-behavior /bower_components/xp-elements/xp-tabs-behavior.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../xp-elements/xp-tabs-behavior.html">
+<link rel="import" href="../xp-elements/xp-tabs-styles.html">
+<link rel="import" href="mat-icon-button.html">
+<link rel="import" href="mat-icons.html">
+<link rel="import" href="mat-paper-behavior.html">
+<link rel="import" href="mat-paper-styles.html">
+<link rel="import" href="mat-tab.html">
+
+<dom-module id="mat-tabs">
+
+    <template strip-whitespace>
+
+        <style include="mat-paper-styles xp-tabs-styles">
+            :host {
+                height: 48px;
+            }
+
+            :host .left {
+                margin: 4px 0 4px 16px;
+            }
+
+            :host .right {
+                margin: 4px 16px 4px 0;
+            }
+
+            :host .bar {
+                border-top: 2px solid currentColor;
+                bottom: 0;
+                left: 0;
+                position: absolute;
+                transform: scale3d(1, 1, 1) translateX(0px);
+                transform-origin: 0 0;
+                transition: transform 0.4s cubic-bezier(0.55, 0, 0.01, 1);
+                will-change: transform;
+            }
+
+            :host(:not([found])) .bar {
+                display: none !important;
+            }
+
+            /* TABLET */
+
+            @media (max-width: 960px) {
+
+                :host .button {
+                    display: none !important;
+                }
+
+                :host([scrollable]) .wrapper {
+                    padding-left: 60px;
+                }
+
+                :host(:not([scrollable])) .wrapper {
+                    position: relative;
+                }
+
+                /* SLOTTED */
+
+                :host([scrollable]) .wrapper ::slotted(.tab) {
+                    min-width: 72px;
+                }
+
+                :host(:not([scrollable])) .wrapper ::slotted(.tab) {
+                    @apply --layout-flex;
+                    max-width: none;
+                    min-width: 0;
+                }
+            }
+        </style>
+
+        <mat-icon-button class="left button" icon="mat:chevron-left" on-xp-activate="slideLeft"></mat-icon-button>
+
+        <div class="slider" on-track="__handleTrack">
+            <div class="wrapper">
+                <slot></slot>
+                <mat-ink class="bar"></mat-ink>
+            </div>
+        </div>
+
+        <mat-icon-button class="right button" icon="mat:chevron-right" on-xp-activate="slideRight"></mat-icon-button>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-tabs',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.MATPaperBehavior,
+                Polymer.XPTabsBehavior
+            ],
+
+            /*********************************************************************/
+
+            // PROPERTIES
+            properties: {
+
+                /**
+                 * The tabs bar.
+                 *
+                 * @attribute bar
+                 * @type Element
+                 * @readonly
+                 */
+                bar: {
+                    readOnly: true,
+                    selector: '.bar'
+                },
+
+                /**
+                 * The tabs brightness.
+                 *
+                 * @attribute brightness
+                 * @type string
+                 * @default "transparent"
+                 */
+                brightness: {
+                    reflectToAttribute: true,
+                    type: String,
+                    value: 'transparent'
+                },
+
+                /**
+                 * The tag used to append new items.
+                 *
+                 * @attribute item-tag
+                 * @type string
+                 * @readonly
+                 */
+                itemTag: {
+                    readOnly: true,
+                    type: String,
+                    value: 'mat-tab'
+                },
+
+                /**
+                 * The tabs wrapper.
+                 *
+                 * @attribute wrapper
+                 * @type Element
+                 * @readonly
+                 */
+                wrapper: {
+                    readOnly: true,
+                    selector: '.wrapper'
+                }
+            },
+
+            /*********************************************************************/
+
+            // LISTENER
+            attached() {
+
+                // Listening
+                this.listen(window, 'resize', '_handleResize');
+            },
+
+            // LISTENER
+            detached() {
+
+                // Unlistening
+                this.unlisten(window, 'resize', '_handleResize');
+            },
+
+            /*********************************************************************/
+
+            // HANDLER
+            _handleResize() {
+
+                // Debouncing
+                this.debounce('resizing', this.__handleMutation.bind(this));
+            },
+
+            // HANDLER
+            __handleMutation() {
+
+                // Super
+                Polymer.XPTabsBehaviorImp.__handleMutation.apply(this, arguments);
+
+                // Waiting
+                this.wait(() => {
+                    requestAnimationFrame(() => {
+                        // Let
+                        let item    = this.selectedItem && XP.getBoundings(this.selectedItem),
+                            wrapper = this.selectedItem && XP.getBoundings(this.wrapper);
+
+                        // Styling
+                        this.bar.style.transform = `translateX(${item ? item.left - wrapper.left : 0}px)`;
+                        this.bar.style.width     = `${item ? item.width : 0}px`;
+                    });
+                });
+            }
+        });
+    </script>
+
+</dom-module>

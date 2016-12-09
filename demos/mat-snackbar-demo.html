@@ -1,0 +1,57 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<link rel="import" href="../mat-demo.html">
+<link rel="import" href="../mat-snackbar.html">
+
+<dom-module id="mat-snackbar-demo">
+
+    <template>
+
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+
+        <mat-demo>
+            <script type="text/markdown">
+                Default
+            </script>
+            <script type="text/html">
+                <mat-button action="toggle" label="Show snackbar" target="demoDefault"></mat-button>
+                <mat-snackbar id="demoDefault" label="Lorem ipsum dolor sit amet..."></mat-snackbar>
+            </script>
+        </mat-demo>
+
+        <mat-demo>
+            <script type="text/markdown">
+                Action
+            </script>
+            <script type="text/html">
+                <mat-button action="toggle" label="Show snackbar" target="demoAction"></mat-button>
+                <mat-snackbar id="demoAction" button="Undo" label="Lorem ipsum dolor sit amet..."></mat-snackbar>
+            </script>
+        </mat-demo>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-snackbar-demo',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.XPBaseBehavior
+            ]
+        });
+    </script>
+
+</dom-module>

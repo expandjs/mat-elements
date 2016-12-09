@@ -1,0 +1,103 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A web component used to display a [Material Design toast](http://www.google.com/design/spec/components/snackbars-toasts.html).
+
+@element mat-toast
+@since 1.0.0
+@category accessibility
+@description A web component used to display a Material Design toast
+@keywords material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-toast
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-toast.html
+@demo https://expandjs.com/components/mat-toast/demo
+
+@behavior mat-paper-behavior /bower_components/mat-elements/mat-paper-behavior.html
+@behavior xp-toast-behavior /bower_components/xp-elements/xp-toast-behavior.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../xp-elements/xp-toast-behavior.html">
+<link rel="import" href="../xp-elements/xp-toast-styles.html">
+<link rel="import" href="mat-paper-behavior.html">
+<link rel="import" href="mat-paper-styles.html">
+<link rel="import" href="mat-typography.html">
+
+<dom-module id="mat-toast">
+
+    <template strip-whitespace>
+
+        <style include="mat-paper-styles xp-toast-styles">
+            :host {
+                @apply --mat-font-body;
+                background: hsla(0, 0%, 20%, 1);
+                border-radius: 24px;
+                bottom: 12px;
+                color: hsla(0, 0%, 95%, 1);
+                height: 48px;
+                left: 12px;
+                max-width: 568px;
+                min-width: 288px;
+                padding: 14px 24px;
+                transform: translate(0, 72px);
+            }
+
+            /* TABLET */
+
+            @media (max-width: 960px) {
+
+                :host {
+                    max-width: none;
+                    min-width: 0;
+                    right: 12px;
+                }
+            }
+        </style>
+
+        <div class="wrapper">[[label]]</div>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-toast',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.MATPaperBehavior,
+                Polymer.XPToastBehavior
+            ],
+
+            /*********************************************************************/
+
+            // PROPERTIES
+            properties: {
+
+                /**
+                 * The toast's brightness.
+                 *
+                 * @attribute brightness
+                 * @type string
+                 * @default "toast"
+                 */
+                brightness: {
+                    reflectToAttribute: true,
+                    type: String,
+                    value: 'toast'
+                }
+            }
+        });
+    </script>
+
+</dom-module>

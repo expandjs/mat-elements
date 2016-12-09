@@ -1,0 +1,215 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A web component used to display a [Material Design raised button](http://www.google.com/design/spec/components/buttons.html#buttons-flat-raised-buttons).
+
+@element mat-raised-button
+@since 1.0.0
+@category contents
+@description A web component used to display a Material Design raised button
+@keywords material button, material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-raised-button
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-raised-button.html
+@demo https://expandjs.com/components/mat-raised-button/demo
+
+@behavior xp-anchor-behavior /bower_components/xp-elements/xp-anchor-behavior.html
+@behavior xp-overlay-injector /bower_components/xp-elements/xp-overlay-injector.html
+@behavior mat-pressed-paper-behavior /bower_components/mat-elements/mat-pressed-paper-behavior.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../xp-elements/xp-anchor-behavior.html">
+<link rel="import" href="../xp-elements/xp-anchor-styles.html">
+<link rel="import" href="../xp-elements/xp-overlay-injector.html">
+<link rel="import" href="mat-icon.html">
+<link rel="import" href="mat-pressed-paper-behavior.html">
+<link rel="import" href="mat-pressed-paper-styles.html">
+<link rel="import" href="mat-typography.html">
+
+<dom-module id="mat-raised-button">
+
+    <template strip-whitespace>
+
+        <style include="xp-anchor-styles mat-pressed-paper-styles">
+            :host {
+                @apply --mat-font-button;
+                border-radius: 2px;
+                display: inline-block;
+                height: 36px;
+                margin: 6px 0;
+                min-width: 36px;
+                text-align: center;
+            }
+
+            :host([empty]) {
+                display: none !important;
+            }
+
+            :host .anchor:after {
+                min-height: 48px;
+                min-width: 44px;
+                width: calc(100% + 8px);
+            }
+
+            :host .main {
+                @apply --layout-horizontal;
+                @apply --layout-center;
+                box-sizing: border-box;
+                height: 100%;
+                padding: 0 12px;
+            }
+
+            :host([label]:not([label=""])) .icon {
+                left: 12px;
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            :host([label=""]) .icon,
+            :host(:not([label])) .icon {
+                margin: -2px -6px;
+            }
+
+            :host .label {
+                @apply --layout-flex-auto;
+            }
+
+            :host .icon:not([empty]) ~ .label {
+                margin-left: 36px;
+            }
+
+            :host([label=""]) .label,
+            :host(:not([label])) .label {
+                display: none !important;
+            }
+        </style>
+
+        <a class="anchor" tabindex="-1" on-click="__handleAnchor">
+            <div class="main">
+                <mat-icon class="icon" disabled="[[disabled]]" empty="{{emptyIcon}}" name="[[icon]]" src="[[iconSrc]]"></mat-icon>
+                <div class="label">[[label]]</div>
+            </div>
+        </a>
+
+        <div class="ripple-ground" active$="[[active]]"></div>
+        <div class="ripple-waves"></div>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-raised-button',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.XPAnchorBehavior,
+                Polymer.XPOverlayInjector,
+                Polymer.MATPressedPaperBehavior
+            ],
+
+            // CLASSES
+            classes: ['button'],
+
+            /*********************************************************************/
+
+            // PROPERTIES
+            properties: {
+
+                /**
+                 * If set to true, the element is hidden.
+                 *
+                 * @attribute empty
+                 * @type boolean
+                 * @default true
+                 * @readonly
+                 */
+                empty: {
+                    computed: '_computeEmpty(emptyIcon, label)',
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: true
+                },
+
+                /**
+                 * If set to true, the button's icon is hidden.
+                 *
+                 * @attribute empty-icon
+                 * @type boolean
+                 * @default true
+                 * @readonly
+                 */
+                emptyIcon: {
+                    type: Boolean,
+                    value: true
+                },
+
+                /**
+                 * The button's icon.
+                 *
+                 * @attribute icon
+                 * @type string
+                 */
+                icon: {
+                    reflectToAttribute: true,
+                    type: String
+                },
+
+                /**
+                 * The button's icon's src.
+                 *
+                 * @attribute icon-src
+                 * @type string
+                 */
+                iconSrc: {
+                    reflectToAttribute: true,
+                    type: String
+                },
+
+                /**
+                 * The button's label.
+                 *
+                 * @attribute label
+                 * @type string
+                 */
+                label: {
+                    reflectToAttribute: true,
+                    type: String
+                },
+
+                /**
+                 * The button's z-axis position.
+                 *
+                 * @attribute z
+                 * @type number
+                 * @default 2
+                 */
+                z: {
+                    reflectToAttribute: true,
+                    type: Number,
+                    value: 2
+                }
+            },
+
+            /*********************************************************************/
+
+            // COMPUTER
+            _computeEmpty(emptyIcon, label) {
+                return emptyIcon && !label;
+            }
+        });
+    </script>
+
+</dom-module>

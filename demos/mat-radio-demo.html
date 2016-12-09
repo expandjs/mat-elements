@@ -1,0 +1,59 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<link rel="import" href="../mat-demo.html">
+<link rel="import" href="../mat-radio.html">
+
+<dom-module id="mat-radio-demo">
+
+    <template>
+
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+
+        <mat-demo>
+            <script type="text/markdown">
+                Default
+            </script>
+            <script type="text/html">
+                <mat-radio name="default" label="Normal"></mat-radio>
+                <mat-radio name="default" label="Checked" checked></mat-radio>
+                <mat-radio name="default" label="Disabled" disabled></mat-radio>
+            </script>
+        </mat-demo>
+
+        <mat-demo>
+            <script type="text/markdown">
+                Flip
+            </script>
+            <script type="text/html">
+                <mat-radio name="flip" label="Normal" flip></mat-radio>
+                <mat-radio name="flip" label="Checked" checked flip></mat-radio>
+                <mat-radio name="flip" label="Disabled" disabled flip></mat-radio>
+            </script>
+        </mat-demo>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-radio-demo',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.XPBaseBehavior
+            ]
+        });
+    </script>
+
+</dom-module>

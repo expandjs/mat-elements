@@ -1,0 +1,96 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A web component used to add [Material Design spacing](https://www.google.com/design/spec/layout/metrics-keylines.html#metrics-keylines-keylines-spacing).
+
+@element mat-content
+@since 1.0.0
+@category containers
+@description A web component used to add Material Design spacing
+@keywords material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-content
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-content.html
+
+@behavior xp-base-behavior /bower_components/xp-elements/xp-base-behavior.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../xp-elements/xp-base-behavior.html">
+<link rel="import" href="mat-spacing.html">
+
+<dom-module id="mat-content">
+
+    <template strip-whitespace>
+
+        <style>
+            :host {
+                @apply --mat-padding;
+            }
+
+            :host([inset]) {
+                @apply --mat-padding-inset;
+            }
+
+            /* TABLET */
+
+            @media (max-width: 960px) {
+
+                :host {
+                    @apply --mat-padding-mobile;
+                }
+
+                :host([inset]) {
+                    @apply --mat-padding-mobile-inset;
+                }
+            }
+        </style>
+
+        <slot></slot>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-content',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.XPBaseBehavior
+            ],
+
+            // CLASSES
+            classes: ['content'],
+
+            /*********************************************************************/
+
+            // PROPERTIES
+            properties: {
+
+                /**
+                 * If set to true, the element is indented.
+                 *
+                 * @attribute inset
+                 * @type boolean
+                 * @default false
+                 */
+                inset: {
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                }
+            }
+        });
+    </script>
+
+</dom-module>

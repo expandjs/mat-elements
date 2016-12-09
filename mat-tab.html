@@ -1,0 +1,156 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A web component used to display a [Material Design tab](http://www.google.com/design/spec/components/tabs.html).
+
+It must be used in conjunction with [mat-tabs](https://expandjs.com/components/mat-tabs).
+
+@element mat-tab
+@since 1.0.0
+@category navigation
+@description A web component used to display a single Material Design tab
+@keywords material tabs, material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-tab
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-tab.html
+
+@behavior mat-pressed-behavior /bower_components/mat-elements/mat-pressed-behavior.html
+@behavior xp-anchor-behavior /bower_components/xp-elements/xp-anchor-behavior.html
+@behavior xp-tab-behavior /bower_components/xp-elements/xp-tab-behavior.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../xp-elements/xp-anchor-behavior.html">
+<link rel="import" href="../xp-elements/xp-anchor-styles.html">
+<link rel="import" href="../xp-elements/xp-tab-behavior.html">
+<link rel="import" href="../xp-elements/xp-tab-styles.html">
+<link rel="import" href="mat-icon.html">
+<link rel="import" href="mat-icon-button.html">
+<link rel="import" href="mat-icons.html">
+<link rel="import" href="mat-ink.html">
+<link rel="import" href="mat-pressed-behavior.html">
+<link rel="import" href="mat-pressed-styles.html">
+<link rel="import" href="mat-typography.html">
+
+<dom-module id="mat-tab">
+
+    <template strip-whitespace>
+
+        <style include="mat-pressed-styles xp-anchor-styles xp-tab-styles">
+            :host {
+                @apply --mat-font-button;
+                height: 48px;
+                line-height: 50px;
+                max-width: 264px;
+                min-width: 160px;
+                opacity: 0.6;
+            }
+
+            :host([active]) {
+                opacity: 1;
+            }
+
+            :host .anchor {
+                text-decoration: none !important;
+            }
+
+            :host .main {
+                padding: 0 24px;
+            }
+
+            :host .icon {
+                margin: 12px 0;
+            }
+
+            :host([label]:not([label=""])) .icon {
+                float: left;
+                margin: 12px 12px 12px -12px;
+            }
+
+            :host([label=""]) .label,
+            :host(:not([label])) .label {
+                display: none !important;
+            }
+
+            :host .icon:not([empty]) ~ .label {
+                text-align: left;
+            }
+
+            /* TABLET */
+
+            @media (max-width: 960px) {
+
+                :host {
+                    min-width: 72px;
+                }
+
+                :host .main {
+                    padding: 0 12px;
+                }
+            }
+        </style>
+
+        <a class="anchor" tabindex="-1" on-click="__handleAnchor">
+            <div class="main">
+                <mat-icon class="icon" name="[[icon]]" src="[[iconSrc]]"></mat-icon>
+                <div class="label">[[label]]</div>
+            </div>
+        </a>
+
+        <!--<div class="ripple-ground"></div>-->
+        <!--<div class="ripple-waves"></div>-->
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-tab',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.MATPressedBehavior,
+                Polymer.XPAnchorBehavior,
+                Polymer.XPTabBehavior
+            ],
+
+            /*********************************************************************/
+
+            // PROPERTIES
+            properties: {
+
+                /**
+                 * The tab's icon.
+                 *
+                 * @attribute icon
+                 * @type string
+                 */
+                icon: {
+                    reflectToAttribute: true,
+                    type: String
+                },
+
+                /**
+                 * The tab's icon's src.
+                 *
+                 * @attribute icon-src
+                 * @type string
+                 */
+                iconSrc: {
+                    reflectToAttribute: true,
+                    type: String
+                }
+            }
+        });
+    </script>
+
+</dom-module>

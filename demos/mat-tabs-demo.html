@@ -1,0 +1,87 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<link rel="import" href="../mat-demo.html">
+<link rel="import" href="../mat-icons.html">
+<link rel="import" href="../mat-tabs.html">
+
+<dom-module id="mat-tabs-demo">
+
+    <template>
+
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+
+        <mat-demo no-padding>
+            <script type="text/markdown">
+                Default
+            </script>
+            <script type="text/html">
+                <mat-tabs selected-default="0">
+                    <mat-tab label="First tab"></mat-tab>
+                    <mat-tab label="Second tab"></mat-tab>
+                    <mat-tab label="Third tab"></mat-tab>
+                </mat-tabs>
+            </script>
+        </mat-demo>
+
+        <mat-demo no-padding>
+            <script type="text/markdown">
+                Icons
+            </script>
+            <script type="text/html">
+                <mat-tabs selected-default="0">
+                    <mat-tab icon="mat:home"></mat-tab>
+                    <mat-tab icon="mat:people"></mat-tab>
+                    <mat-tab icon="mat:favorite"></mat-tab>
+                </mat-tabs>
+            </script>
+        </mat-demo>
+
+        <mat-demo no-padding>
+            <script type="text/markdown">
+                Scrollable
+            </script>
+            <script type="text/html">
+                <mat-tabs selected-default="0" scrollable>
+                    <mat-tab label="First tab"></mat-tab>
+                    <mat-tab label="Second tab"></mat-tab>
+                    <mat-tab label="Third tab"></mat-tab>
+                    <mat-tab label="Forth tab"></mat-tab>
+                    <mat-tab label="Fifth tab"></mat-tab>
+                    <mat-tab label="Sixth tab"></mat-tab>
+                    <mat-tab label="Seventh tab"></mat-tab>
+                    <mat-tab label="Eighth tab"></mat-tab>
+                    <mat-tab label="Ninth tab"></mat-tab>
+                    <mat-tab label="Tenth tab"></mat-tab>
+                    <mat-tab label="Eleventh tab"></mat-tab>
+                    <mat-tab label="Twelfth tab"></mat-tab>
+                    <mat-tab label="Thirteenth tab"></mat-tab>
+                </mat-tabs>
+            </script>
+        </mat-demo>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-tabs-demo',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.XPBaseBehavior
+            ]
+        });
+    </script>
+
+</dom-module>

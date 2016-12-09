@@ -1,0 +1,151 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A web component used to display a [Material Design submenu](http://www.google.com/design/spec/components/menus.html).
+
+It must be used inside a
+[mat-menu](https://expandjs.com/components/mat-menu) or inside another
+[mat-submenu](https://expandjs.com/components/mat-submenu).
+
+@element mat-submenu
+@since 1.0.0
+@category containers
+@description A web component used to display a Material Design submenu
+@keywords material menu, material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-submenu
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-submenu.html
+
+@behavior xp-submenu-behavior /bower_components/xp-elements/xp-submenu-behavior.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../xp-elements/xp-submenu-behavior.html">
+<link rel="import" href="../xp-elements/xp-submenu-styles.html">
+<link rel="import" href="mat-menu.html">
+<link rel="import" href="mat-option.html">
+<link rel="import" href="mat-overlay.html">
+
+<dom-module id="mat-submenu">
+
+    <template strip-whitespace>
+
+        <style include="xp-submenu-styles"></style>
+
+        <mat-option class="holder" active="[[showed]]" arrow="right" icon="[[icon]]" icon-src="[[iconSrc]]" label="[[label]]" on-xp-activate="_handleShow"></mat-option>
+        <mat-overlay class="overlay" background="[[background]]" position="aside" showed="{{showed}}" target="[[holder]]" z="[[z]]" auto-hide><slot></slot></mat-overlay>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-submenu',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.XPSubmenuBehavior
+            ],
+
+            /*********************************************************************/
+
+            // OBSERVERS
+            observers: [
+                '_superenuChanged(supermenu)'
+            ],
+
+            // PROPERTIES
+            properties: {
+
+                /**
+                 * The submenu's holder.
+                 *
+                 * @attribute holder
+                 * @type Object
+                 * @readonly
+                 */
+                holder: {
+                    readOnly: true,
+                    selector: '.holder'
+                },
+
+                /**
+                 * The submenu's icon.
+                 *
+                 * @attribute icon
+                 * @type string
+                 */
+                icon: {
+                    reflectToAttribute: true,
+                    type: String
+                },
+
+                /**
+                 * The submenu's icon's src.
+                 *
+                 * @attribute icon-src
+                 * @type string
+                 */
+                iconSrc: {
+                    reflectToAttribute: true,
+                    type: String
+                },
+
+                /**
+                 * The submenu's label.
+                 *
+                 * @attribute label
+                 * @type string
+                 */
+                label: {
+                    reflectToAttribute: true,
+                    type: String
+                },
+
+                /**
+                 * The paper's z-axis position.
+                 *
+                 * @attribute z
+                 * @type number
+                 * @default 9
+                 */
+                z: {
+                    reflectToAttribute: true,
+                    type: Number,
+                    value: 9
+                }
+            },
+
+            /*********************************************************************/
+
+            // OBSERVER
+            _superenuChanged() {
+
+                // Setting
+                this.z = this.supermenu ? this.supermenu.z + 1 : 9;
+            },
+
+            /*********************************************************************/
+
+            // HANDLER
+            _handleShow(event) {
+
+                // Stopping
+                event.stopPropagation();
+
+                // Showing
+                this.show();
+            }
+        });
+    </script>
+
+</dom-module>

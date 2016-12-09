@@ -1,0 +1,118 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<link rel="import" href="../mat-demo.html">
+<link rel="import" href="../mat-text-field.html">
+
+<dom-module id="mat-text-field-demo">
+
+    <template>
+
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+
+        <mat-demo>
+            <script type="text/markdown">
+                Default
+            </script>
+            <script type="text/html">
+                <mat-text-field label="Default" inline></mat-text-field>
+            </script>
+        </mat-demo>
+
+        <mat-demo>
+            <script type="text/markdown">
+                Float disabled
+            </script>
+            <script type="text/html">
+                <mat-text-field label="Float disabled" float-disabled inline></mat-text-field>
+            </script>
+        </mat-demo>
+
+        <mat-demo>
+            <script type="text/markdown">
+                Default value
+            </script>
+            <script type="text/html">
+                <mat-text-field label="Default value" value="Hello world" float-disabled inline></mat-text-field>
+            </script>
+        </mat-demo>
+
+        <mat-demo>
+            <script type="text/markdown">
+                Disabled
+            </script>
+            <script type="text/html">
+                <mat-text-field label="Disabled" value="Hello world" disabled float-disabled inline></mat-text-field>
+            </script>
+        </mat-demo>
+
+        <mat-demo>
+            <script type="text/markdown">
+                Readonly
+            </script>
+            <script type="text/html">
+                <mat-text-field label="Readonly" value="Hello world" readonly float-disabled inline></mat-text-field>
+            </script>
+        </mat-demo>
+
+        <mat-demo>
+            <script type="text/markdown">
+                Counter
+            </script>
+            <script type="text/html">
+                <mat-text-field description="Description" max-length="10" float-disabled inline></mat-text-field>
+            </script>
+        </mat-demo>
+
+        <mat-demo>
+            <script type="text/markdown">
+                Number with fixed step and range
+            </script>
+            <script type="text/html">
+                <mat-text-field type="number" label="0.00" input-prefix="$&nbsp;" min="0.01" max="9.99" step="0.01" fixed float-disabled inline></mat-text-field>
+            </script>
+        </mat-demo>
+
+        <mat-demo>
+            <script type="text/markdown">
+                Suffix with latin characters deburr
+            </script>
+            <script type="text/html">
+                <mat-text-field label="username" format="lowerCase" input-suffix="@test.com" deburr float-disabled inline></mat-text-field>
+            </script>
+        </mat-demo>
+
+        <mat-demo no-padding>
+            <script type="text/markdown">
+                Full width with counter
+            </script>
+            <script type="text/html">
+                <mat-text-field label="Full width" max-length="120" full-width></mat-text-field>
+            </script>
+        </mat-demo>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-text-field-demo',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.XPBaseBehavior
+            ]
+        });
+    </script>
+
+</dom-module>

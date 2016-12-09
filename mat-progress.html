@@ -1,0 +1,220 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A web component used to display a [Material Design progress bar](http://www.google.com/design/spec/components/progress-activity.html#progress-activity-types-of-indicators).
+
+@element mat-progress
+@since 1.0.0
+@category accessibility
+@description A web component used to display a Material Design progress bar
+@keywords material progress, material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-progress
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-progress.html
+@demo https://expandjs.com/components/mat-progress/demo
+
+@behavior xp-progress-behavior /bower_components/xp-elements/xp-progress-behavior.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../xp-elements/xp-progress-behavior.html">
+<link rel="import" href="../xp-elements/xp-progress-styles.html">
+<link rel="import" href="mat-ink.html">
+<link rel="import" href="mat-paper.html">
+
+<dom-module id="mat-progress">
+
+    <template strip-whitespace>
+
+        <style include="xp-progress-styles">
+            :host {
+                height: 4px;
+                transform: scale(1, 1);
+                transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            :host(:not([showed])) {
+                transform: scale(1, 0) !important;
+            }
+
+            :host .bar {
+                transition: none;
+            }
+
+            /* COLORS */
+
+            :host .bar.aux { background: hsla(207, 90%, 54%, 1); }
+            :host .bar.buffer { background: hsla(207, 89%, 86%, 1); }
+            :host .bar.progress { background: hsla(207, 90%, 54%, 1); }
+            :host .bar.stream { color: hsla(207, 89%, 86%, 1); }
+
+            /* BUFFER MODE */
+
+            :host([mode="buffer"]) .bar.stream::before {
+                -webkit-animation: buffer-stream 6s linear 0s infinite;
+                animation: buffer-stream 6s linear 0s infinite;
+                background-size: 10px 10px !important;
+                background: radial-gradient(currentColor 0%, currentColor 16%, hsla(0, 0%, 0%, 0) 42%) 0 -23px;
+                height: 4px;
+            }
+
+            @-webkit-keyframes buffer-stream {
+                0%   { background-position: 0 -23px;      }
+                100% { background-position: -230px -23px; }
+            }
+
+            @keyframes buffer-stream {
+                0%   { background-position: 0 -23px;      }
+                100% { background-position: -230px -23px; }
+            }
+
+            /* INDETERMINATE MODE */
+
+            :host([mode="indeterminate"]) .bar {
+                transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            :host([mode="indeterminate"]) .bar.aux {
+                animation: indeterminate-aux 2s linear 0s infinite;
+            }
+
+            :host([mode="indeterminate"]) .bar.progress {
+                animation: indeterminate-progress 2s linear 0s infinite;
+            }
+
+            @-webkit-keyframes indeterminate-aux {
+                0%   { transform: translateX(0%) scale(0, 1);     }
+                50%  { transform: translateX(0%) scale(0, 1);     }
+                75%  { transform: translateX(0%) scale(0.6, 1);   }
+                100% { transform: translateX(100%) scale(0.2, 1); }
+            }
+
+            @keyframes indeterminate-aux {
+                0%   { transform: translateX(0%) scale(0, 1);     }
+                50%  { transform: translateX(0%) scale(0, 1);     }
+                75%  { transform: translateX(0%) scale(0.6, 1);   }
+                100% { transform: translateX(100%) scale(0.2, 1); }
+            }
+
+            @-webkit-keyframes indeterminate-progress {
+                0%   { transform: translateX(0%) scale(0, 1);     }
+                20%  { transform: translateX(0%) scale(0.5, 1);   }
+                33%  { transform: translateX(20%) scale(0.7, 1);  }
+                66%  { transform: translateX(100%) scale(0.7, 1); }
+                100% { transform: translateX(100%) scale(0.7, 1); }
+            }
+
+            @keyframes indeterminate-progress {
+                0%   { transform: translateX(0%) scale(0, 1);     }
+                20%  { transform: translateX(0%) scale(0.5, 1);   }
+                33%  { transform: translateX(20%) scale(0.7, 1);  }
+                66%  { transform: translateX(100%) scale(0.7, 1); }
+                100% { transform: translateX(100%) scale(0.7, 1); }
+            }
+
+            /* QUERY MODE */
+
+            :host([mode="query"]) .bar {
+                transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            :host([mode="query"]) .bar.aux {
+                -webkit-animation: query-aux 2s linear 0s infinite;
+                animation: query-aux 2s linear 0s infinite;
+                transform-origin: right;
+            }
+
+            :host([mode="query"]) .bar.progress {
+                -webkit-animation: query-progress 2s linear 0s infinite;
+                animation: query-progress 2s linear 0s infinite;
+                transform-origin: right;
+            }
+
+            @-webkit-keyframes query-aux {
+                0%   { transform: translateX(0%) scale(0, 1);      }
+                50%  { transform: translateX(0%) scale(0, 1);      }
+                75%  { transform: translateX(0%) scale(0.6, 1);    }
+                100% { transform: translateX(-100%) scale(0.2, 1); }
+            }
+
+            @keyframes query-aux {
+                0%   { transform: translateX(0%) scale(0, 1);      }
+                50%  { transform: translateX(0%) scale(0, 1);      }
+                75%  { transform: translateX(0%) scale(0.6, 1);    }
+                100% { transform: translateX(-100%) scale(0.2, 1); }
+            }
+
+            @-webkit-keyframes query-progress {
+                0%   { transform: translateX(0%) scale(0, 1);      }
+                20%  { transform: translateX(0%) scale(0.5, 1);    }
+                33%  { transform: translateX(-20%) scale(0.7, 1);  }
+                66%  { transform: translateX(-100%) scale(0.7, 1); }
+                100% { transform: translateX(-100%) scale(0.7, 1); }
+            }
+
+            @keyframes query-progress {
+                0%   { transform: translateX(0%) scale(0, 1);      }
+                20%  { transform: translateX(0%) scale(0.5, 1);    }
+                33%  { transform: translateX(-20%) scale(0.7, 1);  }
+                66%  { transform: translateX(-100%) scale(0.7, 1); }
+                100% { transform: translateX(-100%) scale(0.7, 1); }
+            }
+        </style>
+
+        <mat-ink class="stream bar" color="[[bufferColor]]"></mat-ink>
+        <mat-paper class="buffer bar" background="[[bufferColor]]"></mat-paper>
+        <mat-paper class="aux bar" background="[[color]]"></mat-paper>
+        <mat-paper class="progress bar" background="[[color]]"></mat-paper>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-progress',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.XPProgressBehavior
+            ],
+
+            /*********************************************************************/
+
+            // PROPERTIES
+            properties: {
+
+                /**
+                 * The progress buffer color.
+                 *
+                 * @attribute buffer-color
+                 * @type string
+                 */
+                bufferColor: {
+                   reflectToAttribute: true,
+                   type: String
+                },
+
+                /**
+                 * The progress color.
+                 *
+                 * @attribute color
+                 * @type string
+                 */
+                color: {
+                    reflectToAttribute: true,
+                    type: String
+                }
+            }
+        });
+    </script>
+
+</dom-module>

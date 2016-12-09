@@ -1,0 +1,164 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A behavior used to implement [Material Design ink](http://www.google.com/design/spec/style/color.html#color-ui-color-application) properties on a web component.
+
+@behavior mat-ink-behavior
+@since 1.0.0
+@category behaviors
+@description A behavior used to implement Material Design ink properties on a web component
+@keywords material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-ink-behavior
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-ink-behavior.html
+
+@behavior xp-master-slave-behavior /bower_components/xp-elements/xp-master-slave-behavior.html
+@behavior mat-palette /bower_components/mat-elements/mat-palette.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../xp-elements/xp-master-slave-behavior.html">
+<link rel="import" href="mat-palette.html">
+
+<script>
+    Polymer.MATInkBehaviorImp = {
+
+        // CLASSES
+        classes: ['ink'],
+
+        /*********************************************************************/
+
+        // OBSERVERS
+        observers: [
+            '__currentColorChanged(currentColor, disabled)',
+            '__paperChanged(paper.foreground)'
+        ],
+
+        // PROPERTIES
+        properties: {
+
+            /**
+             * The ink's color.
+             *
+             * @attribute color
+             * @type string
+             */
+            color: {
+                observer: '__colorChanged',
+                type: String
+            },
+
+            /**
+             * The ink's current color.
+             *
+             * @attribute current-color
+             * @type string
+             * @readonly
+             */
+            currentColor: {
+                readOnly: true,
+                reflectToAttribute: true,
+                type: String
+            },
+
+            /**
+             * If set to true, the element is disabled.
+             *
+             * @attribute disabled
+             * @type boolean
+             * @default false
+             */
+            disabled: {
+                reflectToAttribute: true,
+                type: Boolean,
+                value: false
+            },
+
+            /**
+             * The ink's foreground.
+             *
+             * @attribute foreground
+             * @type "dark" | "light"
+             * @default "dark"
+             * @readonly
+             */
+            foreground: {
+                readOnly: true,
+                reflectToAttribute: true,
+                type: String,
+                value: "dark"
+            },
+
+            /**
+             * The master paper.
+             *
+             * @attribute paper
+             * @type Element
+             * @readonly
+             */
+            paper: {
+                master: '.paper',
+                readOnly: true,
+                value: null
+            },
+
+            /**
+             * The ink's opacity.
+             *
+             * @attribute opacity
+             * @type string
+             */
+            opacity: {
+                reflectToAttribute: true,
+                type: String
+            }
+        },
+
+        /**
+         * The opacity list.
+         *
+         * @property opacities
+         * @type Array
+         * @default ["active", "divider", "hint", "icon", "secondary"]
+         * @readonly
+         */
+        opacities: ['active', 'divider', 'hint', 'icon', 'secondary'],
+
+        /*********************************************************************/
+
+        // OBSERVER
+        __colorChanged() {
+
+            // Ensuring
+            this.ensure('currentColor', this.color || null);
+        },
+
+        // OBSERVER
+        __currentColorChanged() {
+
+            // Styling
+            this.style.color = this._computeRGB(this.currentColor, this.disabled) || '';
+        },
+
+        // OBSERVER
+        __paperChanged() {
+
+            // Ensuring
+            this.ensure('foreground', (this.paper && this.paper.foreground) || 'dark');
+        }
+    };
+
+    Polymer.MATInkBehavior = [
+        Polymer.XPMasterSlaveBehavior,
+        Polymer.MATPalette,
+        Polymer.MATInkBehaviorImp
+    ];
+</script>

@@ -1,0 +1,108 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A web component used to display a [Material Design menu](http://www.google.com/design/spec/components/menus.html).
+
+@element mat-menu
+@since 1.0.0
+@category containers
+@description A web component used to display a Material Design menu
+@keywords material menu, material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-menu
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-menu.html
+@demo https://expandjs.com/components/mat-menu/demo
+
+@behavior mat-paper-behavior /bower_components/mat-elements/mat-paper-behavior.html
+@behavior xp-menu-behavior /bower_components/xp-elements/xp-menu-behavior.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../xp-elements/xp-menu-behavior.html">
+<link rel="import" href="../xp-elements/xp-menu-styles.html">
+<link rel="import" href="mat-option.html">
+<link rel="import" href="mat-paper-behavior.html">
+<link rel="import" href="mat-paper-styles.html">
+
+<dom-module id="mat-menu">
+
+    <template strip-whitespace>
+
+        <style include="mat-paper-styles xp-menu-styles">
+            :host .body {
+                padding: 8px 0;
+                position: relative;
+            }
+
+            :host-context([cascade]) .body {
+                padding: 16px 0;
+            }
+
+            :host(:not([found])) .body {
+                padding: 0;
+            }
+        </style>
+
+        <div class="wrapper">
+            <div class="body">
+                <slot></slot>
+            </div>
+        </div>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-menu',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.MATPaperBehavior,
+                Polymer.XPMenuBehavior
+            ],
+
+            /*********************************************************************/
+
+            // PROPERTIES
+            properties: {
+
+                /**
+                 * The menu's brightness.
+                 *
+                 * @attribute brightness
+                 * @type string
+                 * @default "overlay"
+                 */
+                brightness: {
+                    reflectToAttribute: true,
+                    type: String,
+                    value: 'overlay'
+                },
+
+                /**
+                 * The menu's z-axis position.
+                 *
+                 * @attribute z
+                 * @type number
+                 * @default 8
+                 */
+                z: {
+                    reflectToAttribute: true,
+                    type: Number,
+                    value: 8
+                }
+            }
+        });
+    </script>
+
+</dom-module>

@@ -1,0 +1,250 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A behavior used to implement [Material Design paper](http://www.google.com/design/spec/what-is-material/material-properties.html) properties on a web component.
+
+@behavior mat-paper-behavior
+@since 1.0.0
+@category behaviors
+@description A behavior used to implement Material Design paper properties on a web component
+@keywords material paper, material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-paper-behavior
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-paper-behavior.html
+
+@behavior xp-master-slave-behavior /bower_components/xp-elements/xp-master-slave-behavior.html
+@behavior mat-palette /bower_components/mat-elements/mat-palette.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../xp-elements/xp-master-slave-behavior.html">
+<link rel="import" href="mat-palette.html">
+
+<script>
+    Polymer.MATPaperBehaviorImp = {
+
+        // CLASSES
+        classes: ['paper'],
+
+        /*********************************************************************/
+
+        // OBSERVERS
+        observers: [
+            '__currentBackgroundChanged(currentBackground, disabled)',
+            '__paperChanged(paper.foreground)'
+        ],
+
+        // PROPERTIES
+        properties: {
+
+            /**
+             * The paper's background.
+             *
+             * @attribute background
+             * @type string
+             */
+            background: {
+                observer: '__backgroundChanged',
+                type: String
+            },
+
+            /**
+             * The paper's brightness.
+             *
+             * @attribute brightness
+             * @type string
+             */
+            brightness: {
+                observer: '__paperChanged',
+                reflectToAttribute: true,
+                type: String,
+                value: null
+            },
+
+            /**
+             * The paper's current background.
+             *
+             * @attribute current-background
+             * @type string
+             * @readonly
+             */
+            currentBackground: {
+                observer: '__paperChanged',
+                readOnly: true,
+                reflectToAttribute: true,
+                type: String
+            },
+
+            /**
+             * If set to true, the element is disabled.
+             *
+             * @attribute disabled
+             * @type boolean
+             * @default false
+             */
+            disabled: {
+                observer: '__paperChanged',
+                reflectToAttribute: true,
+                type: Boolean,
+                value: false
+            },
+
+            /**
+             * The paper's foreground.
+             *
+             * @attribute foreground
+             * @type "dark" | "light"
+             * @readonly
+             */
+            foreground: {
+                observer: '__foregroundChanged',
+                readOnly: true,
+                reflectToAttribute: true,
+                type: String
+            },
+
+            /**
+             * The slave inks.
+             *
+             * @attribute inks
+             * @type Array
+             * @readonly
+             */
+            inks: {
+                readOnly: true,
+                slaves: '.ink',
+                value() { return []; }
+            },
+
+            /**
+             * The master paper.
+             *
+             * @attribute paper
+             * @type Element
+             * @readonly
+             */
+            paper: {
+                master: '.paper',
+                readOnly: true,
+                value: null
+            },
+
+            /**
+             * The slave papers.
+             *
+             * @attribute papers
+             * @type Array
+             * @readonly
+             */
+            papers: {
+                readOnly: true,
+                slaves: '.paper',
+                value() { return []; }
+            },
+
+            /**
+             * The paper's theme.
+             *
+             * @attribute theme
+             * @type string
+             * @notifies
+             */
+            theme: {
+                observer: '__paperChanged',
+                notify: true,
+                type: String
+            },
+
+            /**
+             * The paper's z-axis position.
+             *
+             * @attribute z
+             * @type number
+             */
+            z: {
+                reflectToAttribute: true,
+                type: Number
+            }
+        },
+
+        /**
+         * The brightness list.
+         *
+         * @property brightnesses
+         * @type Array
+         * @default ["backdrop", "overlay", "placeholder", "toast", "toolbar", "transparent"]
+         * @readonly
+         */
+        brightnesses: ['backdrop', 'overlay', 'placeholder', 'toast', 'toolbar', 'transparent'],
+
+        /*********************************************************************/
+
+        // COMPUTER
+        _computeInverse(background, brightness, disabled) {
+            return !disabled && !background && (brightness === 'placeholder' || brightness === 'toast');
+        },
+
+        // COMPUTER
+        _computePalette(background, brightness, disabled, paper, theme) {
+            return (!disabled && background) || this._computeTheme(brightness, paper, theme);
+        },
+
+        // COMPUTER
+        _computeTheme(brightness, paper, theme) {
+            return (brightness === 'overlay' && 'light') || theme || (paper && paper.foreground === 'light' && 'dark') || 'light';
+        },
+
+        /*********************************************************************/
+
+        // OBSERVER
+        __backgroundChanged() {
+
+            // Ensuring
+            this.ensure('currentBackground', this.background || null);
+        },
+
+        // OBSERVER
+        __currentBackgroundChanged() {
+
+            // Styling
+            this.style.background = this._computeRGB(this.currentBackground, this.disabled) || '';
+        },
+
+        // OBSERVER
+        __foregroundChanged() {
+
+            // Async
+            this.async(() => {
+
+                // Notifying
+                this.notifyAll(this.papers, 'paper.foreground', this.foreground);
+                this.notifyAll(this.inks, 'paper.foreground', this.foreground);
+            });
+        },
+
+        // OBSERVER
+        __paperChanged() {
+
+            // Let
+            let inverse = this._computeInverse(this.currentBackground, this.brightness, this.disabled),
+                palette = this._computePalette(this.currentBackground, this.brightness, this.disabled, this.paper, this.theme);
+
+            // Ensuring
+            this.ensure('foreground', this._computeForeground(palette, inverse));
+        }
+    };
+
+    Polymer.MATPaperBehavior = [
+        Polymer.XPMasterSlaveBehavior,
+        Polymer.MATPalette,
+        Polymer.MATPaperBehaviorImp
+    ];
+</script>

@@ -1,0 +1,131 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A web component used to display a [Material Design snackbar](http://www.google.com/design/spec/components/snackbars-toasts.html).
+
+@element mat-snackbar
+@since 1.0.0
+@category accessibility
+@description A web component used to display a Material Design snackbar
+@keywords material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-snackbar
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-snackbar.html
+@demo https://expandjs.com/components/mat-snackbar/demo
+
+@behavior mat-paper-behavior /bower_components/mat-elements/mat-paper-behavior.html
+@behavior xp-snackbar-behavior /bower_components/xp-elements/xp-snackbar-behavior.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../xp-elements/xp-snackbar-behavior.html">
+<link rel="import" href="../xp-elements/xp-snackbar-styles.html">
+<link rel="import" href="mat-button.html">
+<link rel="import" href="mat-paper-behavior.html">
+<link rel="import" href="mat-paper-styles.html">
+<link rel="import" href="mat-typography.html">
+
+<dom-module id="mat-snackbar">
+
+    <template strip-whitespace>
+
+        <style include="mat-paper-styles xp-snackbar-styles">
+            :host {
+                @apply --mat-font-body;
+                border-radius: 2px 2px 0 0;
+                bottom: 0;
+                left: 50%;
+                max-height: 80px;
+                max-width: 568px;
+                min-height: 48px;
+                min-width: 288px;
+                padding: 14px 24px;
+                transform: translate(-50%, 112px);
+            }
+
+            :host([showed]) {
+                transform: translate(-50%, 0);
+            }
+
+            :host .label {
+                @apply --layout-flex;
+            }
+
+            :host .button {
+                color: var(--mat-accent-color);
+                margin: -8px -12px -8px 36px;
+            }
+
+            /* TABLET */
+
+            @media (max-width: 960px) {
+
+                :host {
+                    border-radius: 0;
+                    left: 0;
+                    max-width: none;
+                    min-width: 0;
+                    right: 0;
+                    transform: translate(0, 100%);
+                }
+
+                :host([showed]) {
+                    transform: translate(0, 0);
+                }
+
+                :host .button {
+                    margin: -8px -12px;
+                }
+            }
+        </style>
+
+        <div class="wrapper">
+            <div class="label">[[label]]</div>
+            <mat-button class="button" data="[[data]]" label="[[button]]" target="[[target]]" on-xp-activate="__handleAnchor"></mat-button>
+        </div>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-snackbar',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.MATPaperBehavior,
+                Polymer.XPSnackbarBehavior
+            ],
+
+            /*********************************************************************/
+
+            // PROPERTIES
+            properties: {
+
+                /**
+                 * The snackbar's brightness.
+                 *
+                 * @attribute brightness
+                 * @type string
+                 * @default "toast"
+                 */
+                brightness: {
+                    reflectToAttribute: true,
+                    type: String,
+                    value: 'toast'
+                }
+            }
+        });
+    </script>
+
+</dom-module>

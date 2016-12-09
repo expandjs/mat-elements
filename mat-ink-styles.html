@@ -1,0 +1,96 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A stylesheet used to stylize content as [Material Design ink](http://www.google.com/design/spec/style/color.html#color-ui-color-application).
+
+@stylesheet mat-ink-styles
+@since 1.0.0
+@category stylesheets
+@description A stylesheet used to stylize content as Material Design ink
+@keywords material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-ink-styles
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-ink-styles.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="mat-typography.html">
+
+<custom-style>
+    <style is="custom-style">
+
+        /* DARK FOREGROUND */
+
+        html {
+            --mat-default-color: hsla(0, 0%, 0%, 0.87);
+            --mat-disabled-color: hsla(0, 0%, 0%, 0.38);
+            --mat-divider-color: hsla(0, 0%, 0%, 0.12);
+            --mat-hint-color: hsla(0, 0%, 0%, 0.38);
+            --mat-icon-color: hsla(0, 0%, 0%, 0.54);
+            --mat-secondary-color: hsla(0, 0%, 0%, 0.54);
+        }
+
+        /* LIGHT FOREGROUND */
+
+        html {
+            --mat-default-color-light: hsla(0, 0%, 100%, 1);
+            --mat-disabled-color-light: hsla(0, 0%, 100%, 0.50);
+            --mat-divider-color-light: hsla(0, 0%, 100%, 0.12);
+            --mat-hint-color-light: hsla(0, 0%, 100%, 0.50);
+            --mat-icon-color-light: hsla(0, 0%, 100%, 1);
+            --mat-secondary-color-light: hsla(0, 0%, 100%, 0.70);
+        }
+    </style>
+</custom-style>
+
+<dom-module id="mat-ink-styles">
+
+    <template strip-whitespace>
+
+        <style>
+
+            /* DARK FOREGROUND */
+
+            :host([foreground="dark"]) { color: var(--mat-default-color); }
+            :host([foreground="dark"][opacity="divider"]) { color: var(--mat-divider-color); }
+            :host([foreground="dark"][opacity="hint"]) { color: var(--mat-hint-color); }
+            :host([foreground="dark"][opacity="icon"]) { color: var(--mat-icon-color); }
+            :host([foreground="dark"][opacity="secondary"]) { color: var(--mat-secondary-color); }
+            :host([foreground="dark"][disabled]) { color: var(--mat-disabled-color) !important; }
+
+            /* LIGHT FOREGROUND */
+
+            :host([foreground="light"]) { color: var(--mat-default-color-light); }
+            :host([foreground="light"][opacity="divider"]) { color: var(--mat-divider-color-light); }
+            :host([foreground="light"][opacity="hint"]) { color: var(--mat-hint-color-light); }
+            :host([foreground="light"][opacity="icon"]) { color: var(--mat-icon-color-light); }
+            :host([foreground="light"][opacity="secondary"]) { color: var(--mat-secondary-color-light); }
+            :host([foreground="light"][disabled]) { color: var(--mat-disabled-color-light) !important; }
+
+            /* DISABLED */
+
+            :host([disabled]) {
+                -webkit-filter: grayscale(100%);
+                filter: grayscale(100%);
+                pointer-events: none !important;
+                text-shadow: none !important;
+            }
+
+            /* HIDDEN */
+
+            :host([hidden]) {
+                display: none !important;
+            }
+
+        </style>
+
+    </template>
+
+</dom-module>

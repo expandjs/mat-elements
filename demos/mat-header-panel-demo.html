@@ -1,0 +1,124 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<link rel="import" href="../mat-demo.html">
+<link rel="import" href="../mat-header-panel.html">
+<link rel="import" href="../mat-icon-button.html">
+<link rel="import" href="../mat-icons.html">
+<link rel="import" href="../mat-menu.html">
+
+<dom-module id="mat-header-panel-demo">
+
+    <template>
+
+        <style>
+            :host {
+                display: block;
+            }
+
+            :host .header-panel {
+                height: 360px;
+                position: relative;
+            }
+        </style>
+
+        <mat-demo no-padding>
+            <script type="text/markdown">
+                Default
+            </script>
+            <script type="text/html">
+                <mat-header-panel background="white" padding>
+                    <mat-header slot="header" background="blue">
+                        <span class="label">Lorem ipsum dolor sit amet</span>
+                    </mat-header>
+                    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eleifend pellentesque erat eget tincidunt. Ut nisl eros, euismod vel laoreet vel, auctor quis dui. Nullam hendrerit, urna vel interdum pellentesque, sem leo mattis dolor, quis ultricies sapien dui eget metus. Morbi faucibus ante eget lacus accumsan eleifend. Morbi porttitor ligula id varius feugiat. In malesuada, ex ac gravida elementum, risus sem efficitur urna, nec condimentum urna nisl id velit. Nulla vitae maximus lorem, vitae molestie mauris. Curabitur ullamcorper tincidunt metus, in bibendum lacus tristique et. Sed mi metus, semper ac ullamcorper sed, commodo vel odio. Suspendisse vitae consequat lectus. Vestibulum non eros malesuada, volutpat arcu nec, aliquam tortor. Aliquam pellentesque tellus non enim mattis, sit amet fermentum nisi blandit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;</div><br/>
+                    <div>Donec at accumsan ipsum, sed gravida tortor. Praesent a tellus vel elit varius vestibulum id ut sapien. Aliquam ullamcorper tempor diam nec sollicitudin. Quisque feugiat, lorem nec mattis pharetra, turpis enim consectetur velit, eu iaculis libero tortor vel neque. Pellentesque tincidunt ornare risus, non eleifend sapien tincidunt vitae. Integer vestibulum nibh id semper fermentum. Donec aliquet vel massa vitae luctus. Sed varius libero at diam posuere venenatis. Donec ac vehicula lorem. Suspendisse gravida fringilla mauris, vel facilisis eros. Suspendisse dignissim metus at augue tempor imperdiet. Etiam eu diam nibh. Suspendisse eget lorem eget justo ullamcorper fermentum. Nullam vel dui nunc.</div><br/>
+                    <div>Aliquam consequat diam tellus, ac ultricies augue ultricies nec. Nullam suscipit non turpis tristique imperdiet. Quisque pulvinar id mi vitae pharetra. Phasellus vestibulum justo at consectetur fringilla. Curabitur tristique sem ac tortor hendrerit tincidunt. Mauris finibus lacus vitae arcu molestie, eget ornare nunc suscipit. Nam varius luctus lectus, a molestie libero. Nunc venenatis ultricies lorem. Aliquam finibus, risus vel dignissim molestie, lacus erat varius orci, nec elementum magna nulla non nibh. Nam et consectetur ante. Ut viverra dictum eros sed dictum. Fusce molestie, mi vitae efficitur pulvinar, dolor lorem interdum nisi, eget finibus nunc nulla ut metus. Nunc euismod pulvinar tellus quis vestibulum. Sed eu turpis at est pharetra commodo. Suspendisse velit diam, elementum nec dapibus quis, vulputate eu neque. Vivamus fringilla pretium nibh vel scelerisque.</div><br/>
+                    <div>Pellentesque a mollis massa. Donec sollicitudin nibh iaculis placerat elementum. Nam ac sollicitudin orci. Nunc suscipit non urna id pellentesque. Duis sed risus tellus. In hac habitasse platea dictumst. Sed viverra sodales libero, ut volutpat massa ultrices id. Integer quis nisl in tortor blandit blandit. Sed feugiat, ante eu rutrum molestie, mauris justo consequat eros, a finibus enim felis eu est. Nam eget pharetra ipsum. Maecenas sagittis turpis ultricies lectus placerat dignissim. Maecenas eu ultricies neque. Aliquam vulputate, magna non lacinia tempor, ante libero congue nunc, eget dapibus nisl ante vitae neque.</div><br/>
+                    <div>Maecenas imperdiet metus sed facilisis convallis. Nullam ligula elit, tincidunt non viverra quis, malesuada et nibh. Vestibulum vitae ultricies enim, et tempus ex. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Pellentesque eget metus magna. Sed justo metus, lobortis a consequat id, sagittis sit amet tortor. In nec sem tempor, scelerisque odio quis, convallis velit. Aliquam eu nisi porttitor, ullamcorper augue aliquam, ornare magna. Cras dapibus blandit enim in egestas. Nullam condimentum, ligula ac accumsan tristique, nisi lorem efficitur nibh, in gravida ex orci nec est. Vivamus congue molestie metus, et luctus enim tincidunt in.</div><br/>
+                </mat-header-panel>
+            </script>
+        </mat-demo>
+
+        <mat-demo no-padding>
+            <script type="text/markdown">
+                Fixed
+            </script>
+            <script type="text/html">
+                <mat-header-panel background="white" mode="fixed" padding>
+                    <mat-header slot="header" background="blue">
+                        <span class="label">Lorem ipsum dolor sit amet</span>
+                    </mat-header>
+                    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eleifend pellentesque erat eget tincidunt. Ut nisl eros, euismod vel laoreet vel, auctor quis dui. Nullam hendrerit, urna vel interdum pellentesque, sem leo mattis dolor, quis ultricies sapien dui eget metus. Morbi faucibus ante eget lacus accumsan eleifend. Morbi porttitor ligula id varius feugiat. In malesuada, ex ac gravida elementum, risus sem efficitur urna, nec condimentum urna nisl id velit. Nulla vitae maximus lorem, vitae molestie mauris. Curabitur ullamcorper tincidunt metus, in bibendum lacus tristique et. Sed mi metus, semper ac ullamcorper sed, commodo vel odio. Suspendisse vitae consequat lectus. Vestibulum non eros malesuada, volutpat arcu nec, aliquam tortor. Aliquam pellentesque tellus non enim mattis, sit amet fermentum nisi blandit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;</div><br/>
+                    <div>Donec at accumsan ipsum, sed gravida tortor. Praesent a tellus vel elit varius vestibulum id ut sapien. Aliquam ullamcorper tempor diam nec sollicitudin. Quisque feugiat, lorem nec mattis pharetra, turpis enim consectetur velit, eu iaculis libero tortor vel neque. Pellentesque tincidunt ornare risus, non eleifend sapien tincidunt vitae. Integer vestibulum nibh id semper fermentum. Donec aliquet vel massa vitae luctus. Sed varius libero at diam posuere venenatis. Donec ac vehicula lorem. Suspendisse gravida fringilla mauris, vel facilisis eros. Suspendisse dignissim metus at augue tempor imperdiet. Etiam eu diam nibh. Suspendisse eget lorem eget justo ullamcorper fermentum. Nullam vel dui nunc.</div><br/>
+                    <div>Aliquam consequat diam tellus, ac ultricies augue ultricies nec. Nullam suscipit non turpis tristique imperdiet. Quisque pulvinar id mi vitae pharetra. Phasellus vestibulum justo at consectetur fringilla. Curabitur tristique sem ac tortor hendrerit tincidunt. Mauris finibus lacus vitae arcu molestie, eget ornare nunc suscipit. Nam varius luctus lectus, a molestie libero. Nunc venenatis ultricies lorem. Aliquam finibus, risus vel dignissim molestie, lacus erat varius orci, nec elementum magna nulla non nibh. Nam et consectetur ante. Ut viverra dictum eros sed dictum. Fusce molestie, mi vitae efficitur pulvinar, dolor lorem interdum nisi, eget finibus nunc nulla ut metus. Nunc euismod pulvinar tellus quis vestibulum. Sed eu turpis at est pharetra commodo. Suspendisse velit diam, elementum nec dapibus quis, vulputate eu neque. Vivamus fringilla pretium nibh vel scelerisque.</div><br/>
+                    <div>Pellentesque a mollis massa. Donec sollicitudin nibh iaculis placerat elementum. Nam ac sollicitudin orci. Nunc suscipit non urna id pellentesque. Duis sed risus tellus. In hac habitasse platea dictumst. Sed viverra sodales libero, ut volutpat massa ultrices id. Integer quis nisl in tortor blandit blandit. Sed feugiat, ante eu rutrum molestie, mauris justo consequat eros, a finibus enim felis eu est. Nam eget pharetra ipsum. Maecenas sagittis turpis ultricies lectus placerat dignissim. Maecenas eu ultricies neque. Aliquam vulputate, magna non lacinia tempor, ante libero congue nunc, eget dapibus nisl ante vitae neque.</div><br/>
+                    <div>Maecenas imperdiet metus sed facilisis convallis. Nullam ligula elit, tincidunt non viverra quis, malesuada et nibh. Vestibulum vitae ultricies enim, et tempus ex. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Pellentesque eget metus magna. Sed justo metus, lobortis a consequat id, sagittis sit amet tortor. In nec sem tempor, scelerisque odio quis, convallis velit. Aliquam eu nisi porttitor, ullamcorper augue aliquam, ornare magna. Cras dapibus blandit enim in egestas. Nullam condimentum, ligula ac accumsan tristique, nisi lorem efficitur nibh, in gravida ex orci nec est. Vivamus congue molestie metus, et luctus enim tincidunt in.</div><br/>
+                </mat-header-panel>
+            </script>
+        </mat-demo>
+
+        <mat-demo no-padding>
+            <script type="text/markdown">
+                Seamed
+            </script>
+            <script type="text/html">
+                <mat-header-panel background="white" mode="seamed" padding>
+                    <mat-header slot="header" background="blue">
+                        <span class="label">Lorem ipsum dolor sit amet</span>
+                    </mat-header>
+                    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eleifend pellentesque erat eget tincidunt. Ut nisl eros, euismod vel laoreet vel, auctor quis dui. Nullam hendrerit, urna vel interdum pellentesque, sem leo mattis dolor, quis ultricies sapien dui eget metus. Morbi faucibus ante eget lacus accumsan eleifend. Morbi porttitor ligula id varius feugiat. In malesuada, ex ac gravida elementum, risus sem efficitur urna, nec condimentum urna nisl id velit. Nulla vitae maximus lorem, vitae molestie mauris. Curabitur ullamcorper tincidunt metus, in bibendum lacus tristique et. Sed mi metus, semper ac ullamcorper sed, commodo vel odio. Suspendisse vitae consequat lectus. Vestibulum non eros malesuada, volutpat arcu nec, aliquam tortor. Aliquam pellentesque tellus non enim mattis, sit amet fermentum nisi blandit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;</div><br/>
+                    <div>Donec at accumsan ipsum, sed gravida tortor. Praesent a tellus vel elit varius vestibulum id ut sapien. Aliquam ullamcorper tempor diam nec sollicitudin. Quisque feugiat, lorem nec mattis pharetra, turpis enim consectetur velit, eu iaculis libero tortor vel neque. Pellentesque tincidunt ornare risus, non eleifend sapien tincidunt vitae. Integer vestibulum nibh id semper fermentum. Donec aliquet vel massa vitae luctus. Sed varius libero at diam posuere venenatis. Donec ac vehicula lorem. Suspendisse gravida fringilla mauris, vel facilisis eros. Suspendisse dignissim metus at augue tempor imperdiet. Etiam eu diam nibh. Suspendisse eget lorem eget justo ullamcorper fermentum. Nullam vel dui nunc.</div><br/>
+                    <div>Aliquam consequat diam tellus, ac ultricies augue ultricies nec. Nullam suscipit non turpis tristique imperdiet. Quisque pulvinar id mi vitae pharetra. Phasellus vestibulum justo at consectetur fringilla. Curabitur tristique sem ac tortor hendrerit tincidunt. Mauris finibus lacus vitae arcu molestie, eget ornare nunc suscipit. Nam varius luctus lectus, a molestie libero. Nunc venenatis ultricies lorem. Aliquam finibus, risus vel dignissim molestie, lacus erat varius orci, nec elementum magna nulla non nibh. Nam et consectetur ante. Ut viverra dictum eros sed dictum. Fusce molestie, mi vitae efficitur pulvinar, dolor lorem interdum nisi, eget finibus nunc nulla ut metus. Nunc euismod pulvinar tellus quis vestibulum. Sed eu turpis at est pharetra commodo. Suspendisse velit diam, elementum nec dapibus quis, vulputate eu neque. Vivamus fringilla pretium nibh vel scelerisque.</div><br/>
+                    <div>Pellentesque a mollis massa. Donec sollicitudin nibh iaculis placerat elementum. Nam ac sollicitudin orci. Nunc suscipit non urna id pellentesque. Duis sed risus tellus. In hac habitasse platea dictumst. Sed viverra sodales libero, ut volutpat massa ultrices id. Integer quis nisl in tortor blandit blandit. Sed feugiat, ante eu rutrum molestie, mauris justo consequat eros, a finibus enim felis eu est. Nam eget pharetra ipsum. Maecenas sagittis turpis ultricies lectus placerat dignissim. Maecenas eu ultricies neque. Aliquam vulputate, magna non lacinia tempor, ante libero congue nunc, eget dapibus nisl ante vitae neque.</div><br/>
+                    <div>Maecenas imperdiet metus sed facilisis convallis. Nullam ligula elit, tincidunt non viverra quis, malesuada et nibh. Vestibulum vitae ultricies enim, et tempus ex. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Pellentesque eget metus magna. Sed justo metus, lobortis a consequat id, sagittis sit amet tortor. In nec sem tempor, scelerisque odio quis, convallis velit. Aliquam eu nisi porttitor, ullamcorper augue aliquam, ornare magna. Cras dapibus blandit enim in egestas. Nullam condimentum, ligula ac accumsan tristique, nisi lorem efficitur nibh, in gravida ex orci nec est. Vivamus congue molestie metus, et luctus enim tincidunt in.</div><br/>
+                </mat-header-panel>
+            </script>
+        </mat-demo>
+
+        <mat-demo no-padding>
+            <script type="text/markdown">
+                Waterfall with menu
+            </script>
+            <script type="text/html">
+                <mat-header-panel background="white" mode="waterfall" padding>
+                    <mat-header slot="header" background="blue">
+                        <span class="label">Lorem ipsum dolor sit amet</span>
+                        <mat-icon-button action="toggle" icon="mat:more-vert" target="demoMenu"></mat-icon-button>
+                    </mat-header>
+                    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eleifend pellentesque erat eget tincidunt. Ut nisl eros, euismod vel laoreet vel, auctor quis dui. Nullam hendrerit, urna vel interdum pellentesque, sem leo mattis dolor, quis ultricies sapien dui eget metus. Morbi faucibus ante eget lacus accumsan eleifend. Morbi porttitor ligula id varius feugiat. In malesuada, ex ac gravida elementum, risus sem efficitur urna, nec condimentum urna nisl id velit. Nulla vitae maximus lorem, vitae molestie mauris. Curabitur ullamcorper tincidunt metus, in bibendum lacus tristique et. Sed mi metus, semper ac ullamcorper sed, commodo vel odio. Suspendisse vitae consequat lectus. Vestibulum non eros malesuada, volutpat arcu nec, aliquam tortor. Aliquam pellentesque tellus non enim mattis, sit amet fermentum nisi blandit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;</div><br/>
+                    <div>Donec at accumsan ipsum, sed gravida tortor. Praesent a tellus vel elit varius vestibulum id ut sapien. Aliquam ullamcorper tempor diam nec sollicitudin. Quisque feugiat, lorem nec mattis pharetra, turpis enim consectetur velit, eu iaculis libero tortor vel neque. Pellentesque tincidunt ornare risus, non eleifend sapien tincidunt vitae. Integer vestibulum nibh id semper fermentum. Donec aliquet vel massa vitae luctus. Sed varius libero at diam posuere venenatis. Donec ac vehicula lorem. Suspendisse gravida fringilla mauris, vel facilisis eros. Suspendisse dignissim metus at augue tempor imperdiet. Etiam eu diam nibh. Suspendisse eget lorem eget justo ullamcorper fermentum. Nullam vel dui nunc.</div><br/>
+                    <div>Aliquam consequat diam tellus, ac ultricies augue ultricies nec. Nullam suscipit non turpis tristique imperdiet. Quisque pulvinar id mi vitae pharetra. Phasellus vestibulum justo at consectetur fringilla. Curabitur tristique sem ac tortor hendrerit tincidunt. Mauris finibus lacus vitae arcu molestie, eget ornare nunc suscipit. Nam varius luctus lectus, a molestie libero. Nunc venenatis ultricies lorem. Aliquam finibus, risus vel dignissim molestie, lacus erat varius orci, nec elementum magna nulla non nibh. Nam et consectetur ante. Ut viverra dictum eros sed dictum. Fusce molestie, mi vitae efficitur pulvinar, dolor lorem interdum nisi, eget finibus nunc nulla ut metus. Nunc euismod pulvinar tellus quis vestibulum. Sed eu turpis at est pharetra commodo. Suspendisse velit diam, elementum nec dapibus quis, vulputate eu neque. Vivamus fringilla pretium nibh vel scelerisque.</div><br/>
+                    <div>Pellentesque a mollis massa. Donec sollicitudin nibh iaculis placerat elementum. Nam ac sollicitudin orci. Nunc suscipit non urna id pellentesque. Duis sed risus tellus. In hac habitasse platea dictumst. Sed viverra sodales libero, ut volutpat massa ultrices id. Integer quis nisl in tortor blandit blandit. Sed feugiat, ante eu rutrum molestie, mauris justo consequat eros, a finibus enim felis eu est. Nam eget pharetra ipsum. Maecenas sagittis turpis ultricies lectus placerat dignissim. Maecenas eu ultricies neque. Aliquam vulputate, magna non lacinia tempor, ante libero congue nunc, eget dapibus nisl ante vitae neque.</div><br/>
+                    <div>Maecenas imperdiet metus sed facilisis convallis. Nullam ligula elit, tincidunt non viverra quis, malesuada et nibh. Vestibulum vitae ultricies enim, et tempus ex. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Pellentesque eget metus magna. Sed justo metus, lobortis a consequat id, sagittis sit amet tortor. In nec sem tempor, scelerisque odio quis, convallis velit. Aliquam eu nisi porttitor, ullamcorper augue aliquam, ornare magna. Cras dapibus blandit enim in egestas. Nullam condimentum, ligula ac accumsan tristique, nisi lorem efficitur nibh, in gravida ex orci nec est. Vivamus congue molestie metus, et luctus enim tincidunt in.</div><br/>
+                </mat-header-panel>
+
+                <mat-menu id="demoMenu">
+                    <mat-option label="Option 1"></mat-option>
+                    <mat-option label="Option 2"></mat-option>
+                    <mat-option label="Option 3"></mat-option>
+                </mat-menu>
+            </script>
+        </mat-demo>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-header-panel-demo',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.XPBaseBehavior
+            ]
+        });
+    </script>
+
+</dom-module>

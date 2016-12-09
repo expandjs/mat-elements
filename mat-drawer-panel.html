@@ -1,0 +1,708 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A web component used to scaffold a [Material Design application](http://www.google.com/design/spec/layout/structure.html#structure-ui-regions).
+
+@element mat-drawer-panel
+@since 1.0.0
+@category containers
+@description A web component used to scaffold a Material Design application
+@keywords material design, expandjs, web app, web components
+
+@homepage https://expandjs.com/components/mat-drawer-panel
+@repository https://github.com/expandjs/mat-drawer-panel
+@source https://github.com/expandjs/mat-drawer-panel/blob/master/mat-drawer-panel.html
+
+@behavior xp-base-behavior /bower_components/xp-elements/xp-base-behavior.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../xp-elements/xp-base-behavior.html">
+<link rel="import" href="mat-drawer.html">
+
+<dom-module id="mat-drawer-panel">
+
+    <template strip-whitespace>
+
+        <style>
+            :host {
+                @apply --layout-fit;
+                pointer-events: none !important;
+            }
+
+            :host > .wrapper {
+                box-sizing: border-box;
+                height: 100%;
+                position: relative;
+                overflow: hidden;
+            }
+
+            :host > .wrapper > .main {
+                @apply --layout-fit;
+                pointer-events: auto !important;
+            }
+
+            :host(:not([narrow])) > .wrapper > .main {
+                z-index: 1;
+            }
+
+            :host > .wrapper > .backdrop {
+                @apply --layout-fit;
+                background: hsla(0, 0%, 0%, 0.5);
+            }
+
+            :host([showed]) > .wrapper > .backdrop {
+                pointer-events: auto !important;
+            }
+
+            :host(:not([narrow])) > .wrapper > .backdrop {
+                display: none !important;
+                z-index: 0;
+            }
+
+            :host > .wrapper > .drawer-wrapper {
+                bottom: 0;
+                display: block;
+                position: absolute;
+                top: 0;
+                visibility: hidden;
+                z-index: 0;
+            }
+
+            :host([narrow]) > .wrapper > .backdrop,
+            :host([narrow]) > .wrapper > .drawer-wrapper {
+                z-index: 9999 !important;
+            }
+
+            :host([narrow]) > .wrapper > .drawer-wrapper,
+            :host([right]) > .wrapper > .drawer-wrapper {
+                right: 0;
+            }
+
+            :host([narrow]) > .wrapper > .drawer-wrapper,
+            :host(:not([right])) > .wrapper > .drawer-wrapper {
+                left: 0;
+            }
+
+            :host([narrow]:not([right])) > .wrapper > .drawer-wrapper {
+                position: fixed;
+                width: calc(100% - 56px);
+            }
+
+            :host(:not([right])) > .wrapper > .drawer-wrapper {
+                max-width: 320px;
+                min-width: 256px;
+            }
+
+            :host([showed]) > .wrapper > .drawer-wrapper,
+            :host([tracking]) > .wrapper > .drawer-wrapper {
+                visibility: visible !important;
+            }
+
+            :host([tracking]) > .wrapper > .drawer-wrapper {
+                pointer-events: none !important;
+                transition: none !important;
+            }
+
+            :host([mini]:not([narrow])) > .wrapper > .drawer-wrapper {
+                max-width: 72px;
+                min-width: 72px;
+                pointer-events: auto !important;
+                text-align: center;
+            }
+
+            :host([animating]) > .wrapper > .backdrop,
+            :host([animating]) > .wrapper > .drawer-wrapper,
+            :host([animating]) > .wrapper > .main {
+                transition: left 0.33s cubic-bezier(0.55, 0, 0.01, 1), transform 0.33s cubic-bezier(0.55, 0, 0.01, 1) !important;
+            }
+
+            :host([animating][narrow][mini]) > .wrapper > .backdrop,
+            :host([animating][narrow][mini]) > .wrapper > .drawer-wrapper,
+            :host([animating][narrow][mini]) > .wrapper > .main {
+                transition: left 0.33s cubic-bezier(0.55, 0, 0.01, 1), transform 0s !important;
+            }
+
+            /* SLOTTED */
+
+            :host([narrow][right]) > .wrapper > .drawer-wrapper ::slotted(:not(template)) {
+                width: 100%;
+            }
+
+            :host([tracking]) > .wrapper > .drawer-wrapper ::slotted(:not(template)) {
+                overflow-y: hidden !important;
+            }
+
+            :host([mini]:not([narrow])) > .wrapper > .drawer-wrapper ::slotted(:not(template)) {
+                width: 100%;
+            }
+
+            /* SMARTPHONE */
+
+            @media (max-width: 480px) {
+
+                :host(:not([right])) > .wrapper > .drawer-wrapper {
+                    margin-right: 56px;
+                    max-width: 320px;
+                    min-width: 0;
+                }
+            }
+
+        </style>
+
+        <div class="wrapper">
+            <div class="main"><slot></slot></div>
+            <div class="backdrop" on-click="_handleHide"></div>
+            <div class="drawer-wrapper" on-xp-select="_handleSelect"><slot name="drawer"></slot></div>
+        </div>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-drawer-panel',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.XPBaseBehavior
+            ],
+
+            // CLASSES
+            classes: ['drawer-panel'],
+
+            /*********************************************************************/
+
+            /**
+             * Fired on hide.
+             *
+             * @event xp-hide
+             * @bubbles
+             */
+
+            /**
+             * Fired on show.
+             *
+             * @event xp-show
+             * @bubbles
+             */
+
+            /*********************************************************************/
+
+            /**
+             * Hides the drawer.
+             *
+             * @method hide
+             */
+            hide() {
+
+                // Setting
+                this.showed = false;
+            },
+
+            /**
+             * Shows the drawer.
+             *
+             * @method show
+             */
+            show() {
+
+                // Setting
+                this.showed = true;
+            },
+
+            /**
+             * Toggles the drawer.
+             *
+             * @method toggle
+             */
+            toggle() {
+
+                // Toggling
+                this[this.showed ? 'hide' : 'show']();
+            },
+
+            /*********************************************************************/
+
+            // OBSERVERS
+            observers: [
+                '_miniChanged(mini, right)',
+                '_narrowChanged(narrow, right)',
+                '_offsetChanged(backdrop, drawerWrapper, offset, tracking)',
+                '_panelChanged(backdrop, drawerWrapper, main, mini, narrow, right, showed)'
+            ],
+
+            /*********************************************************************/
+
+            // PROPERTIES
+            properties: {
+
+                /**
+                 * If set to true, the drawer is animating in/out of the screen.
+                 *
+                 * @attribute animating
+                 * @type boolean
+                 * @default false
+                 */
+                animating: {
+                    readOnly: true,
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
+                 * If set to true, the drawer will automatically close by selecting something inside.
+                 *
+                 * @attribute auto-hide
+                 * @type boolean
+                 * @default false
+                 */
+                autoHide: {
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
+                 * The drawer panel's backdrop.
+                 *
+                 * @attribute backdrop
+                 * @type Element
+                 * @readonly
+                 */
+                backdrop: {
+                    readOnly: true,
+                    selector: '.backdrop'
+                },
+
+                /**
+                 * The drawer's narrow breakpoint.
+                 *
+                 * @attribute break-point
+                 * @type number
+                 */
+                breakPoint: {
+                    observer: '_breakPointChanged',
+                    type: Number
+                },
+
+                /**
+                 * The drawer panel's drawer.
+                 *
+                 * @attribute drawer
+                 * @type Element
+                 * @readonly
+                 */
+                drawer: {
+                    observer: '_drawerChanged',
+                    readOnly: true
+                },
+
+                /**
+                 * The drawer panel's drawer wrapper.
+                 *
+                 * @attribute drawer-wrapper
+                 * @type Element
+                 * @readonly
+                 */
+                drawerWrapper: {
+                    readOnly: true,
+                    selector: '.drawer-wrapper'
+                },
+
+                /**
+                 * If set to true, the hiding animation will be disabled.
+                 *
+                 * @attribute instant-hide
+                 * @type boolean
+                 * @default false
+                 */
+                instantHide: {
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
+                 * The drawer panel's main.
+                 *
+                 * @attribute main
+                 * @type Element
+                 * @readonly
+                 */
+                main: {
+                    readOnly: true,
+                    selector: '.main'
+                },
+
+                /**
+                 * If set to true, the drawer has a reduced width on its resting state.
+                 *
+                 * @attribute mini
+                 * @type boolean
+                 * @default false
+                 */
+                mini: {
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
+                 * If set to true, the drawer is an overlay, because the viewport is smaller under its breakpoint.
+                 *
+                 * @attribute narrow
+                 * @type boolean
+                 * @default false
+                 * @notifies
+                 * @readonly
+                 */
+                narrow: {
+                    notify: true,
+                    readOnly: true,
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
+                 * If set to true, the swipe gesture is disabled.
+                 *
+                 * @attribute no-swipe
+                 * @type boolean
+                 * @default false
+                 */
+                noSwipe: {
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
+                 * The drawer's offset from the screen's edge.
+                 *
+                 * @attribute offset
+                 * @type number
+                 * @default 0
+                 * @readonly
+                 */
+                offset: {
+                    readOnly: true,
+                    type: Number,
+                    value: 0
+                },
+
+                /**
+                 * If set to true, the drawer is on the right side.
+                 *
+                 * @attribute right
+                 * @type boolean
+                 * @default false
+                 */
+                right: {
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
+                 * If set to true, the drawer is visible.
+                 *
+                 * @attribute showed
+                 * @type boolean
+                 * @default false
+                 * @notifies
+                 */
+                showed: {
+                    notify: true,
+                    observer: '_showedChanged',
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
+                 * The element being tracked.
+                 *
+                 * @attribute tracked
+                 * @type Element
+                 * @readonly
+                 */
+                tracked: {
+                    readOnly: true
+                },
+
+                /**
+                 * If set to true, the drawer is being tracked.
+                 *
+                 * @attribute tracking
+                 * @type boolean
+                 * @default false
+                 * @readonly
+                 */
+                tracking: {
+                    computed: '_computeTracking(tracked)',
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
+                 * The drawer's column's width.
+                 *
+                 * @attribute width
+                 * @type number
+                 * @readonly
+                 */
+                width: {
+                    readOnly: true,
+                    type: Number
+                }
+            },
+
+            /*********************************************************************/
+
+            // COMPUTERS
+            _computeBreakPoint(breakPoint, mini, right) {
+                return XP.isNumber(breakPoint) ? breakPoint : (right ? 640 : (mini ? 961 : 1280));
+            },
+
+            // COMPUTER
+            _computeTracking(tracked) {
+                return !!tracked;
+            },
+
+            /*********************************************************************/
+
+            // OBSERVER
+            _breakPointChanged() {
+
+                // Handling
+                this._handleResize();
+            },
+
+            // OBSERVER
+            _drawerChanged(post, pre) {
+
+                // Listening
+                if (pre) { this.unlisten(pre, 'empty-changed', '_handleEmpty'); }
+                if (post) { this.listen(post, 'empty-changed', '_handleEmpty'); }
+
+                // Handling
+                requestAnimationFrame(() => this._handleShift(null, true));
+            },
+
+            // OBSERVER
+            _miniChanged() {
+
+                // Setting
+                if (this.mini) { this.right = false; }
+            },
+
+            // OBSERVER
+            _narrowChanged() {
+
+                // Ensuring
+                if (this.isAttached) { this.ensure('animating', true); }
+
+                // Delaying
+                if (this.isAttached) { this.wait(() => this.ensure('animating', false), 330); }
+
+                // Setting
+                if (!this.right) { this.showed = !this.narrow; }
+            },
+
+            // OBSERVER
+            _offsetChanged() {
+
+                // Checking
+                if (!this.backdrop || !this.drawerWrapper) { return; }
+
+                // Let
+                let translate = (this.width - this.offset) * (this.right ? 1 : -1);
+
+                // Styling
+                this.backdrop.style.opacity        = this.tracking ? this.offset / this.width : this.backdrop.style.opacity;
+                this.drawerWrapper.style.transform = this.tracking ? `translateX(${translate}px)` : this.drawerWrapper.style.transform;
+            },
+
+            // OBSERVER
+            _panelChanged() {
+
+                // Handling
+                this._handleShift(null, this.instantHide && !this.showed);
+            },
+
+            // OBSERVER
+            _showedChanged(post) {
+
+                // Rollback
+                if (!post && !this.narrow && !this.right) { this.showed = true; }
+
+                // Firing
+                if (this.isAttached) { this.fire(this.showed ? 'xp-show' : 'xp-hide'); }
+            },
+
+            /*********************************************************************/
+
+            // LISTENER
+            attached() {
+
+                // Listening
+                this.listen(this, 'track', '_handleTrack');
+                this.listen(window, 'keyup', '_handleHide');
+                this.listen(window, 'resize', '_handleResize');
+
+                // Handling
+                Polymer.RenderStatus.afterNextRender(this, this._handleShift, [null, true]);
+            },
+
+            // LISTENER
+            detached() {
+
+                // Unlistening
+                this.unlisten(this, 'track', '_handleTrack');
+                this.unlisten(window, 'keyup', '_handleHide');
+                this.unlisten(window, 'resize', '_handleResize');
+            },
+
+            // LISTENER
+            mutated() {
+
+                // Ensuring
+                this.ensure('drawer', XP.findElement(Polymer.dom(this), '[slot="drawer"]') || null);
+            },
+
+            // LISTENER
+            ready() {
+
+                // Breakpoint
+                this.breakPoint = this._computeBreakPoint(this.breakPoint, this.mini, this.right);
+
+                // Observing
+                Polymer.dom(this).observeNodes(this.mutated.bind(this));
+            },
+
+            /*********************************************************************/
+
+            // HANDLER
+            _handleEmpty(event) {
+
+                // Handling
+                if (Polymer.dom(event).rootTarget === this.drawer) { this._handleShift(null, true); }
+            },
+
+            // HANDLER
+            _handleHide(event) {
+
+                // Setting
+                if (!event.keyCode && !event.button) { event.hiding = this; }
+                if (!event.defaultPrevented && event.keyCode === 27 && this.showed && (this.narrow || this.right)) { event.hiding = this; }
+
+                // Frame 1
+                requestAnimationFrame(() => event.hiding !== this || this.hide());
+            },
+
+            // HANDLER
+            _handleResize() {
+
+                // Ensuring
+                this.ensure('narrow', window.innerWidth < this.breakPoint);
+
+                // Handling
+                this.debounce('shifting', () => this._handleShift(null, true));
+            },
+
+            // HANDLER
+            _handleSelect(event) {
+
+                // Checking
+                if (!this.autoHide || !this.narrow || this.right || event.detail.multi || !event.detail.isSelected) { return; }
+
+                // Hiding
+                if (!this.refire(event).defaultPrevented) { this.hide(); }
+            },
+
+            // HANDLER
+            _handleShift(offset, instant) {
+
+                // Checking
+                if (!this.backdrop || !this.drawerWrapper) { return; }
+
+                // Let
+                let other  = this.right ? 'left' : 'right',
+                    side   = this.right ? 'right' : 'left';
+
+                // Ensuring
+                this.ensure('width', !this.drawer || this.drawer.empty ? 0 : (this.tracking ? this.width : XP.getWidth(this.drawer)));
+                this.ensure('offset', !this.tracking ? (!this.showed ? 0 : (this.mini && !this.narrow ? 72 : this.width)) : XP.clamp(offset, 0, this.width));
+
+                // Transitions
+                this.backdrop.style.transition      = this.tracking || instant ? `` : `opacity 0.33s cubic-bezier(0.55, 0, 0.01, 1)`;
+                this.drawerWrapper.style.transition = this.tracking || instant ? `` : `transform 0.33s cubic-bezier(0.55, 0, 0.01, 1)`;
+                this.main.style.transition          = this.tracking || instant ? `` : `${side} 0.33s cubic-bezier(0.55, 0, 0.01, 1)`;
+
+                // Styling
+                this.backdrop.style.opacity         = this.tracking ? this.backdrop.style.opacity : Number(this.showed);
+                this.drawerWrapper.style.transform  = this.tracking ? this.drawerWrapper.style.transform : `translateX(${this.showed ? 0 : (this.right ? 100 : -100)}%)`;
+                this.main.style.bottom              = 0;
+                this.main.style.top                 = 0;
+                this.main.style[side]               = this.narrow ? 0 : `${this.offset}px`;
+                this.main.style[other]              = this.main.style[other] || 0;
+            },
+
+            // HANDLER
+            _handleTrack(event) {
+
+                // Let
+                let mouse   = event.detail.sourceEvent.type === 'mousemove',
+                    state   = event.detail.state,
+                    showed  = this.showed,
+                    tracked = this.tracked;
+
+                // Tracking
+                if (state === 'start' && !mouse && !this.noSwipe && Math.abs(event.detail.dx) > Math.abs(event.detail.dy)) { tracked = this; }
+
+                // Checking
+                if (!tracked || mouse || event.tracking || this.noSwipe || !this.narrow) { return; }
+                if (state === 'start' ? !this.showed && (this.right || event.detail.x > 48) : !this.tracking) { return; }
+
+                // Setting
+                event.tracking = this;
+
+                // Switching
+                switch (state) {
+
+                    // TRACK
+                    case 'track':
+                        this._handleShift(this.offset + event.detail.ddx * (this.right ? -1 : 1));
+                        break;
+
+                    // START
+                    case 'start':
+                        this.ensure('tracked', tracked);
+                        this.ensure('width', XP.getWidth(this.drawerWrapper));
+                        this._handleShift(this.offset + event.detail.dx * (this.right ? -1 : 1));
+                        break;
+
+                    // END
+                    case 'end':
+                        this.ensure('tracked', null);
+                        this.showed = this.offset > this.width / 2;
+                        if (showed === this.showed) { this._handleShift(); }
+                        break;
+                }
+            }
+        });
+    </script>
+
+</dom-module>

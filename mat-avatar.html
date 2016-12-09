@@ -1,0 +1,199 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A web component used to display a [Material Design avatar](http://www.google.com/design/spec/style/imagery.html#imagery-ui-integration).
+
+@element mat-avatar
+@since 1.0.0
+@category contents
+@description A web component used to display a Material Design avatar
+@keywords material avatar, material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-avatar
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-avatar.html
+@demo https://expandjs.com/components/mat-avatar/demo
+
+@behavior xp-anchor-behavior /bower_components/xp-elements/xp-anchor-behavior.html
+@behavior xp-overlay-injector /bower_components/xp-elements/xp-overlay-injector.html
+@behavior mat-pressed-paper-behavior /bower_components/mat-elements/mat-pressed-paper-behavior.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../xp-elements/xp-anchor-behavior.html">
+<link rel="import" href="../xp-elements/xp-anchor-styles.html">
+<link rel="import" href="../xp-elements/xp-overlay-injector.html">
+<link rel="import" href="mat-icon.html">
+<link rel="import" href="mat-pressed-paper-behavior.html">
+<link rel="import" href="mat-pressed-paper-styles.html">
+
+<dom-module id="mat-avatar">
+
+    <template strip-whitespace>
+
+        <style include="xp-anchor-styles mat-pressed-paper-styles">
+            :host {
+                border-radius: 50%;
+                display: inline-block;
+                height: 40px;
+                margin: 4px;
+                width: 40px;
+            }
+
+            :host([big]) {
+                height: 64px;
+                margin: 0;
+                width: 64px;
+            }
+
+            :host([raster]) {
+                background: transparent !important;
+            }
+
+            :host .anchor:after {
+                min-height: 48px;
+                min-width: 48px;
+            }
+
+            :host .main {
+                border-radius: inherit;
+                box-sizing: border-box;
+                height: 100%;
+                position: relative;
+            }
+
+            :host .icon {
+                display: block;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+
+            :host([raster]) .icon {
+                border-radius: inherit;
+                box-sizing: border-box;
+                height: 100%;
+                width: 100%;
+            }
+
+            :host([raster]) .icon > * {
+                content: " ";
+                box-shadow: 0 0 0 1px hsla(0, 0%, 0%, 0.12) inset;
+            }
+        </style>
+
+        <a class="anchor" tabindex="-1" on-click="__handleAnchor">
+            <div class="main">
+                <mat-icon class="icon" color="[[currentColor]]" disabled="[[disabled]]" name="[[icon]]" raster="{{raster}}" src="[[iconSrc]]"></mat-icon>
+            </div>
+        </a>
+
+        <div class="ripple-waves"></div>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-avatar',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.XPAnchorBehavior,
+                Polymer.XPOverlayInjector,
+                Polymer.MATPressedPaperBehavior
+            ],
+
+            // CLASSES
+            classes: ['avatar'],
+
+            /*********************************************************************/
+
+            // PROPERTIES
+            properties: {
+
+                /**
+                 * If set to true, the element has 64px diameter instead of 40px.
+                 *
+                 * @attribute big
+                 * @type boolean
+                 * @default false
+                 */
+                big: {
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
+                 * The avatar's brightness.
+                 *
+                 * @attribute brightness
+                 * @type string
+                 * @default "placeholder"
+                 */
+                brightness: {
+                    reflectToAttribute: true,
+                    type: String,
+                    value: 'placeholder'
+                },
+
+                /**
+                 * The avatar's color.
+                 *
+                 * @attribute color
+                 * @type string
+                 */
+                color: {
+                    reflectToAttribute: true,
+                    type: String
+                },
+
+                /**
+                 * The button's icon.
+                 *
+                 * @attribute icon
+                 * @type string
+                 */
+                icon: {
+                    reflectToAttribute: true,
+                    type: String
+                },
+
+                /**
+                 * The button's icon's src.
+                 *
+                 * @attribute icon-src
+                 * @type string
+                 */
+                iconSrc: {
+                    reflectToAttribute: true,
+                    type: String
+                },
+
+                /**
+                 * If set to true, the icon is a raster one instead of svg.
+                 *
+                 * @attribute raster
+                 * @type boolean
+                 * @default false
+                 */
+                raster: {
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                }
+            }
+        });
+    </script>
+
+</dom-module>

@@ -1,0 +1,208 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<link rel="import" href="../mat-avatar.html">
+<link rel="import" href="../mat-checkbox.html">
+<link rel="import" href="../mat-demo.html">
+<link rel="import" href="../mat-icon-button.html">
+<link rel="import" href="../mat-icon.html">
+<link rel="import" href="../mat-icons.html">
+<link rel="import" href="../mat-item.html">
+<link rel="import" href="../mat-list.html">
+<link rel="import" href="../mat-menu.html">
+
+<dom-module id="mat-item-demo">
+
+    <template>
+
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+
+        <mat-demo no-padding>
+            <script type="text/markdown">
+                Default
+            </script>
+            <script type="text/html">
+                <mat-list>
+                    <mat-item label="Label">
+                        <span>Description</span>
+                    </mat-item>
+                </mat-list>
+            </script>
+        </mat-demo>
+
+        <mat-demo no-padding>
+            <script type="text/markdown">
+                Icon
+            </script>
+            <script type="text/html">
+                <mat-list>
+                    <mat-item label="Normal">
+                        <mat-icon slot="primary" name="mat:folder"></mat-icon>
+                        <span>Description</span>
+                    </mat-item>
+                    <mat-item label="Toggleable" toggleable>
+                        <mat-icon-button slot="primary" icon="mat:folder" active-color="blue"></mat-icon-button>
+                        <span>Description</span>
+                    </mat-item>
+                    <mat-item label="Colored">
+                        <mat-icon slot="primary" name="mat:folder" color="red"></mat-icon>
+                        <span>Description</span>
+                    </mat-item>
+                </mat-list>
+            </script>
+        </mat-demo>
+
+        <mat-demo no-padding>
+            <script type="text/markdown">
+                Avatar
+            </script>
+            <script type="text/html">
+                <mat-list>
+                    <mat-item label="Normal">
+                        <mat-avatar slot="primary" icon="mat:folder"></mat-avatar>
+                        <span>Description</span>
+                    </mat-item>
+                    <mat-item label="Toggleable" toggleable>
+                        <mat-avatar slot="primary" icon="mat:folder" active-background="blue"></mat-avatar>
+                        <span>Description</span>
+                    </mat-item>
+                    <mat-item label="Image">
+                        <mat-avatar slot="primary" icon-src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSrMWEFsQUah7yjvKE8SX9jptOcgpMC-CdP5MxPyJzHsRXFT03Rrw"></mat-avatar>
+                        <span>Description</span>
+                    </mat-item>
+                </mat-list>
+            </script>
+        </mat-demo>
+
+        <mat-demo no-padding>
+            <script type="text/markdown">
+                Checkbox
+            </script>
+            <script type="text/html">
+                <mat-list>
+                    <mat-item label="Label">
+                        <mat-checkbox slot="primary"></mat-checkbox>
+                        <span>Description</span>
+                    </mat-item>
+                </mat-list>
+            </script>
+        </mat-demo>
+
+        <mat-demo no-padding>
+            <script type="text/markdown">
+                Secondary icon
+            </script>
+            <script type="text/html">
+                <mat-list>
+                    <mat-item label="Normal">
+                        <span>Description</span>
+                        <mat-icon slot="secondary" name="mat:star-border" active-icon="mat:star"></mat-icon>
+                    </mat-item>
+                    <mat-item label="Toggleable">
+                        <span>Description</span>
+                        <mat-icon-button slot="secondary" icon="mat:star-border" active-icon="mat:star" active-color="amber" toggleable></mat-icon-button>
+                    </mat-item>
+                    <mat-item label="Colored">
+                        <span>Description</span>
+                        <mat-icon slot="secondary" name="mat:star" color="amber"></mat-icon>
+                    </mat-item>
+                </mat-list>
+            </script>
+        </mat-demo>
+
+        <mat-demo no-padding>
+            <script type="text/markdown">
+                Secondary avatar
+            </script>
+            <script type="text/html">
+                <mat-list>
+                    <mat-item label="Normal">
+                        <span>Description</span>
+                        <mat-avatar slot="secondary" icon="mat:folder"></mat-avatar>
+                    </mat-item>
+                    <mat-item label="Toggleable">
+                        <span>Description</span>
+                        <mat-avatar slot="secondary" icon="mat:folder" active-background="blue" toggleable></mat-avatar>
+                    </mat-item>
+                    <mat-item label="Image">
+                        <span>Description</span>
+                        <mat-avatar slot="secondary" icon-src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSrMWEFsQUah7yjvKE8SX9jptOcgpMC-CdP5MxPyJzHsRXFT03Rrw"></mat-avatar>
+                    </mat-item>
+                </mat-list>
+            </script>
+        </mat-demo>
+
+        <mat-demo no-padding>
+            <script type="text/markdown">
+                Secondary checkbox
+            </script>
+            <script type="text/html">
+                <mat-list>
+                    <mat-item label="Label">
+                        <span>Description</span>
+                        <mat-checkbox slot="secondary"></mat-checkbox>
+                    </mat-item>
+                </mat-list>
+            </script>
+        </mat-demo>
+
+        <mat-demo no-padding>
+            <script type="text/markdown">
+                Secondary menu
+            </script>
+            <script type="text/html">
+                <mat-list>
+                    <mat-item label="Label">
+                        <span>Description</span>
+                        <mat-icon-button slot="secondary" icon="mat:more-vert" target="demoMenu" action="toggle"></mat-icon-button>
+                    </mat-item>
+                </mat-list>
+
+                <mat-menu id="demoMenu">
+                    <mat-option label="Option 1"></mat-option>
+                    <mat-option label="Option 2"></mat-option>
+                    <mat-option label="Option 3"></mat-option>
+                </mat-menu>
+            </script>
+        </mat-demo>
+
+        <mat-demo no-padding>
+            <script type="text/markdown">
+                Secondary text
+            </script>
+            <script type="text/html">
+                <mat-list>
+                    <mat-item secondary-text="12:30" label="Label">
+                        <mat-avatar slot="primary" icon-src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcSrMWEFsQUah7yjvKE8SX9jptOcgpMC-CdP5MxPyJzHsRXFT03Rrw"></mat-avatar>
+                        <span>Description</span>
+                        <mat-icon-button slot="secondary" icon="mat:star-border" active-icon="mat:star" active-color="amber" toggleable></mat-icon-button>
+                    </mat-item>
+                </mat-list>
+            </script>
+        </mat-demo>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-item-demo',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.XPBaseBehavior
+            ]
+        });
+    </script>
+
+</dom-module>

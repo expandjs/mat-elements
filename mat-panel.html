@@ -1,0 +1,198 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+
+A web component used to display a [Material Design panel](https://www.google.com/design/spec/layout/structure.html#structure-toolbars).
+
+@element mat-panel
+@since 1.0.0
+@category containers
+@description A web component used to display a Material Design panel
+@keywords material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-panel
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-panel.html
+
+@behavior mat-paper-behavior /bower_components/mat-elements/mat-paper-behavior.html
+@behavior xp-collapse-behavior /bower_components/xp-elements/xp-collapse-behavior.html
+@behavior xp-master-slave-behavior /bower_components/xp-elements/xp-master-slave-behavior.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../xp-elements/xp-collapse-behavior.html">
+<link rel="import" href="../xp-elements/xp-collapse-styles.html">
+<link rel="import" href="../xp-elements/xp-master-slave-behavior.html">
+<link rel="import" href="mat-paper-behavior.html">
+<link rel="import" href="mat-paper-styles.html">
+<link rel="import" href="mat-spacing.html">
+
+<dom-module id="mat-panel">
+
+    <template strip-whitespace>
+
+        <style include="mat-paper-styles xp-collapse-styles">
+            :host .wrapper {
+                @apply --layout-vertical;
+            }
+
+            :host .header  {
+                -webkit-order: 1;
+                order: 1;
+                position: relative;
+            }
+
+            :host .body {
+                -webkit-order: 2;
+                order: 2;
+                overflow-x: hidden;
+                overflow-y: auto;
+            }
+
+            :host([padding]) .body {
+                @apply --mat-padding-mobile;
+            }
+        </style>
+
+        <div class="wrapper">
+            <div class="collapsible body">
+                <slot></slot>
+            </div>
+            <div class="header">
+                <slot name="toolbar"></slot>
+            </div>
+        </div>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-panel',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.MATPaperBehavior,
+                Polymer.XPCollapseBehavior,
+                Polymer.XPMasterSlaveBehavior
+            ],
+
+            // CLASSES
+            classes: ['panel'],
+
+            /*********************************************************************/
+
+            // LISTENERS
+            listeners: {
+                'xp-slave': '_handleSlave'
+            },
+
+            // OBSERVERS
+            observers: [
+                '_groupChanged(collapsed, group)'
+            ],
+
+            // PROPERTIES
+            properties: {
+
+                /**
+                 * If set to true, the collapse animation will be a slide instead of a compress.
+                 *
+                 * @attribute backward
+                 * @type boolean
+                 * @default true
+                 */
+                backward: {
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: true
+                },
+
+                /**
+                 * The animation's easing.
+                 *
+                 * @attribute easing
+                 * @type string
+                 * @default "cubic-bezier(0.55, 0, 0.01, 1)"
+                 */
+                easing: {
+                    type: String,
+                    value: 'cubic-bezier(0.55, 0, 0.01, 1)'
+                },
+
+                /**
+                 * The master group.
+                 *
+                 * @attribute group
+                 * @type Element
+                 * @readonly
+                 */
+                group: {
+                    master: '.panel-group',
+                    readOnly: true,
+                    value: null
+                },
+
+                /**
+                 * If set to true, the material spacing rules are applied.
+                 *
+                 * @attribute padding
+                 * @type boolean
+                 * @default false
+                 */
+                padding: {
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
+                 * The panel's z-axis position.
+                 *
+                 * @attribute z
+                 * @type number
+                 * @default 2
+                 */
+                z: {
+                    reflectToAttribute: true,
+                    type: Number,
+                    value: 2
+                }
+            },
+
+            /*********************************************************************/
+
+            // OBSERVER
+            _groupChanged() {
+
+                // Checking
+                if (!this.isAttached || !this.group) { return; }
+
+                // Collapsing
+                if (!this.collapsed && this.group.autoCollapse) { XP.findSiblingElements(this, '.panel').forEach(panel => panel.collapse()); }
+            },
+
+            /*********************************************************************/
+
+            // HANDLER
+            _handleSlave(event) {
+
+                // Let
+                let firer    = this.firer(event),
+                    selector = event.detail.selector;
+
+                // Stopping
+                if (firer !== this && selector === '.panels' && firer.classList.contains('panel')) { event.stopPropagation(); }
+            }
+        });
+    </script>
+
+</dom-module>

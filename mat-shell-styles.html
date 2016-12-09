@@ -1,0 +1,43 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A stylesheet used to stylize a [Material Design application](https://www.google.com/design/spec/layout/structure.html#structure-ui-regions) wrapper.
+
+@stylesheet mat-shell-styles
+@since 1.0.0
+@category stylesheets
+@description A stylesheet used to stylize a Material Design application wrapper
+@keywords material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-shell-styles
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-shell-styles.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="mat-paper-styles.html">
+<link rel="import" href="mat-typography.html">
+
+<dom-module id="mat-shell-styles">
+
+    <template strip-whitespace>
+
+        <style include="mat-paper-styles">
+            :host {
+                @apply --mat-font-subhead;
+                @apply --layout-fit;
+                display: block;
+                overflow: hidden;
+            }
+        </style>
+
+    </template>
+
+</dom-module>

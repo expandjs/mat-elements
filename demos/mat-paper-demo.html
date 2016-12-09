@@ -1,0 +1,86 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<link rel="import" href="../../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../mat-demo.html">
+<link rel="import" href="../mat-paper.html">
+
+<dom-module id="mat-paper-demo">
+
+    <template>
+
+        <style>
+            :host {
+                display: block;
+            }
+
+            :host .container {
+                @apply(--layout-horizontal);
+                @apply(--layout-wrap);
+                @apply(--layout-around-justified);
+            }
+
+            :host .container .paper {
+                @apply(--layout-horizontal);
+                @apply(--layout-center-center);
+                height: 80px;
+                margin: 40px;
+                width: 80px;
+            }
+        </style>
+
+        <mat-demo no-padding>
+            <script type="text/markdown">
+                Default
+            </script>
+            <script type="text/html">
+                <div class="container">
+                    <mat-paper z="1"><span>Z = 1</span></mat-paper>
+                    <mat-paper z="2"><span>Z = 2</span></mat-paper>
+                    <mat-paper z="3"><span>Z = 3</span></mat-paper>
+                    <mat-paper z="4"><span>Z = 4</span></mat-paper>
+                    <mat-paper z="5"><span>Z = 5</span></mat-paper>
+                    <mat-paper z="6"><span>Z = 6</span></mat-paper>
+                    <mat-paper z="7"><span>Z = 7</span></mat-paper>
+                    <mat-paper z="8"><span>Z = 8</span></mat-paper>
+                    <mat-paper z="9"><span>Z = 9</span></mat-paper>
+                    <mat-paper z="10"><span>Z = 10</span></mat-paper>
+                    <mat-paper z="11"><span>Z = 11</span></mat-paper>
+                    <mat-paper z="12"><span>Z = 12</span></mat-paper>
+                    <mat-paper z="13"><span>Z = 13</span></mat-paper>
+                    <mat-paper z="14"><span>Z = 14</span></mat-paper>
+                    <mat-paper z="15"><span>Z = 15</span></mat-paper>
+                    <mat-paper z="16"><span>Z = 16</span></mat-paper>
+                    <mat-paper z="17"><span>Z = 17</span></mat-paper>
+                    <mat-paper z="18"><span>Z = 18</span></mat-paper>
+                    <mat-paper z="19"><span>Z = 19</span></mat-paper>
+                    <mat-paper z="20"><span>Z = 20</span></mat-paper>
+                    <mat-paper z="21"><span>Z = 21</span></mat-paper>
+                    <mat-paper z="22"><span>Z = 22</span></mat-paper>
+                    <mat-paper z="23"><span>Z = 23</span></mat-paper>
+                    <mat-paper z="24"><span>Z = 24</span></mat-paper>
+                </div>
+            </script>
+        </mat-demo>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-paper-demo',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.XPBaseBehavior
+            ]
+        });
+    </script>
+
+</dom-module>

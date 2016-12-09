@@ -1,0 +1,102 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<link rel="import" href="../mat-demo.html">
+<link rel="import" href="../mat-dropdown.html">
+
+<dom-module id="mat-dropdown-demo">
+
+    <template>
+
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+
+        <mat-demo>
+            <script type="text/markdown">
+                Default
+            </script>
+            <script type="text/html">
+                <mat-dropdown label="Select a value..." inline>
+                    <mat-option value="1" label="Value 1"></mat-option>
+                    <mat-option value="2" label="Value 2"></mat-option>
+                    <mat-option value="3" label="Value 3"></mat-option>
+                </mat-dropdown>
+            </script>
+        </mat-demo>
+
+        <mat-demo>
+            <script type="text/markdown">
+                Float disabled
+            </script>
+            <script type="text/html">
+                <mat-dropdown label="Select a value..." float-disabled inline>
+                    <mat-option value="1" label="Value 1"></mat-option>
+                    <mat-option value="2" label="Value 2"></mat-option>
+                    <mat-option value="3" label="Value 3"></mat-option>
+                </mat-dropdown>
+            </script>
+        </mat-demo>
+
+        <mat-demo>
+            <script type="text/markdown">
+                Default value
+            </script>
+            <script type="text/html">
+                <mat-dropdown label="Select a value..." value="1" float-disabled inline>
+                    <mat-option value="1" label="Value 1"></mat-option>
+                    <mat-option value="2" label="Value 2"></mat-option>
+                    <mat-option value="3" label="Value 3"></mat-option>
+                </mat-dropdown>
+            </script>
+        </mat-demo>
+
+        <mat-demo no-padding>
+            <script type="text/markdown">
+                Pulldown
+            </script>
+            <script type="text/html">
+                <mat-dropdown label="Select a value..." pulldown>
+                    <mat-option value="1" label="Value 1"></mat-option>
+                    <mat-option value="2" label="Value 2"></mat-option>
+                    <mat-option value="3" label="Value 3"></mat-option>
+                </mat-dropdown>
+            </script>
+        </mat-demo>
+
+        <mat-demo no-padding>
+            <script type="text/markdown">
+                Full width
+            </script>
+            <script type="text/html">
+                <mat-dropdown label="Select a value..." full-width>
+                    <mat-option value="1" label="Value 1"></mat-option>
+                    <mat-option value="2" label="Value 2"></mat-option>
+                    <mat-option value="3" label="Value 3"></mat-option>
+                </mat-dropdown>
+            </script>
+        </mat-demo>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-dropdown-demo',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.XPBaseBehavior
+            ]
+        });
+    </script>
+
+</dom-module>

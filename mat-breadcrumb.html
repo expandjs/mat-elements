@@ -1,0 +1,113 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A web component used to display a [Material Design breadcrumb](https://material.google.com/layout/structure.html#structure-side-nav).
+
+It must be used in conjunction with [mat-breadcrumb-step](https://expandjs.com/components/mat-breadcrumb-step).
+
+@element mat-breadcrumb
+@since 1.0.0
+@category navigation
+@description A web component used to display a Material Design breadcrumb
+@keywords material breadcrumb, material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-breadcrumb
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-breadcrumb.html
+@demo https://expandjs.com/components/mat-breadcrumb/demo
+
+@behavior xp-breadcrumb-behavior /bower_components/xp-elements/xp-breadcrumb-behavior.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../xp-elements/xp-breadcrumb-behavior.html">
+<link rel="import" href="../xp-elements/xp-breadcrumb-styles.html">
+<link rel="import" href="../xp-elements/xp-media-query.html">
+<link rel="import" href="mat-breadcrumb-step.html">
+
+<dom-module id="mat-breadcrumb">
+
+    <template strip-whitespace>
+
+        <style include="xp-breadcrumb-styles"></style>
+
+        <xp-media-query query="(max-width: 480px)" matched="{{mobile}}"></xp-media-query>
+
+        <div class="wrapper"><slot></slot></div>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-breadcrumb',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.XPBreadcrumbBehavior
+            ],
+
+            /*********************************************************************/
+
+            // OBSERVERS
+            observers: [
+                '_currentChanged(current, mobile, shift, steps.*)'
+            ],
+
+            // PROPERTIES
+            properties: {
+
+                /**
+                 * If set to true, the breadcrumb `mobile` style will be applied.
+                 *
+                 * @attribute mobile
+                 * @type boolean
+                 * @default false
+                 * @notifies
+                 */
+                mobile: {
+                    notify: true,
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
+                 * If set to true, the steps will be shifted to the left, instead of hidden, in `mobile` view.
+                 *
+                 * @attribute shift
+                 * @type boolean
+                 * @default false
+                 */
+                shift: {
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                }
+            },
+
+            /*********************************************************************/
+
+            // OBSERVER
+            _currentChanged() {
+
+                // Setting
+                this.steps.forEach(step => step.mobile = this.mobile);
+
+                // Toggling
+                this.steps.forEach(step => step.style.display = this.mobile && !this.shift && step !== this.current  ? 'none' : '');
+
+                // Shifting
+                this.style.marginLeft = this.current && this.mobile ? `-${this.current.offsetLeft + this.current.anchor.offsetLeft}px` : '';
+            }
+        });
+    </script>
+</dom-module>

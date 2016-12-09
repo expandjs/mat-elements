@@ -1,0 +1,282 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A web component used to display a [Material Design dialog](http://www.google.com/design/spec/components/dialogs.html).
+
+@element mat-dialog
+@since 1.0.0
+@category containers
+@description A web component used to display a Material Design dialog
+@keywords material dialog, material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-dialog
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-dialog.html
+@demo https://expandjs.com/components/mat-dialog/demo
+
+@behavior mat-paper-behavior /bower_components/mat-elements/mat-paper-behavior.html
+@behavior xp-dialog-behavior /bower_components/xp-elements/xp-dialog-behavior.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../xp-elements/xp-dialog-behavior.html">
+<link rel="import" href="../xp-elements/xp-dialog-styles.html">
+<link rel="import" href="mat-divider.html">
+<link rel="import" href="mat-paper-behavior.html">
+<link rel="import" href="mat-paper-styles.html">
+<link rel="import" href="mat-typography.html">
+
+<dom-module id="mat-dialog">
+
+    <template strip-whitespace>
+
+        <style include="mat-paper-styles xp-dialog-styles">
+            :host {
+                margin: 24px 40px;
+            }
+
+            :host .body {
+                box-sizing: border-box;
+                padding: 24px;
+            }
+
+            :host(:not([empty-actions])) .body {
+                height: calc(100% - 48px);
+                padding-bottom: 16px;
+            }
+
+            :host .label {
+                @apply --mat-font-headline;
+                margin: -4px 0 12px 0;
+            }
+
+            :host([label=""]) .label,
+            :host(:not([label])) .label {
+                display: none !important;
+            }
+
+            :host .actions {
+                @apply --layout-horizontal;
+                @apply --layout-center;
+                @apply --layout-end-justified;
+                min-height: 48px;
+                padding: 2px 8px 2px 24px;
+                position: relative;
+            }
+
+            :host([empty-actions]) .actions,
+            :host(:not([scrollable])) .divider {
+                display: none !important;
+            }
+
+            /* SLOTTED */
+
+            :host .actions ::slotted(:not(template)) {
+                display: block;
+            }
+
+            :host .actions ::slotted(:not(template):not(:first-child)) {
+                margin-left: 8px;
+            }
+        </style>
+
+        <div class="backdrop" on-click="__handleBackdrop"></div>
+
+        <div class="wrapper">
+            <div class="body">
+                <div class="label">[[label]]</div>
+                <slot></slot>
+            </div>
+            <div class="actions">
+                <mat-divider class="divider" cap></mat-divider>
+                <slot name="actions"></slot>
+            </div>
+        </div>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-dialog',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.MATPaperBehavior,
+                Polymer.XPDialogBehavior
+            ],
+
+            /*********************************************************************/
+
+            /**
+             * Aligns the dialog.
+             *
+             * @method align
+             */
+            align() {
+
+                // Let
+                let left = this.body && this.body.scrollLeft,
+                    top  = this.body && this.body.scrollTop;
+
+                // Super
+                Polymer.XPDialogBehaviorImp.align.apply(this, arguments);
+
+                // Checking
+                if (!this.body) { return; }
+
+                // Scrolling
+                this.body.scrollLeft = left;
+                this.body.scrollTop  = top;
+            },
+
+            /*********************************************************************/
+
+            // PROPERTIES
+            properties: {
+
+                /**
+                 * The list of actions.
+                 *
+                 * @attribute actions
+                 * @type Array
+                 * @readonly
+                 */
+                actions: {
+                    readOnly: true,
+                    value() { return []; }
+                },
+
+                /**
+                 * The dialog's background color.
+                 *
+                 * @attribute background
+                 * @type string
+                 */
+                background: {
+                    reflectToAttribute: true,
+                    type: Boolean
+                },
+
+                /**
+                 * The dialog's body.
+                 *
+                 * @attribute body
+                 * @type Element
+                 * @readonly
+                 */
+                body: {
+                    readOnly: true,
+                    selector: '.body'
+                },
+
+                /**
+                 * If set to true, there are no actions.
+                 *
+                 * @attribute empty-actions
+                 * @type boolean
+                 * @notifies
+                 * @readonly
+                 */
+                emptyActions: {
+                    computed: '_computeEmptyActions(actions)',
+                    notify: true,
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
+                 * The dialog's label
+                 *
+                 * @attribute label
+                 * @type string
+                 */
+                label: {
+                    reflectToAttribute: true,
+                    type: String
+                },
+
+                /**
+                 * If set to true, the dialog body is scrollable.
+                 *
+                 * @attribute scrollable
+                 * @type boolean
+                 * @default false
+                 * @notifies
+                 * @readonly
+                 */
+                scrollable: {
+                    notify: true,
+                    readOnly: true,
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
+                 * The dialog's z-axis position.
+                 *
+                 * @attribute z
+                 * @type number
+                 * @default 24
+                 */
+                z: {
+                    reflectToAttribute: true,
+                    type: Number,
+                    value: 24
+                }
+            },
+
+            /*********************************************************************/
+
+            // COMPUTER
+            _computeEmptyActions(actions) {
+                return !actions || !actions.length;
+            },
+
+            /*********************************************************************/
+
+            // LISTENER
+            attached() {
+
+                // Scrolling
+                Polymer.RenderStatus.afterNextRender(this, this.scrolling);
+            },
+
+            // LISTENER
+            mutated() {
+
+                // Ensuring
+                this.ensure('actions', XP.findElements(Polymer.dom(this), '[slot="actions"]'));
+            },
+
+            // LISTENER
+            ready() {
+
+                // Observing
+                Polymer.dom(this).observeNodes(this.mutated.bind(this));
+            },
+
+            // LISTENER
+            scrolling() {
+
+                // Ensuring
+                this.ensure('scrollable', this.body.clientHeight < this.body.scrollHeight);
+
+                // Observing
+                XP.onMutation(this, this.scrolling.bind(this), {attributes: true, characterData: true, childList: true, subtree: true});
+            }
+        });
+    </script>
+
+</dom-module>

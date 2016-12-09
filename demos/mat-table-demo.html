@@ -1,0 +1,83 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<link rel="import" href="../mat-demo.html">
+<link rel="import" href="../mat-table.html">
+
+<dom-module id="mat-table-demo">
+
+    <template>
+
+        <style include="mat-table-styles">
+            :host {
+                display: block;
+            }
+        </style>
+
+        <mat-demo no-padding>
+            <script type="text/markdown">
+                Default
+            </script>
+            <script type="text/html">
+                <mat-table>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th><span>Dessert (100g serving)</span></th>
+                                <th><span>Calories</span></th>
+                                <th><span>Fat (g)</span></th>
+                                <th><span>Carbs (g)</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span>Frozen yogurt</span></td>
+                                <td class="numeric"><span>159</span></td>
+                                <td class="numeric"><span>6.0</span></td>
+                                <td class="numeric"><span>24</span></td>
+                            </tr>
+                            <tr>
+                                <td><span>Eclair</span></td>
+                                <td class="numeric"><span>262</span></td>
+                                <td class="numeric"><span>16.0</span></td>
+                                <td class="numeric"><span>24</span></td>
+                            </tr>
+                            <tr>
+                                <td><span>Cupcake</span></td>
+                                <td class="numeric"><span>305</span></td>
+                                <td class="numeric"><span>3.7</span></td>
+                                <td class="numeric"><span>67</span></td>
+                            </tr>
+                            <tr>
+                                <td><span>Lollipop</span></td>
+                                <td class="numeric"><span>392</span></td>
+                                <td class="numeric"><span>0.2</span></td>
+                                <td class="numeric"><span>98</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </mat-table>
+            </script>
+        </mat-demo>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-table-demo',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.XPBaseBehavior
+            ]
+        });
+    </script>
+
+</dom-module>

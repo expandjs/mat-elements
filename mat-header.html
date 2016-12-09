@@ -1,0 +1,268 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A web component used to display a [Material Design app bar](http://www.google.com/design/spec/layout/structure.html#structure-app-bar).
+
+@element mat-header
+@since 1.0.0
+@category containers
+@description A web component used to display a Material Design app bar
+@keywords material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-header
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-header.html
+
+@behavior mat-paper-behavior /bower_components/mat-elements/mat-paper-behavior.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="mat-paper-behavior.html">
+<link rel="import" href="mat-paper-styles.html">
+<link rel="import" href="mat-typography.html">
+
+<dom-module id="mat-header">
+
+    <template strip-whitespace>
+
+        <style include="mat-paper-styles">
+            :host {
+                @apply --mat-font-headline;
+                line-height: 32px;
+                min-height: 64px;
+            }
+
+            :host .wrapper {
+                @apply --layout-vertical;
+                position: relative;
+                transform translate3d(0, 0 ,0);
+            }
+
+            :host .main {
+                @apply --layout-horizontal;
+                @apply --layout-center;
+                height: 64px;
+                padding: 0 16px 0 24px;
+                z-index: 1;
+            }
+
+            :host .extended {
+                padding: 0 24px;
+            }
+
+            :host([inset]) .extended {
+                padding-left: 80px;
+            }
+
+            /* SLOTTED */
+
+            :host .main ::slotted(.nav) {
+                height: 24px;
+                margin: 4px 24px 4px -8px;
+                padding: 8px;
+                width: 24px;
+            }
+
+            :host .main ::slotted(.label) {
+                @apply --layout-flex;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            :host .main ::slotted(.breadcrumb) {
+                @apply --layout-flex;
+            }
+
+            :host .main ::slotted(.more) {
+                height: 24px;
+                margin: 4px -6px 4px 4px;
+                padding: 8px;
+                width: 24px;
+            }
+
+            :host .extended ::slotted(.tabs) {
+                margin: 0 -24px;
+            }
+
+            :host([inset]) .extended ::slotted(.tabs) {
+                margin-left: -80px;
+            }
+
+            /* TABLET */
+
+            @media (max-width: 960px) {
+
+                :host {
+                    min-height: 56px;
+                }
+
+                :host .main {
+                    height: 56px;
+                    padding: 0 8px 0 16px;
+                }
+
+                :host .extended {
+                    padding: 0 16px;
+                }
+
+                :host([inset]) .extended {
+                    padding-left: 72px;
+                }
+
+                /* SLOTTED */
+
+                :host .extended ::slotted(.tabs) {
+                    margin: 0 -16px;
+                }
+
+                :host([inset]) .extended ::slotted(.tabs) {
+                    margin-left: -72px;
+                }
+            }
+        </style>
+
+        <div class="wrapper">
+            <div class="main"><slot></slot></div>
+            <div class="extended"><slot name="extended"></slot></div>
+        </div>
+
+    </template>
+
+    <script>
+        Polymer({
+
+            // ELEMENT
+            is: 'mat-header',
+
+            // BEHAVIORS
+            behaviors: [
+                Polymer.MATPaperBehavior
+            ],
+
+            // CLASSES
+            classes: ['header'],
+
+            /*********************************************************************/
+
+            // PROPERTIES
+            properties: {
+
+                /**
+                 * The header's brightness.
+                 *
+                 * @attribute brightness
+                 * @type string
+                 * @default "toolbar"
+                 */
+                brightness: {
+                    reflectToAttribute: true,
+                    type: String,
+                    value: 'toolbar'
+                },
+
+                /**
+                 * The header's extended container.
+                 *
+                 * @attribute extended
+                 * @type Element
+                 * @readonly
+                 */
+                extended: {
+                    readOnly: true,
+                    selector: '.extended'
+                },
+
+                /**
+                 * A fixed height for the extended section of the header.
+                 *
+                 * @attribute extendedBy
+                 * @type number
+                 * @default 0
+                 * @notifies
+                 */
+                extendedBy: {
+                    reflectToAttribute: true,
+                    observer: '_extendedByChanged',
+                    notify: true,
+                    type: Number,
+                    value: 0
+                },
+
+                /**
+                 * If set to true, the extended is indented.
+                 *
+                 * @attribute inset
+                 * @type boolean
+                 * @default false
+                 */
+                inset: {
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
+                },
+
+                /**
+                 * The header's main container.
+                 *
+                 * @attribute main
+                 * @type Element
+                 * @readonly
+                 */
+                main: {
+                    readOnly: true,
+                    selector: '.main'
+                },
+
+                /**
+                 * The header's panel's scroll amount.
+                 *
+                 * @attribute scrolled
+                 * @type number
+                 * @default 0
+                 * @readonly
+                 */
+                scrolled: {
+                    readOnly: true,
+                    type: Number,
+                    value: 0
+                },
+
+                /**
+                 * The header's top distance.
+                 *
+                 * @attribute top
+                 * @type number
+                 * @default 0
+                 * @readonly
+                 */
+                top: {
+                    readOnly: true,
+                    type: Number,
+                    value: 0
+                }
+            },
+
+            /*********************************************************************/
+
+            // OBSERVER
+            _extendedByChanged(post, pre) {
+
+                // Extended
+                if (!this.extended) { return; }
+
+                // Styling
+                this.extended.style.height = post || '';
+            }
+        });
+    </script>
+
+</dom-module>

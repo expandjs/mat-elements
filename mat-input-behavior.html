@@ -1,0 +1,67 @@
+<!--
+@license
+Copyright (c) 2015 The expand.js authors. All rights reserved.
+This code may only be used under the BSD style license found at https://expandjs.github.io/LICENSE.txt
+The complete set of authors may be found at https://expandjs.github.io/AUTHORS.txt
+The complete set of contributors may be found at https://expandjs.github.io/CONTRIBUTORS.txt
+-->
+
+<!--
+A behavior used to add [Material Design input](http://www.google.com/design/spec/components/text-fields.html#text-fields-single-line-text-field) capabilities on a web component.
+
+@behavior mat-input-behavior
+@since 1.0.0
+@category behaviors
+@description A behavior used to add Material Design input capabilities on a web component
+@keywords material input, material design, expandjs, web components
+
+@homepage https://expandjs.com/components/mat-input-behavior
+@repository https://github.com/expandjs/mat-elements
+@source https://github.com/expandjs/mat-elements/blob/master/mat-input-behavior.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../expandjs/expandjs.html">
+
+<script>
+    Polymer.MATInputBehavior = {
+
+        // PROPERTIES
+        properties: {
+
+            /**
+             * The input's holder.
+             *
+             * @attribute holder
+             * @type Element
+             * @readonly
+             */
+            holder: {
+                readOnly: true,
+                selector: '.holder'
+            }
+        },
+
+        /*********************************************************************/
+
+        // COMPUTER
+        _computeDescription(description, invalidMessage) {
+            return invalidMessage || description || '';
+        },
+
+        // COMPUTER
+        _computeFloated(empty, floatAlways, floatDisabled, focused, fullWidth, label, type) {
+            return (!!label && !floatDisabled && !fullWidth && (!!floatAlways || !!focused || !empty)) || ['date', 'datetime-local', 'time'].indexOf(type) > -1;
+        },
+
+        // COMPUTER
+        _computeLabel(floated, inputPrefix, label) {
+            return `${(!floated && inputPrefix) || ``}${label || ``}`;
+        },
+
+        // COMPUTER
+        _computeLabelOpacity(floated) {
+            return floated ? 'secondary' : 'hint';
+        }
+    };
+</script>
