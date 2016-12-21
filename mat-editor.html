@@ -306,6 +306,17 @@ A web component used to display a Material Design code editor.
                     if (value) { this.input.addOverlay(this.searchOverlay = this._searchOverlay(value)); }
                 },
 
+                /**
+                 * Refreshes the editor.
+                 *
+                 * @method refresh
+                 */
+                refresh() {
+
+                    // Refreshing
+                    this.input.refresh();
+                },
+
                 /*********************************************************************/
 
                 /**
@@ -646,7 +657,7 @@ A web component used to display a Material Design code editor.
                     this.input.setSize('100%', '100%');
 
                     // Refreshing
-                    this.input.refresh();
+                    this.refresh();
                 },
 
                 // OBSERVER
