@@ -43,6 +43,12 @@ A web component used to display a [Material Design side drawer](http://www.googl
                 pointer-events: auto;
             }
 
+            :host([empty]) {
+                opacity: 0 !important;
+                pointer-events: none !important;
+                visibility: hidden !important;
+            }
+
             :host .wrapper {
                 box-sizing: border-box;
                 height: 100%;
@@ -107,6 +113,23 @@ A web component used to display a [Material Design side drawer](http://www.googl
                 },
 
                 /**
+                 * If set to true, the drawer is hidden.
+                 *
+                 * @attribute empty
+                 * @type boolean
+                 * @default true
+                 * @notifies
+                 * @readonly
+                 */
+                empty: {
+                    notify: true,
+                    readOnly: true,
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: true
+                },
+
+                /**
                  * If set to true, the material spacing rules are applied.
                  *
                  * @attribute padding
@@ -155,6 +178,22 @@ A web component used to display a [Material Design side drawer](http://www.googl
             // COMPUTER
             _computeZ(narrow) {
                 return narrow ? 16 : null;
+            },
+
+            /*********************************************************************/
+
+            // LISTENER
+            mutated() {
+
+                // Ensuring
+                this.ensure('empty', !XP.hasChildren(Polymer.dom(this)));
+            },
+
+            // LISTENER
+            ready() {
+
+                // Observing
+                Polymer.dom(this).observeNodes(this.mutated.bind(this));
             }
         });
     </script>
