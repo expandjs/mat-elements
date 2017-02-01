@@ -160,7 +160,7 @@ A web component used to scaffold a [Material Design application](http://www.goog
         <div class="wrapper">
             <div class="main"><slot></slot></div>
             <div class="backdrop" on-click="_handleHide"></div>
-            <div class="drawer-wrapper" on-xp-select="_handleSelect"><slot name="drawer"></slot></div>
+            <div class="drawer-wrapper"><slot name="drawer"></slot></div>
         </div>
 
     </template>
@@ -254,19 +254,6 @@ A web component used to scaffold a [Material Design application](http://www.goog
                  */
                 animating: {
                     readOnly: true,
-                    reflectToAttribute: true,
-                    type: Boolean,
-                    value: false
-                },
-
-                /**
-                 * If set to true, the drawer will automatically close by selecting something inside.
-                 *
-                 * @attribute auto-hide
-                 * @type boolean
-                 * @default false
-                 */
-                autoHide: {
                     reflectToAttribute: true,
                     type: Boolean,
                     value: false
@@ -620,16 +607,6 @@ A web component used to scaffold a [Material Design application](http://www.goog
 
                 // Handling
                 this.debounce('shifting', () => this._handleShift(null, true));
-            },
-
-            // HANDLER
-            _handleSelect(event) {
-
-                // Checking
-                if (!this.autoHide || !this.narrow || this.right || event.detail.multi || !event.detail.isSelected) { return; }
-
-                // Hiding
-                if (!this.refire(event).defaultPrevented) { this.hide(); }
             },
 
             // HANDLER

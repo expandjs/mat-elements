@@ -371,6 +371,7 @@ A web component used to display a Material Design code editor.
                     this.input.on('change', this._prefixChanged.bind(this));
                     this.input.on('change', XP.debounce(this.__handleChange.bind(this), 300));
                     this.input.on('focus', this.__handleFocus.bind(this));
+                    this.input.on('refresh', this._linesChanged.bind(this));
                     this.input.display.scrollbars.horiz.addEventListener('scroll', this._handleScroll.bind(this));
                 },
 
