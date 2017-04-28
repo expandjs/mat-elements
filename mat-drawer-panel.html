@@ -49,10 +49,6 @@ A web component used to scaffold a [Material Design application](http://www.goog
                 pointer-events: auto !important;
             }
 
-            :host(:not([narrow])) > .wrapper > .main {
-                z-index: 1;
-            }
-
             :host > .wrapper > .backdrop {
                 @apply --layout-fit;
                 background: hsla(0, 0%, 0%, 0.5);
@@ -251,6 +247,7 @@ A web component used to scaffold a [Material Design application](http://www.goog
                  * @attribute animating
                  * @type boolean
                  * @default false
+                 * @readonly
                  */
                 animating: {
                     readOnly: true,
@@ -304,6 +301,19 @@ A web component used to scaffold a [Material Design application](http://www.goog
                 drawerWrapper: {
                     readOnly: true,
                     selector: '.drawer-wrapper'
+                },
+
+                /**
+                 * If set to true, the drawer panel will not close on `esc`.
+                 *
+                 * @attribute esc-disabled
+                 * @type boolean
+                 * @default false
+                 */
+                escDisabled: {
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
                 },
 
                 /**
@@ -593,7 +603,7 @@ A web component used to scaffold a [Material Design application](http://www.goog
 
                 // Setting
                 if (!event.keyCode && !event.button) { event.hiding = this; }
-                if (!event.defaultPrevented && event.keyCode === 27 && this.showed && (this.narrow || this.right)) { event.hiding = this; }
+                if (!event.defaultPrevented && event.keyCode === 27 && !this.escDisabled && this.showed && (this.narrow || this.right)) { event.hiding = this; }
 
                 // Frame 1
                 requestAnimationFrame(() => event.hiding !== this || this.hide());

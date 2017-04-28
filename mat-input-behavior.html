@@ -26,24 +26,6 @@ A behavior used to add [Material Design input](http://www.google.com/design/spec
 <script>
     Polymer.MATInputBehavior = {
 
-        // PROPERTIES
-        properties: {
-
-            /**
-             * The input's holder.
-             *
-             * @attribute holder
-             * @type Element
-             * @readonly
-             */
-            holder: {
-                readOnly: true,
-                selector: '.holder'
-            }
-        },
-
-        /*********************************************************************/
-
         // COMPUTER
         _computeDescription(description, invalidMessage) {
             return invalidMessage || description || '';

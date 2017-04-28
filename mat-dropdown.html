@@ -341,7 +341,7 @@ A web component used to display a [Material Design dropdown](http://www.google.c
             _inject() {
 
                 // Let
-                let input = document.createElement('input');
+                let input = Object.assign(document.createElement('input'), {type: this.type, value: this.value});
 
                 // Setting
                 XP.setAttribute(input, 'slot', 'input');
@@ -476,6 +476,18 @@ A web component used to display a [Material Design dropdown](http://www.google.c
                     reflectToAttribute: true,
                     type: Boolean,
                     value: false
+                },
+
+                /**
+                 * The input's holder.
+                 *
+                 * @attribute holder
+                 * @type Element
+                 * @readonly
+                 */
+                holder: {
+                    readOnly: true,
+                    selector: '.holder'
                 },
 
                 /**

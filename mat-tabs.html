@@ -68,6 +68,11 @@ It must be used in conjunction with [mat-tab](https://expandjs.com/components/ma
                 display: none !important;
             }
 
+            :host([centered]) .wrapper {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
             /* TABLET */
 
             @media (max-width: 960px) {
@@ -151,6 +156,19 @@ It must be used in conjunction with [mat-tab](https://expandjs.com/components/ma
                     reflectToAttribute: true,
                     type: String,
                     value: 'transparent'
+                },
+
+                /**
+                 * If set to true, the tabs ar centered.
+                 *
+                 * @attribute centered
+                 * @type boolean
+                 * @default false
+                 */
+                centered: {
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: false
                 },
 
                 /**

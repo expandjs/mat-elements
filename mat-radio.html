@@ -210,11 +210,11 @@ A web component used to display a [Material Design radio button](https://www.goo
             _inject() {
 
                 // Let
-                let input = document.createElement('input');
+                let input = Object.assign(document.createElement('input'), {type: this.type, value: this.value});
 
                 // Setting
-                XP.setAttribute(input, 'checked', this.checked);
                 XP.setAttribute(input, 'type', this.type);
+                XP.setAttribute(input, 'checked', this.checked);
                 XP.setAttribute(input, 'value', this.value);
 
                 // Appending
@@ -232,7 +232,6 @@ A web component used to display a [Material Design radio button](https://www.goo
                 // Setting
                 XP.setAttribute(this.input, 'disabled', this.disabled);
                 XP.setAttribute(this.input, 'name', this.name);
-                XP.setAttribute(this.input, 'type', this.type);
                 XP.setAttribute(this.input, 'value', this.value);
             },
 
@@ -301,6 +300,18 @@ A web component used to display a [Material Design radio button](https://www.goo
                     reflectToAttribute: true,
                     type: Boolean,
                     value: false
+                },
+
+                /**
+                 * The input's holder.
+                 *
+                 * @attribute holder
+                 * @type Element
+                 * @readonly
+                 */
+                holder: {
+                    readOnly: true,
+                    selector: '.holder'
                 },
 
                 /**

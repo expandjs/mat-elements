@@ -120,12 +120,12 @@ A web component used to display a [Material Design text field](http://www.google
             _inject() {
 
                 // Let
-                let input = document.createElement('input');
+                let input = Object.assign(document.createElement('input'), {type: this.type, value: this.value});
 
                 // Setting
+                XP.setAttribute(input, 'type', this.type);
                 XP.setAttribute(input, 'autofocus', this.autoFocus);
                 XP.setAttribute(input, 'size', 1);
-                XP.setAttribute(input, 'type', this.type);
                 XP.setAttribute(input, 'value', this.value);
 
                 // Listening
@@ -159,6 +159,7 @@ A web component used to display a [Material Design text field](http://www.google
             _update() {
 
                 // Setting
+                XP.setAttribute(this.input, 'type', this.type);
                 XP.setAttribute(this.input, 'autocomplete', this.autocomplete);
                 XP.setAttribute(this.input, 'disabled', this.disabled);
                 XP.setAttribute(this.input, 'max', this.max);
@@ -169,7 +170,6 @@ A web component used to display a [Material Design text field](http://www.google
                 XP.setAttribute(this.input, 'readonly', this.readonly);
                 XP.setAttribute(this.input, 'required', this.required);
                 XP.setAttribute(this.input, 'step', this.step);
-                XP.setAttribute(this.input, 'type', this.type);
 
                 // Async
                 this.async(function () {
@@ -318,6 +318,18 @@ A web component used to display a [Material Design text field](http://www.google
                     reflectToAttribute: true,
                     type: Boolean,
                     value: false
+                },
+
+                /**
+                 * The input's holder.
+                 *
+                 * @attribute holder
+                 * @type Element
+                 * @readonly
+                 */
+                holder: {
+                    readOnly: true,
+                    selector: '.holder'
                 },
 
                 /**

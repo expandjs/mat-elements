@@ -170,11 +170,11 @@ It must be used in conjunction with [mat-list](https://expandjs.com/components/m
             </template>
 
             <template is="dom-if" if="[[_hasHeader(collapsible, label)]]" restamp>
-                <mat-subheader class="subheader" inset="[[inset]]" label="[[label]]"></mat-subheader>
+                <mat-subheader class="subheader" color="[[color]]" inset="[[inset]]" label="[[label]]"></mat-subheader>
             </template>
 
             <template is="dom-if" if="[[_hasIcon(icon, iconSrc, label)]]" restamp>
-                <mat-icon class="icon" name="[[icon]]" src="[[iconSrc]]"></mat-icon>
+                <mat-icon class="icon" color="[[color]]" name="[[icon]]" src="[[iconSrc]]"></mat-icon>
             </template>
 
             <div class="wrapper">
