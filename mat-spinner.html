@@ -45,27 +45,43 @@ A web component used to display a [Material Design spinner](http://www.google.co
             }
 
             :host .layer.one {
-                -webkit-animation: spinner-layer-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, spinner-layer-one 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-                animation: spinner-layer-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, spinner-layer-one 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
                 border-color: hsl(217, 89%, 61%);
             }
 
+            :host([showed]) .layer.one,
+            :host([hiding]) .layer.one {
+                -webkit-animation: spinner-layer-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, spinner-layer-one 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
+                animation: spinner-layer-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, spinner-layer-one 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
+            }
+
             :host .layer.two {
-                -webkit-animation: spinner-layer-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, spinner-layer-two 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-                animation: spinner-layer-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, spinner-layer-two 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
                 border-color: hsl(5, 69%, 54%);
             }
 
+            :host([showed]) .layer.two,
+            :host([hiding]) .layer.two {
+                -webkit-animation: spinner-layer-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, spinner-layer-two 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
+                animation: spinner-layer-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, spinner-layer-two 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
+            }
+
             :host .layer.three {
-                -webkit-animation: spinner-layer-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, spinner-layer-three 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-                animation: spinner-layer-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, spinner-layer-three 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
                 border-color: hsl(44, 100%, 48%);
             }
 
+            :host([showed]) .layer.three,
+            :host([hiding]) .layer.three {
+                -webkit-animation: spinner-layer-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, spinner-layer-three 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
+                animation: spinner-layer-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, spinner-layer-three 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
+            }
+
             :host .layer.four {
+                border-color: hsl(151, 83%, 34%);
+            }
+
+            :host([showed]) .layer.four,
+            :host([hiding]) .layer.four {
                 -webkit-animation: spinner-layer-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, spinner-layer-four 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
                 animation: spinner-layer-rotate 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both, spinner-layer-four 5332ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-                border-color: hsl(151, 83%, 34%);
             }
 
             :host .clipper {
@@ -90,18 +106,26 @@ A web component used to display a [Material Design spinner](http://www.google.co
             }
 
             :host .left .circle {
-                -webkit-animation: spinner-left-spin 1333ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-                animation: spinner-left-spin 1333ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
                 border-right-color: transparent !important;
                 transform: rotate(129deg);
             }
 
+            :host([showed]) .left .circle,
+            :host([hiding]) .left .circle {
+                -webkit-animation: spinner-left-spin 1333ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
+                animation: spinner-left-spin 1333ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
+            }
+
             :host .right .circle {
-                -webkit-animation: spinner-right-spin 1333ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-                animation: spinner-right-spin 1333ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
                 border-left-color: transparent !important;
                 left: -100%;
                 transform: rotate(-129deg);
+            }
+
+            :host([showed]) .right .circle,
+            :host([hiding]) .right .circle {
+                -webkit-animation: spinner-right-spin 1333ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
+                animation: spinner-right-spin 1333ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
             }
 
             /* ANIMATIONS */
