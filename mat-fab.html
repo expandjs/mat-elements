@@ -374,7 +374,7 @@ A web component used to display a [Material Design FAB](http://www.google.com/de
             _activeIconChanged() {
 
                 // Ensuring
-                this.ensure('animated', !!this.activeIcon || !!this.activeIconSrc);
+                this.ensure('animated', Boolean(this.activeIcon || this.activeIconSrc));
             }
         });
     </script>

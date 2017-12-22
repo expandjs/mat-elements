@@ -285,17 +285,17 @@ It must be used in conjunction with [mat-list](https://expandjs.com/components/m
 
             // COMPUTER
             _hasCollapser(collapsible, label) {
-                return !!collapsible && !!label;
+                return Boolean(collapsible && label);
             },
 
             // COMPUTER
             _hasHeader(collapsible, label) {
-                return !collapsible && !!label;
+                return Boolean(!collapsible && label);
             },
 
             // COMPUTER
             _hasIcon(icon, iconSrc, label) {
-                return (!!icon || !!iconSrc) && !label;
+                return Boolean((icon || iconSrc) && !label);
             },
 
             /*********************************************************************/
@@ -304,7 +304,7 @@ It must be used in conjunction with [mat-list](https://expandjs.com/components/m
             _iconChanged() {
 
                 // Ensuring
-                this.ensure('inset', !!this.icon || !!this.iconSrc);
+                this.ensure('inset', Boolean(this.icon || this.iconSrc));
             }
         });
     </script>

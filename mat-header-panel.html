@@ -377,6 +377,8 @@ It must be used in conjunction with [mat-header](https://expandjs.com/components
                 }
             },
 
+            /*********************************************************************/
+
             /**
              * The list of possible scroll modes.
              *
@@ -456,7 +458,7 @@ It must be used in conjunction with [mat-header](https://expandjs.com/components
             // LISTENER
             detached() {
 
-                // Unlistening
+                // Removing listeners
                 this.unlisten(window, 'resize', '_handleHeights');
             },
 
@@ -480,7 +482,7 @@ It must be used in conjunction with [mat-header](https://expandjs.com/components
             _handleHeights() {
 
                 // Ensuring
-                this.ensure('headerExtendedHeight', this.header.extendedBy);
+                this.ensure('headerExtendedHeight', this.header ? this.header.extendedBy : 0);
                 this.ensure('headerMainHeight', window.innerWidth < 960 ? 64 : 56);
                 this.ensure('headerHeight', this.headerMainHeight + this.headerExtendedHeight);
 

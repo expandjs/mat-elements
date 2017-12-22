@@ -209,7 +209,7 @@ It must be used in conjunction with [mat-tab](https://expandjs.com/components/ma
             // LISTENER
             detached() {
 
-                // Unlistening
+                // Removing listeners
                 this.unlisten(window, 'resize', '_handleResize');
             },
 
@@ -229,17 +229,16 @@ It must be used in conjunction with [mat-tab](https://expandjs.com/components/ma
                 Polymer.XPTabsBehaviorImp.__handleMutation.apply(this, arguments);
 
                 // Waiting
-                this.wait(() => {
-                    requestAnimationFrame(() => {
-                        // Let
-                        let item    = this.selectedItem && XP.getBoundings(this.selectedItem),
-                            wrapper = this.selectedItem && XP.getBoundings(this.wrapper);
+                this.wait(() => requestAnimationFrame(() => {
 
-                        // Styling
-                        this.bar.style.transform = `translateX(${item ? item.left - wrapper.left : 0}px)`;
-                        this.bar.style.width     = `${item ? item.width : 0}px`;
-                    });
-                });
+                    // Let
+                    let item    = this.selectedItem && XP.getBoundings(this.selectedItem),
+                        wrapper = this.selectedItem && XP.getBoundings(this.wrapper);
+
+                    // Styling
+                    this.bar.style.transform = `translateX(${item ? item.left - wrapper.left : 0}px)`;
+                    this.bar.style.width     = `${item ? item.width : 0}px`;
+                }));
             }
         });
     </script>

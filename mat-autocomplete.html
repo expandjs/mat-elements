@@ -7,38 +7,46 @@ The complete set of contributors may be found at https://expandjs.github.io/CONT
 -->
 
 <!--
-A web component used to display a [Material Design multi-line text field](http://www.google.com/design/spec/components/text-fields.html#text-fields-multi-line-text-field).
+A web component used to display a [Material Design autocomplete](https://material.io/guidelines/patterns/search.html#search-in-app-search).
 
-@element mat-text-area
-@since 1.0.0
+@element mat-autocomplete
+@since 1.4.0
 @category inputs
-@description A web component used to display a Material Design multi-line text-field
+@description A web component used to display a Material Design text-field
 @keywords material input, material design, expandjs, web components
 
-@homepage https://expandjs.com/components/mat-text-area
+@homepage https://expandjs.com/components/mat-autocomplete
 @repository https://github.com/expandjs/mat-elements
-@source https://github.com/expandjs/mat-elements/blob/master/mat-text-area.html
-@demo https://expandjs.com/components/mat-text-area/demo
+@source https://github.com/expandjs/mat-elements/blob/master/mat-autocomplete.html
 
+@behavior xp-finder-behavior /bower_components/xp-elements/xp-finder-behavior.html
+@behavior xp-overlay-wrapper /bower_components/xp-elements/xp-overlay-wrapper.html
 @behavior mat-input-value-behavior /bower_components/mat-elements/mat-input-value-behavior.html
 -->
 
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../xp-elements/xp-finder-behavior.html">
+<link rel="import" href="../xp-elements/xp-overlay-wrapper.html">
 <link rel="import" href="mat-ink.html">
-<link rel="import" href="mat-input-value-behavior.html">
 <link rel="import" href="mat-input-styles.html">
+<link rel="import" href="mat-input-value-behavior.html">
+<link rel="import" href="mat-option.html">
+<link rel="import" href="mat-overlay.html">
 
-<dom-module id="mat-text-area">
+<dom-module id="mat-autocomplete">
 
     <template strip-whitespace>
 
-        <style include="mat-input-styles"></style>
+        <style include="mat-input-styles">
+            :host .overlay {
+                margin: 0;
+            }
+        </style>
 
         <div class="wrapper">
             <div class="main">
                 <mat-ink class="label" disabled="[[disabled]]" opacity="[[_computeLabelOpacity(floated)]]"><span>[[label]]</span></mat-ink>
-                <div class="mirror"></div>
                 <mat-ink class="holder" disabled="[[disabled]]"><span><slot id="input" name="input"></slot></span></mat-ink>
             </div>
             <div class="underline">
@@ -51,21 +59,37 @@ A web component used to display a [Material Design multi-line text field](http:/
             </mat-ink>
         </div>
 
+        <mat-overlay position="baseline" target="[[_computeTarget(fullWidth, underline)]]" z="1" on-xp-activate="_handleActivate"><slot></slot></mat-overlay>
+
     </template>
 
     <script>
         Polymer({
 
             // ELEMENT
-            is: 'mat-text-area',
+            is: 'mat-autocomplete',
 
             // BEHAVIORS
             behaviors: [
+                Polymer.XPFinderBehavior,
+                Polymer.XPOverlayWrapper,
                 Polymer.MATInputValueBehavior
             ],
 
             // CLASSES
-            classes: ['text-area'],
+            classes: ['autocomplete'],
+
+            /*********************************************************************/
+
+            /**
+             * Fired on focus and input.
+             *
+             * @event xp-input-autocomplete
+             * @param {string} id
+             * @param {string} name
+             * @param {string} value
+             * @bubbles
+             */
 
             /*********************************************************************/
 
@@ -115,16 +139,20 @@ A web component used to display a [Material Design multi-line text field](http:/
             _inject() {
 
                 // Let
-                let input = document.createElement('textarea');
+                let input = Object.assign(document.createElement('input'), {type: 'text', value: this.value});
 
                 // Setting
                 XP.setAttribute(input, 'slot', 'input');
+                XP.setAttribute(input, 'type', 'text');
                 XP.setAttribute(input, 'autocomplete', 'off');
                 XP.setAttribute(input, 'autofocus', this.autoFocus);
-                XP.setAttribute(input, 'cols', 1);
-                XP.merge(input, {textContent: this.value});
+                XP.setAttribute(input, 'size', 1);
+                XP.setAttribute(input, 'value', this.value);
 
                 // Listening
+                this.listen(input, 'blur', '_handleBlur');
+                this.listen(input, 'focus', '_handleAutocomplete');
+                this.listen(input, 'input', '_handleAutocomplete');
                 this.listen(input, 'input', '_handleInput');
 
                 // Appending
@@ -154,7 +182,6 @@ A web component used to display a [Material Design multi-line text field](http:/
 
                 // Setting
                 XP.setAttribute(this.input, 'disabled', this.disabled);
-                XP.setAttribute(this.input, 'minLength', this.minLength);
                 XP.setAttribute(this.input, 'name', this.name);
                 XP.setAttribute(this.input, 'readonly', this.readonly);
                 XP.setAttribute(this.input, 'required', this.required);
@@ -181,7 +208,6 @@ A web component used to display a [Material Design multi-line text field](http:/
                 this.ensure('invalidMessage', this.input.validationMessage);
 
                 // Handling
-                this.__handleMirror();
                 this._handleInput();
             },
 
@@ -189,7 +215,9 @@ A web component used to display a [Material Design multi-line text field](http:/
 
             // OBSERVERS
             observers: [
-                'update(deburr, input, maxLength, minLength, readonly)'
+                '_overlayChanged(overlay)',
+                '_widthChanger(fullWidth, overlay, showed)',
+                'update(deburr, input, readonly)'
             ],
 
             // PROPERTIES
@@ -225,6 +253,7 @@ A web component used to display a [Material Design multi-line text field](http:/
                  *
                  * @attribute floated
                  * @type boolean
+                 * @default false
                  * @readonly
                  */
                 floated: {
@@ -274,59 +303,27 @@ A web component used to display a [Material Design multi-line text field](http:/
                 },
 
                 /**
-                 * The input's holder.
+                 * The attribute used as index.
                  *
-                 * @attribute holder
-                 * @type Element
-                 * @readonly
+                 * @attribute index-attribute
+                 * @type string
+                 * @default "value"
                  */
-                holder: {
-                    readOnly: true,
-                    selector: '.holder'
+                indexAttribute: {
+                    type: String,
+                    value: 'value'
                 },
 
                 /**
-                 * The input's max characters number.
+                 * The selector used to recognize items.
                  *
-                 * @attribute max-length
-                 * @type number
+                 * @attribute item-selector
+                 * @type string
+                 * @default ".option"
                  */
-                maxLength: {
-                    reflectToAttribute: true,
-                    type: Number
-                },
-
-                /**
-                 * The input's max rows number, `0` for unlimited rows.
-                 *
-                 * @attribute max-rows
-                 * @type number
-                 */
-                maxRows: {
-                    reflectToAttribute: true,
-                    type: Number
-                },
-
-                /**
-                 * The input's min characters number.
-                 *
-                 * @attribute min-length
-                 * @type number
-                 */
-                minLength: {
-                    reflectToAttribute: true,
-                    type: Number
-                },
-
-                /**
-                 * The input's min rows number.
-                 *
-                 * @attribute min-rows
-                 * @type number
-                 */
-                minRows: {
-                    reflectToAttribute: true,
-                    type: Number
+                itemSelector: {
+                    type: String,
+                    value: '.option'
                 },
 
                 /**
@@ -353,10 +350,83 @@ A web component used to display a [Material Design multi-line text field](http:/
                     reflectToAttribute: true,
                     type: Boolean,
                     value: false
+                },
+
+                /**
+                 * The input's underline.
+                 *
+                 * @attribute underline
+                 * @type Element
+                 * @readonly
+                 */
+                underline: {
+                    readOnly: true,
+                    selector: '.underline'
                 }
             },
 
             /*********************************************************************/
+
+            // COMPUTER
+            _computeTarget(fullWidth, underline) {
+                return fullWidth ? this : underline;
+            },
+
+            /*********************************************************************/
+
+            // OBSERVER
+            _overlayChanged(post) {
+
+                // Overriding
+                if (post) { post.__handleHide = () => {}; }
+            },
+
+            // OBSERVER
+            _widthChanger() {
+
+                // Styling
+                this.overlay.style.width = `${this.clientWidth}px`;
+            },
+
+            /*********************************************************************/
+
+            // HANDLER
+            _handleActivate(event) {
+
+                // Let
+                let firer = this.firer(event);
+
+                // Ensuring
+                this.ensure('value', firer.getAttribute(this.indexAttribute) || '');
+
+                // Hiding
+                this.overlay.hide();
+
+                // Blurring
+                requestAnimationFrame(this.blur.bind(this));
+            },
+
+            // HANDLER
+            _handleAutocomplete() {
+
+                // Hiding
+                this.hide();
+
+                // Firing
+                this.debounce('autocomplete', () => this.fire('xp-input-autocomplete', {id: this.id, name: this.name, value: this.input.value}), this.delay);
+            },
+
+            // HANDLER
+            _handleBlur() {
+
+                // Let
+                let shady  = this.root.toString() === '[object DocumentFragment]',
+                    method = shady ? 'closest' : 'matches',
+                    root   = shady ? document : this.root;
+
+                // Hiding
+                requestAnimationFrame(() => root.activeElement && root.activeElement[method]('.option') || this.overlay.hide());
+            },
 
             // HANDLER
             _handleInput() {
@@ -366,7 +436,7 @@ A web component used to display a [Material Design multi-line text field](http:/
 
                 // Ensuring
                 this.ensure('chars', this.input.value.length);
-                this.ensure('empty', this.input.value.length === 0);
+                this.ensure('empty', this.input.value.length === 0 && !this.input.validity.badInput);
                 this.ensure('invalid', Boolean(this.invalidMessage || this.maxLength > 0 && this.chars > this.maxLength));
             }
         });

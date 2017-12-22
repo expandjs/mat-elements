@@ -58,10 +58,6 @@ A web component used to display a [Material Design menu option](https://www.goog
                 text-decoration: none;
             }
 
-            :host .anchor[href]:hover .label {
-                text-decoration: underline;
-            }
-
             :host .main {
                 @apply --layout-horizontal;
                 @apply --layout-center;
@@ -286,12 +282,12 @@ A web component used to display a [Material Design menu option](https://www.goog
 
             // COMPUTER
             _computeActive(toggleable, active) {
-                return !toggleable && !!active;
+                return Boolean(!toggleable && active);
             },
 
             // COMPUTER
             _computeInset(toggleable, icon, iconSrc) {
-                return !!toggleable || !!icon || !!iconSrc;
+                return Boolean(toggleable || icon || iconSrc);
             },
 
             // COMPUTER

@@ -20,13 +20,11 @@ A behavior used to add text [Material Design input](https://www.google.com/desig
 @source https://github.com/expandjs/mat-elements/blob/master/mat-input-checked-behavior.html
 
 @behavior xp-input-value-behavior /bower_components/xp-elements/xp-input-value-behavior.html
-@behavior mat-input-behavior /bower_components/mat-elements/mat-input-behavior.html
 -->
 
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../expandjs/expandjs.html">
 <link rel="import" href="../xp-elements/xp-input-value-behavior.html">
-<link rel="import" href="mat-input-behavior.html">
 
 <script>
 
@@ -34,21 +32,6 @@ A behavior used to add text [Material Design input](https://www.google.com/desig
      * @polymerBehavior Polymer.MATInputValueBehaviorImp
      */
     Polymer.MATInputValueBehaviorImp = {
-
-        /**
-         * Used internally with auto growing inputs to keep the mirror updated.
-         *
-         * @method _mirror
-         * @param {string} value
-         * @private
-         */
-        _mirror(value) {
-
-            // Mirroring
-            if (this.mirror) { this.mirror.innerHTML = `${XP.escape(value).replace(/\n/g, '<br/>')}&nbsp;`; }
-        },
-
-        /*********************************************************************/
 
         // OBSERVERS
         observers: [
@@ -80,7 +63,7 @@ A behavior used to add text [Material Design input](https://www.google.com/desig
              * @readonly
              */
             mirrored: {
-                computed: '_computeMirrored(mirror)',
+                computed: 'isTruthy(mirror)',
                 reflectToAttribute: true,
                 type: Boolean,
                 value: false
@@ -95,8 +78,23 @@ A behavior used to add text [Material Design input](https://www.google.com/desig
         },
 
         // COMPUTER
-        _computeMirrored(mirror) {
-            return !!mirror;
+        _computeDescription(description, invalidMessage) {
+            return invalidMessage || description || '';
+        },
+
+        // COMPUTER
+        _computeFloated(empty, floatAlways, floatDisabled, focused, fullWidth, label, type) {
+            return Boolean(label && !floatDisabled && !fullWidth && (floatAlways || focused || !empty) || ['date', 'datetime-local', 'time'].indexOf(type) > -1);
+        },
+
+        // COMPUTER
+        _computeLabel(label, floated, inputPrefix) {
+            return `${!floated && inputPrefix || ``}${label || ``}`;
+        },
+
+        // COMPUTER
+        _computeLabelOpacity(floated) {
+            return floated ? 'secondary' : 'hint';
         },
 
         /*********************************************************************/
@@ -109,42 +107,29 @@ A behavior used to add text [Material Design input](https://www.google.com/desig
 
             // Listening
             if (this.mirror) { this.listen(post, 'input', '__handleMirror'); }
+
+            // Handling
+            if (this.mirror) { this.__handleMirror(); }
         },
 
         // OBSERVER
         __maxRowsChanged() {
 
-            // Checking
-            if (!this.mirror) { return; }
-
             // Let
             let rows = XP.toIndex(this.maxRows);
 
             // Styling
-            this.mirror.style.maxHeight = rows ? `${rows * 24}px` : ``;
+            this.async(() => this.mirror ? this.mirror.style.maxHeight = rows ? `${rows * 24}px` : `` : null);
         },
 
         // OBSERVER
         __minRowsChanged() {
 
-            // Checking
-            if (!this.mirror) { return; }
-
             // Let
             let rows = XP.toIndex(this.minRows) || 1;
 
             // Styling
-            this.mirror.style.minHeight = rows ? `${rows * 24}px` : ``;
-        },
-
-        // OBSERVER
-        __valueChanged(post) {
-
-            // Super
-            Polymer.XPInputValueBehaviorImp.__valueChanged.apply(this, arguments);
-
-            // Mirroring
-            this._mirror(post);
+            this.async(() => this.mirror ? this.mirror.style.minHeight = rows ? `${rows * 24}px` : `` : null);
         },
 
         /*********************************************************************/
@@ -152,8 +137,11 @@ A behavior used to add text [Material Design input](https://www.google.com/desig
         // HANDLER
         __handleMirror() {
 
+            // Let
+            let html = `${XP.escape(this.input.value).replace(/\n/g, '<br/>')}&nbsp;`;
+
             // Mirroring
-            this._mirror(this.input.value);
+            this.async(() => this.mirror ? this.mirror.innerHTML = html : null);
         }
     };
 
@@ -162,7 +150,6 @@ A behavior used to add text [Material Design input](https://www.google.com/desig
      */
     Polymer.MATInputValueBehavior = [
         Polymer.XPInputValueBehavior,
-        Polymer.MATInputBehavior,
         Polymer.MATInputValueBehaviorImp
     ];
 </script>

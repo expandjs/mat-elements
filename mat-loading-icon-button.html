@@ -10,7 +10,7 @@ The complete set of contributors may be found at https://expandjs.github.io/CONT
 A web component used to display a [Material Design loading icon button](http://www.google.com/design/spec/components/buttons.html#buttons-other-buttons).
 
 @element mat-loading-icon-button
-@since 1.0.0
+@since 1.1.0
 @category contents
 @description A web component used to display a Material Design icon button
 @keywords material button, material design, expandjs, web components
@@ -271,7 +271,7 @@ A web component used to display a [Material Design loading icon button](http://w
             _activeIconChanged() {
 
                 // Ensuring
-                this.ensure('animated', !!this.activeIcon || !!this.activeIconSrc);
+                this.ensure('animated', Boolean(this.activeIcon || this.activeIconSrc));
             }
         });
     </script>

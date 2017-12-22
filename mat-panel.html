@@ -177,7 +177,7 @@ A web component used to display a [Material Design panel](https://www.google.com
                 if (!this.isAttached || !this.group) { return; }
 
                 // Collapsing
-                if (!this.collapsed && this.group.autoCollapse) { XP.findSiblingElements(this, '.panel').forEach(panel => panel.collapse()); }
+                if (!this.collapsed && this.group.autoCollapse) { XP.getAllSiblings(this.group.panels, this).forEach(panel => panel.collapse()); }
             },
 
             /*********************************************************************/

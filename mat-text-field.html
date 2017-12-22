@@ -41,10 +41,10 @@ A web component used to display a [Material Design text field](http://www.google
 
         <div class="wrapper">
             <div class="main">
-                <mat-ink class="label" disabled="[[disabled]]" opacity="[[_computeLabelOpacity(floated)]]"><span>[[_computeLabel(floated, inputPrefix, label)]]</span></mat-ink>
+                <mat-ink class="label" disabled="[[disabled]]" opacity="[[_computeLabelOpacity(floated)]]"><span>[[_computeLabel(label, floated, inputPrefix)]]</span></mat-ink>
                 <mat-ink class="prefix" disabled="[[disabled]]"><span>[[inputPrefix]]</span></mat-ink>
                 <mat-ink class="suffix" disabled="[[disabled]]" opacity="secondary"><span>[[inputSuffix]]</span></mat-ink>
-                <mat-ink class="holder" disabled="[[disabled]]"><slot></slot></mat-ink>
+                <mat-ink class="holder" disabled="[[disabled]]"><span><slot id="input" name="input"></slot></span></mat-ink>
             </div>
             <div class="underline">
                 <mat-ink class="default" opacity="divider"></mat-ink>
@@ -75,7 +75,7 @@ A web component used to display a [Material Design text field](http://www.google
             /*********************************************************************/
 
             /**
-             * Reflects the native input's `value` onto the element.
+             * Implements the `commitFrom` strategy.
              *
              * @method _commitFrom
              * @private
@@ -87,7 +87,7 @@ A web component used to display a [Material Design text field](http://www.google
             },
 
             /**
-             * Reflects the element's `tabIndex` onto the native input.
+             * Implements the `commitIndex` strategy.
              *
              * @method _commitIndex
              * @param {number} value
@@ -100,7 +100,7 @@ A web component used to display a [Material Design text field](http://www.google
             },
 
             /**
-             * Reflects the element's `value` onto the native input.
+             * Implements the `commitTo` strategy.
              *
              * @method _commitTo
              * @private
@@ -112,7 +112,7 @@ A web component used to display a [Material Design text field](http://www.google
             },
 
             /**
-             * Injects the native input.
+             * Implements the `inject` strategy.
              *
              * @method _inject
              * @private
@@ -123,6 +123,7 @@ A web component used to display a [Material Design text field](http://www.google
                 let input = Object.assign(document.createElement('input'), {type: this.type, value: this.value});
 
                 // Setting
+                XP.setAttribute(input, 'slot', 'input');
                 XP.setAttribute(input, 'type', this.type);
                 XP.setAttribute(input, 'autofocus', this.autoFocus);
                 XP.setAttribute(input, 'size', 1);
@@ -136,7 +137,7 @@ A web component used to display a [Material Design text field](http://www.google
             },
 
             /**
-             * Sanitize the native input's `value`.
+             * Implements the `sanitize` strategy.
              *
              * @method _sanitize
              * @param {boolean} [native = false]
@@ -151,7 +152,7 @@ A web component used to display a [Material Design text field](http://www.google
             },
 
             /**
-             * Updates the native input's attributes.
+             * Implements the `update` strategy.
              *
              * @method _update
              * @private
@@ -164,7 +165,7 @@ A web component used to display a [Material Design text field](http://www.google
                 XP.setAttribute(this.input, 'disabled', this.disabled);
                 XP.setAttribute(this.input, 'max', this.max);
                 XP.setAttribute(this.input, 'min', this.min);
-                XP.setAttribute(this.input, 'minLength', this.minLength);
+                XP.setAttribute(this.input, 'maxLength', this.maxLength);
                 XP.setAttribute(this.input, 'name', this.name);
                 XP.setAttribute(this.input, 'pattern', this.patterns[this.pattern] || this.pattern);
                 XP.setAttribute(this.input, 'readonly', this.readonly);
@@ -183,20 +184,20 @@ A web component used to display a [Material Design text field](http://www.google
             },
 
             /**
-             * Validates the native input's `value`.
+             * Implements the `validate` strategy.
              *
              * @method _validate
-             * @param {string} [error]
+             * @param {string} [invalidMessage]
              * @private
              */
-            _validate(error) {
+            _validate(invalidMessage) {
 
                 // Asserting
-                XP.assertArgument(XP.isVoid(error) || XP.isString(error), 1, 'string');
+                XP.assertArgument(XP.isVoid(invalidMessage) || XP.isString(invalidMessage), 1, 'string');
 
                 // Customizing
-                this.input.setCustomValidity(error || '');
-                this.input.setCustomValidity(error || (this.input.validity.valid === false && this.error) || '');
+                this.input.setCustomValidity(invalidMessage || '');
+                this.input.setCustomValidity(invalidMessage || (this.input.validity.valid === false && this.error) || '');
 
                 // Ensuring
                 this.ensure('invalid', this.input.validity.valid === false);
@@ -425,7 +426,8 @@ A web component used to display a [Material Design text field](http://www.google
                  */
                 pattern: {
                     reflectToAttribute: true,
-                    type: String
+                    type: String,
+                    value: null
                 },
 
                 /**
@@ -467,6 +469,8 @@ A web component used to display a [Material Design text field](http://www.google
                 }
             },
 
+            /*********************************************************************/
+
             /**
              * The map of patterns.
              *
@@ -477,14 +481,17 @@ A web component used to display a [Material Design text field](http://www.google
             patterns: {
                 camelCase: XP.camelCaseRegex.source,
                 capitalize: XP.capitalizeRegex.source,
+                constantCase: XP.constantCaseRegex.source,
                 kebabCase: XP.kebabCaseRegex.source,
                 lowerCase: XP.lowerCaseRegex.source,
                 pascalCase: XP.pascalCaseRegex.source,
+                sentenceCase: XP.sentenceCaseRegex.source,
                 snakeCase: XP.snakeCaseRegex.source,
                 startCase: XP.startCaseRegex.source,
                 trim: XP.trimRegex.source,
                 upperCase: XP.upperCaseRegex.source,
-                uuid: XP.uuidRegex.source
+                uuid: XP.uuidRegex.source,
+                version: XP.versionRegex.source
             },
 
             /*********************************************************************/
@@ -498,7 +505,7 @@ A web component used to display a [Material Design text field](http://www.google
                 // Ensuring
                 this.ensure('chars', this.input.value.length);
                 this.ensure('empty', this.input.value.length === 0 && !this.input.validity.badInput);
-                this.ensure('invalid', !!this.invalidMessage || (this.maxLength > 0 && this.chars > this.maxLength));
+                this.ensure('invalid', Boolean(this.invalidMessage || this.maxLength > 0 && this.chars > this.maxLength));
             }
         });
     </script>

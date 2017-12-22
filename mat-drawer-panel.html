@@ -97,21 +97,21 @@ A web component used to scaffold a [Material Design application](http://www.goog
                 min-width: 256px;
             }
 
-            :host([showed]) > .wrapper > .drawer-wrapper,
-            :host([tracking]) > .wrapper > .drawer-wrapper {
+            :host([mini]:not([narrow])) > .wrapper > .drawer-wrapper {
+                max-width: 72px;
+                min-width: 72px;
+                text-align: center;
+            }
+
+            :host([showed]:not([empty])) > .wrapper > .drawer-wrapper {
+                pointer-events: auto !important;
                 visibility: visible !important;
             }
 
             :host([tracking]) > .wrapper > .drawer-wrapper {
                 pointer-events: none !important;
                 transition: none !important;
-            }
-
-            :host([mini]:not([narrow])) > .wrapper > .drawer-wrapper {
-                max-width: 72px;
-                min-width: 72px;
-                pointer-events: auto !important;
-                text-align: center;
+                visibility: visible !important;
             }
 
             :host([animating]) > .wrapper > .backdrop,
@@ -228,6 +228,42 @@ A web component used to scaffold a [Material Design application](http://www.goog
 
             /*********************************************************************/
 
+            /**
+             * Resizes the drawer.
+             *
+             * @method resize
+             * @param {number} [offset]
+             * @param {boolean} [instant = false]
+             */
+            resize(offset, instant) {
+
+                // Checking
+                if (!this.backdrop || !this.drawerWrapper) { return; }
+
+                // Let
+                let other  = this.right ? 'left' : 'right',
+                    side   = this.right ? 'right' : 'left';
+
+                // Ensuring
+                this.ensure('width', this.empty ? 0 : (this.tracking ? this.width : XP.getWidth(this.drawer)));
+                this.ensure('offset', this.tracking ? XP.clamp(offset, 0, this.width) : (!this.showed || this.empty ? 0 : (this.mini && !this.narrow ? 72 : this.width)));
+
+                // Transitions
+                this.backdrop.style.transition      = this.tracking || instant ? `` : `opacity 0.33s cubic-bezier(0.55, 0, 0.01, 1)`;
+                this.drawerWrapper.style.transition = this.tracking || instant ? `` : `transform 0.33s cubic-bezier(0.55, 0, 0.01, 1)`;
+                this.main.style.transition          = this.tracking || instant ? `` : `${side} 0.33s cubic-bezier(0.55, 0, 0.01, 1)`;
+
+                // Styling
+                this.backdrop.style.opacity         = this.tracking ? this.backdrop.style.opacity : Number(this.showed);
+                this.drawerWrapper.style.transform  = this.tracking ? this.drawerWrapper.style.transform : `translateX(${this.showed ? 0 : (this.right ? 100 : -100)}%)`;
+                this.main.style.bottom              = 0;
+                this.main.style.top                 = 0;
+                this.main.style[side]               = this.narrow ? 0 : `${this.offset}px`;
+                this.main.style[other]              = this.main.style[other] || 0;
+            },
+
+            /*********************************************************************/
+
             // OBSERVERS
             observers: [
                 '_miniChanged(mini, right)',
@@ -301,6 +337,23 @@ A web component used to scaffold a [Material Design application](http://www.goog
                 drawerWrapper: {
                     readOnly: true,
                     selector: '.drawer-wrapper'
+                },
+
+                /**
+                 * If set to true, the drawer is hidden.
+                 *
+                 * @attribute empty
+                 * @type boolean
+                 * @default true
+                 * @notifies
+                 * @readonly
+                 */
+                empty: {
+                    notify: true,
+                    readOnly: true,
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: true
                 },
 
                 /**
@@ -447,7 +500,7 @@ A web component used to scaffold a [Material Design application](http://www.goog
                  * @readonly
                  */
                 tracking: {
-                    computed: '_computeTracking(tracked)',
+                    computed: 'isTruthy(tracked)',
                     reflectToAttribute: true,
                     type: Boolean,
                     value: false
@@ -473,11 +526,6 @@ A web component used to scaffold a [Material Design application](http://www.goog
                 return XP.isNumber(breakPoint) ? breakPoint : (right ? 640 : (mini ? 961 : 1280));
             },
 
-            // COMPUTER
-            _computeTracking(tracked) {
-                return !!tracked;
-            },
-
             /*********************************************************************/
 
             // OBSERVER
@@ -490,12 +538,22 @@ A web component used to scaffold a [Material Design application](http://www.goog
             // OBSERVER
             _drawerChanged(post, pre) {
 
+                // Ensuring
+                this.ensure('empty', this.drawer ? this.drawer.empty : true);
+
                 // Listening
                 if (pre) { this.unlisten(pre, 'empty-changed', '_handleEmpty'); }
                 if (post) { this.listen(post, 'empty-changed', '_handleEmpty'); }
 
                 // Handling
-                requestAnimationFrame(() => this._handleShift(null, true));
+                requestAnimationFrame(() => this.resize(null, true));
+            },
+
+            // OBSERVER
+            _emptyChanged() {
+
+                // Handling
+                this.resize(null, true);
             },
 
             // OBSERVER
@@ -536,7 +594,7 @@ A web component used to scaffold a [Material Design application](http://www.goog
             _panelChanged() {
 
                 // Handling
-                this._handleShift(null, this.instantHide && !this.showed);
+                this.resize(null, this.instantHide && !this.showed);
             },
 
             // OBSERVER
@@ -560,13 +618,13 @@ A web component used to scaffold a [Material Design application](http://www.goog
                 this.listen(window, 'resize', '_handleResize');
 
                 // Handling
-                Polymer.RenderStatus.afterNextRender(this, this._handleShift, [null, true]);
+                Polymer.RenderStatus.afterNextRender(this, this.resize, [null, true]);
             },
 
             // LISTENER
             detached() {
 
-                // Unlistening
+                // Removing listeners
                 this.unlisten(this, 'track', '_handleTrack');
                 this.unlisten(window, 'keyup', '_handleHide');
                 this.unlisten(window, 'resize', '_handleResize');
@@ -574,7 +632,6 @@ A web component used to scaffold a [Material Design application](http://www.goog
 
             // LISTENER
             mutated() {
-
                 // Ensuring
                 this.ensure('drawer', XP.findElement(Polymer.dom(this), '[slot="drawer"]') || null);
             },
@@ -592,18 +649,18 @@ A web component used to scaffold a [Material Design application](http://www.goog
             /*********************************************************************/
 
             // HANDLER
-            _handleEmpty(event) {
+            _handleEmpty() {
 
-                // Handling
-                if (Polymer.dom(event).rootTarget === this.drawer) { this._handleShift(null, true); }
+                // Ensuring
+                this.ensure('empty', this.drawer ? this.drawer.empty : true);
             },
 
             // HANDLER
             _handleHide(event) {
 
                 // Setting
-                if (!event.keyCode && !event.button) { event.hiding = this; }
-                if (!event.defaultPrevented && event.keyCode === 27 && !this.escDisabled && this.showed && (this.narrow || this.right)) { event.hiding = this; }
+                if (event.type === 'click' && !event.button) { event.hiding = this; }
+                if (event.keyCode === 27 && !event.defaultPrevented && !this.escDisabled && this.showed && (this.narrow || this.right)) { event.hiding = this; }
 
                 // Frame 1
                 requestAnimationFrame(() => event.hiding !== this || this.hide());
@@ -616,35 +673,7 @@ A web component used to scaffold a [Material Design application](http://www.goog
                 this.ensure('narrow', window.innerWidth < this.breakPoint);
 
                 // Handling
-                this.debounce('shifting', () => this._handleShift(null, true));
-            },
-
-            // HANDLER
-            _handleShift(offset, instant) {
-
-                // Checking
-                if (!this.backdrop || !this.drawerWrapper) { return; }
-
-                // Let
-                let other  = this.right ? 'left' : 'right',
-                    side   = this.right ? 'right' : 'left';
-
-                // Ensuring
-                this.ensure('width', !this.drawer || this.drawer.empty ? 0 : (this.tracking ? this.width : XP.getWidth(this.drawer)));
-                this.ensure('offset', !this.tracking ? (!this.showed ? 0 : (this.mini && !this.narrow ? 72 : this.width)) : XP.clamp(offset, 0, this.width));
-
-                // Transitions
-                this.backdrop.style.transition      = this.tracking || instant ? `` : `opacity 0.33s cubic-bezier(0.55, 0, 0.01, 1)`;
-                this.drawerWrapper.style.transition = this.tracking || instant ? `` : `transform 0.33s cubic-bezier(0.55, 0, 0.01, 1)`;
-                this.main.style.transition          = this.tracking || instant ? `` : `${side} 0.33s cubic-bezier(0.55, 0, 0.01, 1)`;
-
-                // Styling
-                this.backdrop.style.opacity         = this.tracking ? this.backdrop.style.opacity : Number(this.showed);
-                this.drawerWrapper.style.transform  = this.tracking ? this.drawerWrapper.style.transform : `translateX(${this.showed ? 0 : (this.right ? 100 : -100)}%)`;
-                this.main.style.bottom              = 0;
-                this.main.style.top                 = 0;
-                this.main.style[side]               = this.narrow ? 0 : `${this.offset}px`;
-                this.main.style[other]              = this.main.style[other] || 0;
+                this.debounce('shifting', () => this.resize(null, true));
             },
 
             // HANDLER
@@ -671,21 +700,21 @@ A web component used to scaffold a [Material Design application](http://www.goog
 
                     // TRACK
                     case 'track':
-                        this._handleShift(this.offset + event.detail.ddx * (this.right ? -1 : 1));
+                        this.resize(this.offset + event.detail.ddx * (this.right ? -1 : 1));
                         break;
 
                     // START
                     case 'start':
                         this.ensure('tracked', tracked);
                         this.ensure('width', XP.getWidth(this.drawerWrapper));
-                        this._handleShift(this.offset + event.detail.dx * (this.right ? -1 : 1));
+                        this.resize(this.offset + event.detail.dx * (this.right ? -1 : 1));
                         break;
 
                     // END
                     case 'end':
                         this.ensure('tracked', null);
                         this.showed = this.offset > this.width / 2;
-                        if (showed === this.showed) { this._handleShift(); }
+                        if (showed === this.showed) { this.resize(); }
                         break;
                 }
             }

@@ -165,7 +165,7 @@ A web component used to display a [Material Design checkbox](http://www.google.c
             /*********************************************************************/
 
             /**
-             * Reflects the native input's `value` onto the element.
+             * Implements the `commitFrom` strategy.
              *
              * @method _commitFrom
              * @private
@@ -178,7 +178,7 @@ A web component used to display a [Material Design checkbox](http://www.google.c
             },
 
             /**
-             * Reflects the element's `tabIndex` onto the native input.
+             * Implements the `commitIndex` strategy.
              *
              * @method _commitIndex
              * @param {number} value
@@ -191,7 +191,7 @@ A web component used to display a [Material Design checkbox](http://www.google.c
             },
 
             /**
-             * Reflects the element's `value` onto the native input.
+             * Implements the `commitTo` strategy.
              *
              * @method _commitTo
              * @private
@@ -204,7 +204,7 @@ A web component used to display a [Material Design checkbox](http://www.google.c
             },
 
             /**
-             * Injects the native input.
+             * Implements the `inject` strategy
              *
              * @method _inject
              * @private
@@ -224,7 +224,7 @@ A web component used to display a [Material Design checkbox](http://www.google.c
             },
 
             /**
-             * Updates the native input's attributes.
+             * Implements the `update` strategy.
              *
              * @method _update
              * @private
@@ -238,7 +238,7 @@ A web component used to display a [Material Design checkbox](http://www.google.c
             },
 
             /**
-             * Validates the native input's `value`.
+             * Implements the `validate` strategy.
              *
              * @method _validate
              * @param {string} [invalidMessage]
@@ -345,7 +345,7 @@ A web component used to display a [Material Design checkbox](http://www.google.c
             _handleToggle(event) {
 
                 // Toggling
-                if (!event.button && (!event.keyCode || event.keyCode === 32)) { this.toggle(); }
+                if (event.type === 'click' && !event.button || event.keyCode === 32) { this.toggle(); }
             }
         });
     </script>

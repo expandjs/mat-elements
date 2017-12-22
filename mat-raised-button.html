@@ -190,6 +190,21 @@ A web component used to display a [Material Design raised button](http://www.goo
                 },
 
                 /**
+                 * If set to true, the button is raised.
+                 *
+                 * @attribute raised
+                 * @type boolean
+                 * @default true
+                 * @readonly
+                 */
+                raised: {
+                    readOnly: true,
+                    reflectToAttribute: true,
+                    type: Boolean,
+                    value: true
+                },
+
+                /**
                  * The button's z-axis position.
                  *
                  * @attribute z

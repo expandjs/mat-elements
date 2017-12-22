@@ -19,12 +19,8 @@
   ],
 
   "dependencies": {
-    "codemirror": "Codemirror/codemirror#5.19.0",
+    "codemirror": "Codemirror/codemirror#5.32.0",
     "font-roboto": "PolymerElements/font-roboto#^1.0.0",
     "xp-elements": "ExpandJS/xp-elements#^1.0.0"
-  },
-
-  "devDependencies": {
-    "material-design-icons": "Google/material-design-icons"
   }
 }

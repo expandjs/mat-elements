@@ -37,6 +37,7 @@ A web component used to display a Material Design code editor.
 <script src="../codemirror/mode/javascript/javascript.js"></script>
 <script src="../codemirror/mode/xml/xml.js"></script>
 <script src="../codemirror/mode/htmlmixed/htmlmixed.js"></script>
+<script src="../codemirror/mode/markdown/markdown.js"></script>
 <script src="../codemirror/addon/edit/closebrackets.js"></script>
 <script src="../codemirror/addon/edit/closetag.js"></script>
 <script src="../codemirror/addon/edit/matchbrackets.js"></script>
@@ -292,7 +293,7 @@ A web component used to display a Material Design code editor.
                  * Finds a string.
                  *
                  * @method find
-                 * @param {string} [value]
+                 * @param {string | RegExp} [value]
                  */
                 find(value) {
 
@@ -320,7 +321,7 @@ A web component used to display a Material Design code editor.
                 /*********************************************************************/
 
                 /**
-                 * Reflects the native input's `value` onto the element.
+                 * Implements the `commitFrom` strategy.
                  *
                  * @method _commitFrom
                  * @private
@@ -332,7 +333,7 @@ A web component used to display a Material Design code editor.
                 },
 
                 /**
-                 * Reflects the element's `value` onto the native input.
+                 * Implements the `commitTo` strategy.
                  *
                  * @method _commitTo
                  * @private
@@ -344,7 +345,7 @@ A web component used to display a Material Design code editor.
                 },
 
                 /**
-                 * Injects the native input.
+                 * Implements the `inject` strategy.
                  *
                  * @method _inject
                  * @private
@@ -369,7 +370,7 @@ A web component used to display a Material Design code editor.
                     this.input.on('blur', this.__handleBlur.bind(this));
                     this.input.on('change', this._handleScroll.bind(this));
                     this.input.on('change', this._prefixChanged.bind(this));
-                    this.input.on('change', XP.debounce(this.__handleChange.bind(this), 300));
+                    this.input.on('change', this._handleCode.bind(this));
                     this.input.on('focus', this.__handleFocus.bind(this));
                     this.input.on('refresh', this._linesChanged.bind(this));
                     this.input.display.scrollbars.horiz.addEventListener('scroll', this._handleScroll.bind(this));
@@ -410,7 +411,7 @@ A web component used to display a Material Design code editor.
                 },
 
                 /**
-                 * Updates the native input's attributes.
+                 * Implements the `update` strategy.
                  *
                  * @method _update
                  * @private
@@ -427,7 +428,7 @@ A web component used to display a Material Design code editor.
                 },
 
                 /**
-                 * Validates the native input's `value`.
+                 * Implements the `validate` strategy.
                  *
                  * @method _validate
                  * @param {string} [invalidMessage]
@@ -440,7 +441,7 @@ A web component used to display a Material Design code editor.
 
                     // Ensuring
                     this.ensure('invalidMessage', XP.isDefined(invalidMessage) ? invalidMessage || null : this.invalidMessage);
-                    this.ensure('invalid', !!this.invalidMessage);
+                    this.ensure('invalid', Boolean(this.invalidMessage));
                 },
 
                 /*********************************************************************/
@@ -600,15 +601,25 @@ A web component used to display a Material Design code editor.
                     }
                 },
 
+                /*********************************************************************/
+
                 /**
                  * The list of possible editing modes.
                  *
                  * @property modes
                  * @type Array
-                 * @default ["application/json", "application/xml", "text/css", "text/html", "text/javascript", "text/plain", "text/typescript"]
                  * @readonly
                  */
-                modes: ['application/json', 'application/xml', 'text/css', 'text/html', 'text/javascript', 'text/plain', 'text/typescript'],
+                modes: [
+                    'application/json',
+                    'application/xml',
+                    'markdown',
+                    'text/css',
+                    'text/html',
+                    'text/javascript',
+                    'text/plain',
+                    'text/typescript'
+                ],
 
                 /**
                  * A phantom editor used to setup prefix and suffix.
@@ -708,6 +719,13 @@ A web component used to display a Material Design code editor.
                 },
 
                 /*********************************************************************/
+
+                // HANDLER
+                _handleCode() {
+
+                    // Handling
+                    this.debounce('coding', this.__handleChange.bind(this), 300);
+                },
 
                 // HANDLER
                 _handleScroll() {

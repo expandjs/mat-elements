@@ -54,10 +54,6 @@ A web component used to display a [Material Design item](http://www.google.com/d
                 text-decoration: none;
             }
 
-            :host .anchor[href]:hover .label {
-                text-decoration: underline;
-            }
-
             :host .main {
                 @apply --layout-horizontal;
                 @apply --layout-center;
@@ -226,7 +222,6 @@ A web component used to display a [Material Design item](http://www.google.com/d
             :host([multi-line]:not([empty]):not([inline])) .aside ::slotted(:not(template).icon) {
                 margin-top: 16px;
             }
-
 
             :host([secondary-text]:not([secondary-text=""])) .aside ::slotted(:not(template):not(.secondary-text)) {
                 margin-top: 13px;
@@ -516,13 +511,14 @@ A web component used to display a [Material Design item](http://www.google.com/d
 
             // COMPUTER
             _computeActive(active, type) {
-                return !!active && type !== 'checkbox';
+                return Boolean(active && !['checkbox', 'radio'].includes(type));
             },
 
             // COMPUTER
             _computeType(action) {
                 if (!action) { return null; }
                 if (action.type === 'checkbox') { return 'checkbox'; }
+                if (action.type === 'radio') { return 'radio'; }
                 if (action.classList.contains('avatar')) { return 'avatar'; }
                 return 'button';
             },
@@ -540,13 +536,14 @@ A web component used to display a [Material Design item](http://www.google.com/d
             _primaryChanged() {
 
                 // Ensuring
-                this.ensure('inset', !!this.primaryAction);
+                this.ensure('inset', Boolean(this.primaryAction));
 
                 // Checking
                 if (!this.primaryAction) { return; }
 
                 // Overriding
                 if (this.primaryType === 'checkbox') { this.toggleable = true; }
+                if (this.primaryType === 'radio') { this.toggleable = false; }
 
                 // Setting
                 this.primaryAction.toggleable = this.toggleable;

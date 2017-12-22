@@ -63,7 +63,6 @@ A web component used to display a [Material Design side drawer](http://www.googl
             }
 
             :host .scroller {
-                box-sizing: border-box;
                 height: 100%;
                 overflow-x: hidden;
                 overflow-y: auto;
@@ -71,6 +70,7 @@ A web component used to display a [Material Design side drawer](http://www.googl
 
             :host([padding]) .scroller {
                 padding: 16px;
+                height: calc(100% - 32px);
             }
         </style>
 

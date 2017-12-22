@@ -35,6 +35,10 @@ A stylesheet used to stylize a [Material Design input](http://www.google.com/des
                 min-width: 192px;
             }
 
+            :host ::slotted(input::-ms-reveal) {
+                display: none;
+            }
+
             :host([full-width]) {
                 display: block;
                 margin: 0;

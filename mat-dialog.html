@@ -43,6 +43,10 @@ A web component used to display a [Material Design dialog](http://www.google.com
                 margin: 24px 40px;
             }
 
+            :host .wrapper {
+                @apply --layout-vertical-reverse;
+            }
+
             :host .body {
                 box-sizing: border-box;
                 padding: 24px;
@@ -51,6 +55,10 @@ A web component used to display a [Material Design dialog](http://www.google.com
             :host(:not([empty-actions])) .body {
                 height: calc(100% - 48px);
                 padding-bottom: 16px;
+            }
+
+            :host(:not([scrollable])) .body {
+                overflow: visible;
             }
 
             :host .label {
@@ -91,13 +99,13 @@ A web component used to display a [Material Design dialog](http://www.google.com
         <div class="backdrop" on-click="__handleBackdrop"></div>
 
         <div class="wrapper">
-            <div class="body">
-                <div class="label">[[label]]</div>
-                <slot></slot>
-            </div>
             <div class="actions">
                 <mat-divider class="divider" cap></mat-divider>
                 <slot name="actions"></slot>
+            </div>
+            <div class="body">
+                <div class="label">[[label]]</div>
+                <slot></slot>
             </div>
         </div>
 
@@ -188,7 +196,7 @@ A web component used to display a [Material Design dialog](http://www.google.com
                  * @readonly
                  */
                 emptyActions: {
-                    computed: '_computeEmptyActions(actions)',
+                    computed: 'isEmpty(actions)',
                     notify: true,
                     reflectToAttribute: true,
                     type: Boolean,
@@ -235,13 +243,6 @@ A web component used to display a [Material Design dialog](http://www.google.com
                     type: Number,
                     value: 24
                 }
-            },
-
-            /*********************************************************************/
-
-            // COMPUTER
-            _computeEmptyActions(actions) {
-                return !actions || !actions.length;
             },
 
             /*********************************************************************/

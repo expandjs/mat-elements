@@ -65,6 +65,7 @@ A web component used to display a [Material Design app bar](http://www.google.co
             /* SLOTTED */
 
             :host .main ::slotted(.nav) {
+                box-sizing: content-box;
                 height: 24px;
                 margin: 4px 24px 4px -8px;
                 padding: 8px;
@@ -184,15 +185,15 @@ A web component used to display a [Material Design app bar](http://www.google.co
                 /**
                  * A fixed height for the extended section of the header.
                  *
-                 * @attribute extendedBy
+                 * @attribute extended-by
                  * @type number
                  * @default 0
                  * @notifies
                  */
                 extendedBy: {
-                    reflectToAttribute: true,
-                    observer: '_extendedByChanged',
                     notify: true,
+                    observer: '_extendedByChanged',
+                    reflectToAttribute: true,
                     type: Number,
                     value: 0
                 },
@@ -254,13 +255,10 @@ A web component used to display a [Material Design app bar](http://www.google.co
             /*********************************************************************/
 
             // OBSERVER
-            _extendedByChanged(post, pre) {
-
-                // Extended
-                if (!this.extended) { return; }
+            _extendedByChanged(post) {
 
                 // Styling
-                this.extended.style.height = post || '';
+                if (this.extended) { this.extended.style.height = post || ''; }
             }
         });
     </script>
