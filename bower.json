@@ -19,7 +19,7 @@
   ],
 
   "dependencies": {
-    "codemirror": "Pupix/codemirror",
+    "codemirror": "Pupix/codemirror#^5.33.0",
     "font-roboto": "PolymerElements/font-roboto#^1.0.0",
     "xp-elements": "ExpandJS/xp-elements#^1.0.0"
   }
