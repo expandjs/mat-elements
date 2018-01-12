@@ -366,6 +366,9 @@ A web component used to display a Material Design code editor.
                     this.ensure('input', CodeMirror.fromTextArea(input, options));
                     this.ensure('lines', this.input.getOption('firstLineNumber') + this.input.lineCount());
 
+                    // Scoping
+                    this.scopeSubtree(this, true);
+
                     // Listening
                     this.input.on('blur', this.__handleBlur.bind(this));
                     this.input.on('change', this._handleScroll.bind(this));
@@ -702,7 +705,6 @@ A web component used to display a Material Design code editor.
                         this.phantom.setValue(!XP.isVoid(this.inputPrefix) ? XP.toString(this.inputSuffix) : '');
                         this.suffixHolder.innerHTML = this.phantom.getValue() ? `${gutterWrapper}${gutterElt}${this.lines}${gutterClosure}${this.phantom.display.externalMeasured.text.outerHTML}` : ``;
                     });
-
                 },
 
                 // OBSERVER
